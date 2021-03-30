@@ -6,10 +6,10 @@ final CollectionReference _db =
 
 class ProfileService {
 
-  Future<Profile> getCurrentProfile(String userId) async {
+  Future<Profile?> getCurrentProfile(String userId) async {
     final DocumentSnapshot profile = await _db.doc(userId).get();
     if (profile != null) {
-      return Profile.fromJson(profile.data());
+      return Profile.fromJson(profile.data()!);
     }
     // return profile;
     return null;

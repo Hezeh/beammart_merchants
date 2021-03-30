@@ -29,9 +29,13 @@ void main() async {
         ChangeNotifierProvider<ImageUploadProvider>(
           create: (_) => ImageUploadProvider(),
         ),
-        StreamProvider(
+        StreamProvider<User?>(
+          initialData: null,
           create: (context) => context.read<AuthenticationProvider>().authState,
         ),
+        // StreamProvider.value(
+        //   value: (context) => context.read<AuthenticationProvider>().authState, value: null,
+        // ),
         ChangeNotifierProxyProvider<AuthenticationProvider, ProfileProvider>(
           create: (BuildContext context) => ProfileProvider(
             Provider.of<AuthenticationProvider>(context, listen: false).user,
@@ -45,7 +49,10 @@ void main() async {
           create: (context) => AddBusinessProfileProvider(),
         )
       ],
-      child: App(),
+      // child: App(),
+      builder: (BuildContext context, app) {
+        return App();
+      },
     ),
   );
 }
@@ -53,7 +60,7 @@ void main() async {
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final firebaseUser = context.watch<User>();
+    final firebaseUser = context.watch<User?>();
     final profile = context.watch<ProfileProvider>().profile;
     final loading = context.watch<ProfileProvider>().loading;
     return MaterialApp(

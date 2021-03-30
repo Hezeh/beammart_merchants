@@ -44,7 +44,7 @@ class _FoodScreenState extends State<FoodScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _userId = Provider.of<AuthenticationProvider>(context).user.uid;
+    final _userId = Provider.of<AuthenticationProvider>(context).user!.uid;
     final _imageUrls = Provider.of<ImageUploadProvider>(context).imageUrls;
     final _imageUploadProvider = Provider.of<ImageUploadProvider>(context);
     return (_loading)
@@ -65,7 +65,7 @@ class _FoodScreenState extends State<FoodScreen> {
               actions: [
                 FlatButton(
                     onPressed: () {
-                      if (_foodFormKey.currentState.validate() &&
+                      if (_foodFormKey.currentState!.validate() &&
                           _subCategory != null) {
                         setState(() {
                           _loading = true;
@@ -253,7 +253,7 @@ class _FoodScreenState extends State<FoodScreen> {
                       keyboardType: TextInputType.text,
                       maxLines: 3,
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return "Please enter a title";
                         }
                         return null;
@@ -276,7 +276,7 @@ class _FoodScreenState extends State<FoodScreen> {
                       keyboardType: TextInputType.text,
                       maxLines: 3,
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return "Please enter a description";
                         }
                         return null;
@@ -298,7 +298,7 @@ class _FoodScreenState extends State<FoodScreen> {
                       controller: _priceController,
                       keyboardType: TextInputType.number,
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return "Please enter a price";
                         }
                         return null;

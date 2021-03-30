@@ -10,7 +10,7 @@ class MenuListTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthenticationProvider>(context);
     final currentUser = authProvider.user;
-    final Profile currentProfile =
+    final Profile? currentProfile =
         Provider.of<ProfileProvider>(context).profile;
     return Column(
       children: [

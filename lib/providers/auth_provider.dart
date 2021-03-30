@@ -16,27 +16,25 @@ class AuthenticationProvider with ChangeNotifier {
   // FirebaseAuth instance;
   final FirebaseAuth firebaseAuth;
   final ProfileService profileService = ProfileService();
-  Profile _profile;
-  bool _loading = true;
+  Profile? _profile;
+  bool? _loading = true;
 
   AuthenticationProvider(this.firebaseAuth) {
     // getBusinessProfile();
   }
 
   // Using Stream to listen to Authentication State;
-  Stream<User> get authState => firebaseAuth.authStateChanges();
-  User get user => firebaseAuth.currentUser;
-  bool get loading => _loading;
+  Stream<User?> get authState => firebaseAuth.authStateChanges();
+  User? get user => firebaseAuth.currentUser;
+  bool? get loading => _loading;
 
-  bool get loadingAuth => _loading;
+  bool? get loadingAuth => _loading;
 
   getBusinessProfile() async {
     if (user != null) {
-      if (user.uid != null) {
-        final Profile newProfile = await profileService
-            .getCurrentProfile(firebaseAuth.currentUser.uid);
-        _profile = newProfile;
-      }
+      final Profile? newProfile = await profileService
+          .getCurrentProfile(firebaseAuth.currentUser!.uid);
+      _profile = newProfile;
     }
     _loading = false;
     print('Called Profile');
@@ -45,7 +43,7 @@ class AuthenticationProvider with ChangeNotifier {
 
   addBusinessProfile(Map<String, dynamic> _json, String userId) async {
     _profileDb.doc(userId).set(_json, SetOptions(merge: true));
-    final Profile newProfile = await profileService.getCurrentProfile(userId);
+    final Profile? newProfile = await profileService.getCurrentProfile(userId);
     if (newProfile != null) {
       _profile = newProfile;
     }
@@ -60,7 +58,7 @@ class AuthenticationProvider with ChangeNotifier {
 
   signInWithGoogle() async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
-    final GoogleSignInAccount googleUser = await googleSignIn.signIn();
+    final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
 
     if (googleSignIn.clientId != null) {
       googleSignIn.signInSilently();

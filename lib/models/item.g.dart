@@ -8,20 +8,20 @@ part of 'item.dart';
 
 Item _$ItemFromJson(Map<String, dynamic> json) {
   return Item(
-    images: (json['images'] as List)?.map((e) => e as String)?.toList(),
-    itemId: json['itemId'] as String,
-    title: json['title'] as String,
-    description: json['description'] as String,
-    price: (json['price'] as num)?.toDouble(),
-    category: json['category'] as String,
-    subCategory: json['subCategory'] as String,
+    images: (json['images'] as List?)?.map((e) => e as String).toList(),
+    itemId: json['itemId'] as String?,
+    title: json['title'] as String?,
+    description: json['description'] as String?,
+    price: (json['price'] as num?)?.toDouble(),
+    category: json['category'] as String?,
+    subCategory: json['subCategory'] as String?,
     dateAdded: json['dateAdded'] == null
         ? null
         : DateTime.parse(json['dateAdded'] as String),
     dateModified: json['dateModified'] == null
         ? null
         : DateTime.parse(json['dateModified'] as String),
-    inStock: json['inStock'] as bool,
+    inStock: json['inStock'] as bool?,
   );
 }
 

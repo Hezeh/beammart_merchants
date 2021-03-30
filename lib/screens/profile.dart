@@ -13,10 +13,10 @@ import '../screens/operating_hours_screen.dart';
 import '../widgets/add_location.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final Profile profile;
+  final Profile? profile;
   static const routeName = '/ProfileScreen';
 
-  const ProfileScreen({Key key, this.profile}) : super(key: key);
+  const ProfileScreen({Key? key, this.profile}) : super(key: key);
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -43,11 +43,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     if (widget.profile != null) {
-      _businessName.text = widget.profile.businessName;
-      _city.text = widget.profile.city;
-      _locationDescription.text = widget.profile.locationDescription;
-      _businessDescription.text = widget.profile.businessDescription;
-      _phoneNumber.text = widget.profile.phoneNumber;
+      _businessName.text = widget.profile!.businessName!;
+      _city.text = widget.profile!.city!;
+      _locationDescription.text = widget.profile!.locationDescription!;
+      _businessDescription.text = widget.profile!.businessDescription!;
+      _phoneNumber.text = widget.profile!.phoneNumber!;
     }
     super.initState();
   }
@@ -77,7 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ? Container(
                     padding: EdgeInsets.all(8.0),
                     height: 400,
-                    child: (widget.profile.businessProfilePhoto != null)
+                    child: (widget.profile!.businessProfilePhoto != null)
                         ? ClipRRect(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             child: GridTile(
@@ -105,21 +105,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ),
                               child: CachedNetworkImage(
-                                imageUrl: widget.profile.businessProfilePhoto,
+                                imageUrl: widget.profile!.businessProfilePhoto!,
                                 fit: BoxFit.cover,
                                 placeholder: (context, url) {
-                                  return Expanded(
-                                    child: Shimmer.fromColors(
-                                      child: Card(
-                                        child: Container(
-                                          width: double.infinity,
-                                          height: 400,
-                                          color: Colors.white,
-                                        ),
+                                  return Shimmer.fromColors(
+                                    child: Card(
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: 400,
+                                        color: Colors.white,
                                       ),
-                                      baseColor: Colors.grey[300],
-                                      highlightColor: Colors.grey[100],
                                     ),
+                                    baseColor: Colors.grey[300]!,
+                                    highlightColor: Colors.grey[100]!,
                                   );
                                 },
                               ),
@@ -146,7 +144,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   labelText: 'Business Name (required)',
                 ),
                 validator: (value) {
-                  if (value.isEmpty) {
+                  if (value!.isEmpty) {
                     return "Please enter a Business Name";
                   }
                   return null;
@@ -172,7 +170,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   hintText: 'What does your business offer?',
                 ),
                 validator: (value) {
-                  if (value.isEmpty) {
+                  if (value!.isEmpty) {
                     return "Please enter a Business Description";
                   }
                   return null;
@@ -197,7 +195,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   labelText: 'City/Town (required)',
                 ),
                 validator: (value) {
-                  if (value.isEmpty) {
+                  if (value!.isEmpty) {
                     return "Please enter a city or town";
                   }
                   return null;
@@ -223,7 +221,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   hintText: 'E.g. Street Name, Building Address, Store Number',
                 ),
                 validator: (value) {
-                  if (value.isEmpty) {
+                  if (value!.isEmpty) {
                     return "Please enter a location description";
                   }
                   return null;
@@ -248,7 +246,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   labelText: 'Phone Number (required)',
                 ),
                 validator: (value) {
-                  if (value.isEmpty) {
+                  if (value!.isEmpty) {
                     return "Please enter a Phone Number";
                   }
                   return null;
@@ -261,7 +259,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       title: Text('GPS Location'),
                       subtitle: (profile != null)
                           ? Text(
-                              '${profile.gpsLocation.latitude}, ${profile.gpsLocation.longitude}')
+                              '${profile.gpsLocation!.latitude}, ${profile.gpsLocation!.longitude}')
                           : Container(),
                       trailing: RaisedButton(
                         onPressed: () {
@@ -269,8 +267,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             MaterialPageRoute(
                               builder: (_) => AddLocationMap(
                                 currentLocation: GeoPoint(
-                                  profile.gpsLocation.latitude,
-                                  profile.gpsLocation.longitude,
+                                  profile!.gpsLocation!.latitude,
+                                  profile.gpsLocation!.longitude,
                                 ),
                               ),
                             ),
@@ -293,7 +291,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               builder: (_) => OperatingHoursScreen(
                                 profile: Profile(
                                   mondayOpeningHours:
-                                      profile.mondayOpeningHours,
+                                      profile!.mondayOpeningHours,
                                   mondayClosingHours:
                                       profile.mondayClosingHours,
                                   tuesdayOpeningHours:
@@ -341,7 +339,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: RaisedButton(
                       elevation: 30,
                       onPressed: () {
-                        if (_profileFormKey.currentState.validate()) {
+                        if (_profileFormKey.currentState!.validate()) {
                           _userProvider.addBusinessProfile(
                             {
                               'businessName': _businessName.text,
@@ -350,7 +348,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               'phoneNumber': _phoneNumber.text,
                               'locationDescription': _locationDescription.text,
                             },
-                            _userProvider.user.uid,
+                            _userProvider.user!.uid,
                           );
 
                           Navigator.of(context).pop();
@@ -377,7 +375,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     child: RaisedButton(
                       onPressed: () async {
-                        if (_profileFormKey.currentState.validate()) {
+                        if (_profileFormKey.currentState!.validate()) {
                           _businessProfileProvider.businessInfo(
                             businessName: _businessName.text,
                             businessDescription: _businessDescription.text,

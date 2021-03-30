@@ -15,14 +15,14 @@ import 'package:uuid/uuid.dart';
 //   return await task.snapshot.ref.getDownloadURL();
 // }
 
-Future<String> uploadFile(File _image) async {
+Future<String?> uploadFile(File _image) async {
   firebase_storage.Reference storageReference = firebase_storage
       .FirebaseStorage.instance
       .ref()
       .child('items/${basename(_image.path)}');
   firebase_storage.UploadTask uploadTask = storageReference.putFile(_image);
 
-  String returnUrl;
+  String? returnUrl;
   await uploadTask.whenComplete(() async {
     await storageReference.getDownloadURL().then((fileUrl) => {
           print(fileUrl),

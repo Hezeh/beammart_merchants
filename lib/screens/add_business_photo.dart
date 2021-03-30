@@ -10,19 +10,19 @@ import '../providers/add_business_profile_provider.dart';
 import '../screens/operating_hours_screen.dart';
 
 class AddBusinessProfilePhoto extends StatefulWidget {
-  final bool changePhoto;
+  final bool? changePhoto;
 
-  const AddBusinessProfilePhoto({Key key, this.changePhoto}) : super(key: key);
+  const AddBusinessProfilePhoto({Key? key, this.changePhoto}) : super(key: key);
   @override
   _AddBusinessProfilePhotoState createState() =>
       _AddBusinessProfilePhotoState();
 }
 
 class _AddBusinessProfilePhotoState extends State<AddBusinessProfilePhoto> {
-  String fileName;
-  PickedFile pickedImageFile;
+  String? fileName;
+  PickedFile? pickedImageFile;
   final picker = ImagePicker();
-  File _image;
+  File? _image;
 
   getImage(context) async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
@@ -47,16 +47,16 @@ class _AddBusinessProfilePhotoState extends State<AddBusinessProfilePhoto> {
     return Scaffold(
       appBar: AppBar(
         title:
-            (widget.changePhoto) ? Text('Change Photo') : Text('Profile Photo'),
-        actions: (widget.changePhoto)
+            widget.changePhoto! ? Text('Change Photo') : Text('Profile Photo'),
+        actions: widget.changePhoto!
             ? [
                 (_image != null)
-                    ? FlatButton(
+                    ? TextButton(
                         onPressed: () {
                           // Upload photo to the backend
                           // Change url in firestore
                           // Navigate back to the home page
-                          _profileProvider.changeBusinessProfilePhoto(_image, _profileProvider.profile.userId);
+                          _profileProvider.changeBusinessProfilePhoto(_image, _profileProvider.profile!.userId);
                           Navigator.of(context).pushNamed(Home.routeName);
                         },
                         child: Text(
@@ -72,7 +72,7 @@ class _AddBusinessProfilePhotoState extends State<AddBusinessProfilePhoto> {
               ]
             : [
                 (_image != null)
-                    ? FlatButton(
+                    ? TextButton(
                         onPressed: () {
                           // Call the add business profile provider add profile photo func
                           _businessProfileProvider
@@ -103,7 +103,7 @@ class _AddBusinessProfilePhotoState extends State<AddBusinessProfilePhoto> {
                   height: 400,
                   child: GridTile(
                     child: Image.file(
-                      _image,
+                      _image!,
                       fit: BoxFit.cover,
                     ),
                     footer: GridTileBar(

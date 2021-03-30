@@ -43,7 +43,7 @@ class _ArtsCraftsScreenState extends State<ArtsCraftsScreen> {
   bool _inStock = true;
   @override
   Widget build(BuildContext context) {
-    final _userId = Provider.of<AuthenticationProvider>(context).user.uid;
+    final _userId = Provider.of<AuthenticationProvider>(context).user!.uid;
     final _imageUrls = Provider.of<ImageUploadProvider>(context).imageUrls;
     final _imageUploadProvider = Provider.of<ImageUploadProvider>(context);
     return (_loading)
@@ -62,34 +62,31 @@ class _ArtsCraftsScreenState extends State<ArtsCraftsScreen> {
             appBar: AppBar(
               title: Text('Arts & Crafts'),
               actions: [
-                FlatButton(
+                TextButton(
                   onPressed: () {
-                    if (_artCraftFormKey.currentState.validate() &&
-                        _subCategory != null) {
+                    if (_artCraftFormKey.currentState!.validate()) {
                       setState(() {
                         _loading = true;
                       });
-                      if (_imageUrls != null) {
-                        saveItemFirestore(
-                          context,
-                          _userId,
-                          Item(
-                            category: _category,
-                            subCategory: _subCategory,
-                            images: _imageUrls,
-                            title: _titleController.text,
-                            description: _descriptionController.text,
-                            price: double.parse(_priceController.text),
-                            dateAdded: DateTime.now(),
-                            dateModified: DateTime.now(),
-                            inStock: _inStock,
-                          ).toJson(),
-                        );
-                        setState(() {
-                          _loading = false;
-                        });
-                        _imageUploadProvider.deleteImageUrls();
-                      }
+                      saveItemFirestore(
+                        context,
+                        _userId,
+                        Item(
+                          category: _category,
+                          subCategory: _subCategory,
+                          images: _imageUrls,
+                          title: _titleController.text,
+                          description: _descriptionController.text,
+                          price: double.parse(_priceController.text),
+                          dateAdded: DateTime.now(),
+                          dateModified: DateTime.now(),
+                          inStock: _inStock,
+                        ).toJson(),
+                      );
+                      setState(() {
+                        _loading = false;
+                      });
+                      _imageUploadProvider.deleteImageUrls();
                     }
                   },
                   child: Text(
@@ -295,7 +292,7 @@ class _ArtsCraftsScreenState extends State<ArtsCraftsScreen> {
                       keyboardType: TextInputType.text,
                       maxLines: 3,
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return "Please enter a title";
                         }
                         return null;
@@ -318,7 +315,7 @@ class _ArtsCraftsScreenState extends State<ArtsCraftsScreen> {
                       keyboardType: TextInputType.text,
                       maxLines: 3,
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return "Please enter a description";
                         }
                         return null;
@@ -340,7 +337,7 @@ class _ArtsCraftsScreenState extends State<ArtsCraftsScreen> {
                       controller: _priceController,
                       keyboardType: TextInputType.number,
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return "Please enter a price";
                         }
                         return null;

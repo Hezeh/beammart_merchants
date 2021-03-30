@@ -4,16 +4,16 @@ part 'item.g.dart';
 
 @JsonSerializable()
 class Item {
-  final String itemId;
-  final String title;
-  final String description;
-  final double price;
-  final List<String> images;
-  final String category;
-  final String subCategory;
-  final DateTime dateAdded;
-  final DateTime dateModified;
-  final bool inStock;
+  final String? itemId;
+  final String? title;
+  final String? description;
+  final double? price;
+  final List<String?>? images;
+  final String? category;
+  final String? subCategory;
+  final DateTime? dateAdded;
+  final DateTime? dateModified;
+  final bool? inStock;
 
   Item({
     this.images,

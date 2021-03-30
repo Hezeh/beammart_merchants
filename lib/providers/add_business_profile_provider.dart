@@ -11,27 +11,27 @@ class AddBusinessProfileProvider with ChangeNotifier {
   Profile get profile => _profile;
 
   addOperatingTime({
-    bool isMondayOpen,
-    bool isTuesdayOpen,
-    bool isWednesdayOpen,
-    bool isThursdayOpen,
-    bool isFridayOpen,
-    bool isSaturdayOpen,
-    bool isSundayOpen,
-    String mondayOpeningTime,
-    String mondayClosingTime,
-    String tuesdayOpeningTime,
-    String tuesdayClosingTime,
-    String wednesdayOpeningTime,
-    String wednesdayClosingTime,
-    String thursdayOpeningTime,
-    String thursdayClosingTime,
-    String fridayOpeningTime,
-    String fridayClosingTime,
-    String saturdayOpeningTime,
-    String saturdayClosingTime,
-    String sundayOpeningTime,
-    String sundayClosingTime,
+    bool? isMondayOpen,
+    bool? isTuesdayOpen,
+    bool? isWednesdayOpen,
+    bool? isThursdayOpen,
+    bool? isFridayOpen,
+    bool? isSaturdayOpen,
+    bool? isSundayOpen,
+    String? mondayOpeningTime,
+    String? mondayClosingTime,
+    String? tuesdayOpeningTime,
+    String? tuesdayClosingTime,
+    String? wednesdayOpeningTime,
+    String? wednesdayClosingTime,
+    String? thursdayOpeningTime,
+    String? thursdayClosingTime,
+    String? fridayOpeningTime,
+    String? fridayClosingTime,
+    String? saturdayOpeningTime,
+    String? saturdayClosingTime,
+    String? sundayOpeningTime,
+    String? sundayClosingTime,
   }) {
     if (isMondayOpen != null) {
       _profile.isMondayOpen = isMondayOpen;
@@ -100,33 +100,23 @@ class AddBusinessProfileProvider with ChangeNotifier {
   }
 
   businessInfo({
-    @required String businessName,
-    @required String businessDescription,
-    @required String city,
-    @required String phoneNumber,
-    @required String locationDescription,
+    required String businessName,
+    required String businessDescription,
+    required String city,
+    required String phoneNumber,
+    required String locationDescription,
   }) {
-    if (businessName != null) {
-      _profile.businessName = businessName;
-    }
-    if (businessDescription != null) {
-      _profile.businessDescription = businessDescription;
-    }
-    if (city != null) {
-      _profile.city = city;
-    }
-    if (phoneNumber != null) {
-      _profile.phoneNumber = phoneNumber;
-    }
-    if (locationDescription != null) {
-      _profile.locationDescription = locationDescription;
-    }
+    _profile.businessName = businessName;
+    _profile.businessDescription = businessDescription;
+    _profile.city = city;
+    _profile.phoneNumber = phoneNumber;
+    _profile.locationDescription = locationDescription;
   }
 
-  addBusinessProfilePhoto(File photo) async {
+  addBusinessProfilePhoto(File? photo) async {
     if (photo != null) {
       // Upload the photo & Get the image url
-      String _imageUrl = await uploadFile(photo);
+      String? _imageUrl = await uploadFile(photo);
       // Set the value
       _profile.businessProfilePhoto = _imageUrl;
     }
@@ -139,9 +129,7 @@ class AddBusinessProfileProvider with ChangeNotifier {
   }
 
   addGpsLocation(double lat, double lon) {
-    if (lat != null && lon != null) {
-      _profile.gpsLocation = GeoPoint(lat, lon);
-    }
+    _profile.gpsLocation = GeoPoint(lat, lon);
     notifyListeners();
   }
 }

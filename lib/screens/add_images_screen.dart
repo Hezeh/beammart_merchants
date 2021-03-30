@@ -13,8 +13,8 @@ class AddImagesScreen extends StatefulWidget {
 }
 
 class _AddImagesScreenState extends State<AddImagesScreen> {
-  String fileName;
-  PickedFile pickedImageFile;
+  String? fileName;
+  PickedFile? pickedImageFile;
   final picker = ImagePicker();
   List<File> _images = [];
 
@@ -41,7 +41,7 @@ class _AddImagesScreenState extends State<AddImagesScreen> {
         title: Text('Item Images'),
         actions: [
           (_images.length != 0)
-              ? FlatButton(
+              ? TextButton(
                   onPressed: () {
                     _imageUploadProvider.uploadImages(_images);
                     Navigator.push(

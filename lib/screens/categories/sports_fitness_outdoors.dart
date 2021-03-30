@@ -45,7 +45,7 @@ class _SportsFitnessOutdoorsScreenState
 
   @override
   Widget build(BuildContext context) {
-    final _userId = Provider.of<AuthenticationProvider>(context).user.uid;
+    final _userId = Provider.of<AuthenticationProvider>(context).user!.uid;
     final _imageUrls = Provider.of<ImageUploadProvider>(context).imageUrls;
     final _imageUploadProvider = Provider.of<ImageUploadProvider>(context);
     return (_loading)
@@ -66,7 +66,7 @@ class _SportsFitnessOutdoorsScreenState
               actions: [
                 FlatButton(
                   onPressed: () {
-                    if (_sportsFitnessOutdoorsFormKey.currentState.validate() &&
+                    if (_sportsFitnessOutdoorsFormKey.currentState!.validate() &&
                         _subCategory != null) {
                       setState(() {
                         _loading = true;
@@ -420,7 +420,7 @@ class _SportsFitnessOutdoorsScreenState
                       keyboardType: TextInputType.text,
                       maxLines: 3,
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return "Please enter a title";
                         }
                         return null;
@@ -443,7 +443,7 @@ class _SportsFitnessOutdoorsScreenState
                       keyboardType: TextInputType.text,
                       maxLines: 3,
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return "Please enter a description";
                         }
                         return null;
@@ -465,7 +465,7 @@ class _SportsFitnessOutdoorsScreenState
                       controller: _priceController,
                       keyboardType: TextInputType.number,
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return "Please enter a price";
                         }
                         return null;

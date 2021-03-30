@@ -4,10 +4,10 @@ part 'auth_user.g.dart';
 
 @JsonSerializable()
 class AuthUser {
-  final String userId;
-  final String email;
-  final String photoUrl;
-  final String displayName;
+  final String? userId;
+  final String? email;
+  final String? photoUrl;
+  final String? displayName;
 
   AuthUser({
     this.userId,

@@ -42,7 +42,7 @@ class _HomeState extends State<Home> {
               IconButton(
                 icon: const Icon(Icons.menu_outlined),
                 iconSize: 30.0,
-                onPressed: () => _scaffoldKey.currentState.openDrawer(),
+                onPressed: () => _scaffoldKey.currentState!.openDrawer(),
               ),
             ],
           ),
@@ -69,7 +69,7 @@ class HomePage extends StatelessWidget {
 
     final Stream<QuerySnapshot> items = FirebaseFirestore.instance
         .collection('profile')
-        .doc(_userProvider.user.uid)
+        .doc(_userProvider.user!.uid)
         .collection('items')
         .orderBy('dateAdded', descending: true)
         .snapshots();
@@ -84,11 +84,11 @@ class HomePage extends StatelessWidget {
         }
         if (snapshot.hasData) {
           if (snapshot.data != null) {
-            return (snapshot.data.docs.isNotEmpty)
+            return (snapshot.data!.docs.isNotEmpty)
                 ? ListView(
                     children: [
                       GridView.builder(
-                        itemCount: snapshot.data.docs.length,
+                        itemCount: snapshot.data!.docs.length,
                         shrinkWrap: true,
                         padding: const EdgeInsets.only(
                           left: 5,
@@ -133,7 +133,7 @@ class HomePage extends StatelessWidget {
                                               ),
                                               RaisedButton(
                                                 onPressed: () {
-                                                  snapshot.data.docs[index]
+                                                  snapshot.data!.docs[index]
                                                       .reference
                                                       .delete();
                                                   Navigator.of(context).pop();
@@ -150,7 +150,7 @@ class HomePage extends StatelessWidget {
                                   ],
                                 ),
                                 title: Text(
-                                    '${snapshot.data.docs[index].data()['title']}'),
+                                    '${snapshot.data!.docs[index].data()!['title']}'),
                               ),
                               child: GestureDetector(
                                 onTap: () => Navigator.push(
@@ -158,9 +158,9 @@ class HomePage extends StatelessWidget {
                                   MaterialPageRoute(
                                     builder: (context) => ItemDetail(
                                       item: Item.fromJson(
-                                        snapshot.data.docs[index].data(),
+                                        snapshot.data!.docs[index].data()!,
                                       ),
-                                      itemId: snapshot.data.docs[index].id,
+                                      itemId: snapshot.data!.docs[index].id,
                                     ),
                                   ),
                                 ),
@@ -170,8 +170,8 @@ class HomePage extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
                                   child: CachedNetworkImage(
-                                    imageUrl: snapshot.data.docs[index]
-                                        .data()['images']
+                                    imageUrl: snapshot.data!.docs[index]
+                                        .data()!['images']
                                         .first,
                                     imageBuilder: (context, imageProvider) =>
                                         Container(
@@ -189,8 +189,8 @@ class HomePage extends StatelessWidget {
                                     ),
                                     placeholder: (context, url) =>
                                         Shimmer.fromColors(
-                                      baseColor: Colors.grey[300],
-                                      highlightColor: Colors.grey[100],
+                                      baseColor: Colors.grey[300]!,
+                                      highlightColor: Colors.grey[100]!,
                                       child: Card(
                                         child: Container(
                                           width: double.infinity,

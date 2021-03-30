@@ -11,9 +11,9 @@ import '../../utils/upload_files_util.dart';
 import '../../utils/willpop_util.dart';
 
 class ElectronicsScreen extends StatefulWidget {
-  final List<File> images;
+  final List<File>? images;
 
-  const ElectronicsScreen({Key key, this.images}) : super(key: key);
+  const ElectronicsScreen({Key? key, this.images}) : super(key: key);
 
   @override
   _ElectronicsScreenState createState() => _ElectronicsScreenState();
@@ -50,7 +50,7 @@ class _ElectronicsScreenState extends State<ElectronicsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _userId = Provider.of<AuthenticationProvider>(context).user.uid;
+    final _userId = Provider.of<AuthenticationProvider>(context).user!.uid;
     final _imageUrls = Provider.of<ImageUploadProvider>(context).imageUrls;
     final _imageUploadProvider = Provider.of<ImageUploadProvider>(context);
     return (_loading)
@@ -71,7 +71,7 @@ class _ElectronicsScreenState extends State<ElectronicsScreen> {
               actions: [
                 FlatButton(
                   onPressed: () {
-                    if (_electronicsFormKey.currentState.validate() &&
+                    if (_electronicsFormKey.currentState!.validate() &&
                         _subCategory != null) {
                       setState(() {
                         _loading = true;
@@ -258,7 +258,7 @@ class _ElectronicsScreenState extends State<ElectronicsScreen> {
                       keyboardType: TextInputType.text,
                       maxLines: 3,
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return "Please enter a title";
                         }
                         return null;
@@ -281,7 +281,7 @@ class _ElectronicsScreenState extends State<ElectronicsScreen> {
                       keyboardType: TextInputType.text,
                       maxLines: 3,
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return "Please enter a description";
                         }
                         return null;
@@ -303,7 +303,7 @@ class _ElectronicsScreenState extends State<ElectronicsScreen> {
                       controller: _priceController,
                       keyboardType: TextInputType.number,
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return "Please enter a price";
                         }
                         return null;

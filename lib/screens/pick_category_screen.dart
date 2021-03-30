@@ -24,9 +24,9 @@ import '../utils/willpop_util.dart';
 import '../screens/categories/electronics_screen.dart';
 
 class PickCategory extends StatelessWidget {
-  final List<File> images;
+  final List<File>? images;
 
-  const PickCategory({Key key, this.images}) : super(key: key);
+  const PickCategory({Key? key, this.images}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,9 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/image_upload_provider.dart';
 
 Future<bool> onWillPop(context) async {
-  return (await showDialog(
+  return (await (showDialog(
         context: context,
         builder: (context) => AlertDialog(
           title: Text('Discard Changes?'),
@@ -21,13 +23,13 @@ Future<bool> onWillPop(context) async {
             ),
           ],
         ),
-      )) ??
+      ) as FutureOr<bool>?)) ??
       false;
 }
 
 Future<bool> onCategoryWillPop(context) async {
   final _imagesProvider = Provider.of<ImageUploadProvider>(context, listen: false);
-  return (await showDialog(
+  return (await (showDialog(
         context: context,
         builder: (context) => AlertDialog(
           title: Text('Discard Changes?'),
@@ -48,6 +50,6 @@ Future<bool> onCategoryWillPop(context) async {
             ),
           ],
         ),
-      )) ??
+      ) as FutureOr<bool>?)) ??
       false;
 }

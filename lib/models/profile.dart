@@ -5,46 +5,46 @@ part 'profile.g.dart';
 
 @JsonSerializable()
 class Profile {
-  String city;
-  String locationDescription;
+  String? city;
+  String? locationDescription;
   @JsonKey(fromJson: _fromJsonGeoPoint, toJson: _toJsonGeoPoint)
-  GeoPoint gpsLocation;
+  GeoPoint? gpsLocation;
 
-  static GeoPoint _fromJsonGeoPoint(GeoPoint geoPoint) {
+  static GeoPoint? _fromJsonGeoPoint(GeoPoint? geoPoint) {
     return geoPoint;
   }
 
-  static GeoPoint _toJsonGeoPoint(GeoPoint geoPoint) {
+  static GeoPoint? _toJsonGeoPoint(GeoPoint? geoPoint) {
     return geoPoint;
   }
 
-  String storeId;
-  String businessName;
-  String phoneNumber;
-  String businessDescription;
-  String mondayOpeningHours;
-  String mondayClosingHours;
-  String tuesdayOpeningHours;
-  String tuesdayClosingHours;
-  String wednesdayOpeningHours;
-  String wednesdayClosingHours;
-  String thursdayOpeningHours;
-  String thursdayClosingHours;
-  String fridayOpeningHours;
-  String fridayClosingHours;
-  String saturdayOpeningHours;
-  String saturdayClosingHours;
-  String sundayOpeningHours;
-  String sundayClosingHours;
-  String userId;
-  bool isMondayOpen;
-  bool isTuesdayOpen;
-  bool isWednesdayOpen;
-  bool isThursdayOpen;
-  bool isFridayOpen;
-  bool isSaturdayOpen;
-  bool isSundayOpen;
-  String businessProfilePhoto;
+  String? storeId;
+  String? businessName;
+  String? phoneNumber;
+  String? businessDescription;
+  String? mondayOpeningHours;
+  String? mondayClosingHours;
+  String? tuesdayOpeningHours;
+  String? tuesdayClosingHours;
+  String? wednesdayOpeningHours;
+  String? wednesdayClosingHours;
+  String? thursdayOpeningHours;
+  String? thursdayClosingHours;
+  String? fridayOpeningHours;
+  String? fridayClosingHours;
+  String? saturdayOpeningHours;
+  String? saturdayClosingHours;
+  String? sundayOpeningHours;
+  String? sundayClosingHours;
+  String? userId;
+  bool? isMondayOpen;
+  bool? isTuesdayOpen;
+  bool? isWednesdayOpen;
+  bool? isThursdayOpen;
+  bool? isFridayOpen;
+  bool? isSaturdayOpen;
+  bool? isSundayOpen;
+  String? businessProfilePhoto;
 
   Profile({
     this.userId,

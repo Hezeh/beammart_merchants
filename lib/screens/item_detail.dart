@@ -8,12 +8,12 @@ import '../providers/auth_provider.dart';
 import '../widgets/display_images_widget.dart';
 
 class ItemDetail extends StatefulWidget {
-  final Item item;
-  final String itemId;
+  final Item? item;
+  final String? itemId;
   static const routeName = '/item-detail';
 
   ItemDetail({
-    Key key,
+    Key? key,
     this.item,
     this.itemId,
   }) : super(key: key);
@@ -27,7 +27,7 @@ class _ItemDetailState extends State<ItemDetail> {
   final TextEditingController _editDescController = TextEditingController();
   final TextEditingController _editPriceController = TextEditingController();
   final _itemDetailFormKey = GlobalKey<FormState>();
-  bool _inStock;
+  bool? _inStock;
 
   @override
   void dispose() {
@@ -40,10 +40,10 @@ class _ItemDetailState extends State<ItemDetail> {
   @override
   void initState() {
     // final itemProvider = Provider.of<ItemProvider>(context, listen: false);
-    _editTitleController.text = widget.item.title;
-    _editDescController.text = widget.item.description;
-    _editPriceController.text = widget.item.price.toString();
-    _inStock = widget.item.inStock;
+    _editTitleController.text = widget.item!.title!;
+    _editDescController.text = widget.item!.description!;
+    _editPriceController.text = widget.item!.price.toString();
+    _inStock = widget.item!.inStock;
     super.initState();
   }
 
@@ -62,7 +62,7 @@ class _ItemDetailState extends State<ItemDetail> {
             Container(
               height: 400,
               child: DisplayImagesWidget(
-                images: widget.item.images,
+                images: widget.item!.images,
               ),
             ),
             Container(
@@ -125,7 +125,7 @@ class _ItemDetailState extends State<ItemDetail> {
               child: ListTile(
                 title: Text('Item in Stock'),
                 trailing: CupertinoSwitch(
-                  value: _inStock,
+                  value: _inStock!,
                   onChanged: (bool value) {
                     setState(() {
                       _inStock = value;
@@ -134,7 +134,7 @@ class _ItemDetailState extends State<ItemDetail> {
                 ),
                 onTap: () {
                   setState(() {
-                    _inStock = !_inStock;
+                    _inStock = !_inStock!;
                   });
                 },
               ),
@@ -149,8 +149,8 @@ class _ItemDetailState extends State<ItemDetail> {
               height: 80,
               child: ElevatedButton(
                 onPressed: () {
-                  if (_itemDetailFormKey.currentState.validate()) {
-                    final String _userId = _userProvider.user.uid;
+                  if (_itemDetailFormKey.currentState!.validate()) {
+                    final String _userId = _userProvider.user!.uid;
                     final DocumentReference _doc = FirebaseFirestore.instance
                         .collection('profile')
                         .doc(_userId)

@@ -9,29 +9,29 @@ import '../providers/auth_provider.dart';
 
 class AddLocationMap extends StatefulWidget {
   static const String routeName = '/add-location';
-  final GeoPoint currentLocation;
-  final String businessName;
-  final String businessDescription;
-  final String city;
-  final String locationDescription;
-  final String mondayOpeningHour;
-  final String mondayClosingHour;
-  final String tuesdayOpeningHour;
-  final String tuesdayClosingHour;
-  final String wednesdayOpeningHour;
-  final String wednesdayClosingHour;
-  final String thursdayOpeningHour;
-  final String thursdayClosingHour;
-  final String fridayOpeningHour;
-  final String fridayClosingHour;
-  final String saturdayOpeningHour;
-  final String saturdayClosingHour;
-  final String sundayOpeningHour;
-  final String sundayClosingHour;
-  final String phoneNumber;
+  final GeoPoint? currentLocation;
+  final String? businessName;
+  final String? businessDescription;
+  final String? city;
+  final String? locationDescription;
+  final String? mondayOpeningHour;
+  final String? mondayClosingHour;
+  final String? tuesdayOpeningHour;
+  final String? tuesdayClosingHour;
+  final String? wednesdayOpeningHour;
+  final String? wednesdayClosingHour;
+  final String? thursdayOpeningHour;
+  final String? thursdayClosingHour;
+  final String? fridayOpeningHour;
+  final String? fridayClosingHour;
+  final String? saturdayOpeningHour;
+  final String? saturdayClosingHour;
+  final String? sundayOpeningHour;
+  final String? sundayClosingHour;
+  final String? phoneNumber;
 
   const AddLocationMap({
-    Key key,
+    Key? key,
     this.currentLocation,
     this.businessName,
     this.city,
@@ -61,19 +61,19 @@ class AddLocationMap extends StatefulWidget {
 class _AddLocationMapState extends State<AddLocationMap> {
   final Set<Marker> _markers = {};
   Location location = new Location();
-  double _latitude;
-  double _longitude;
+  double? _latitude;
+  double? _longitude;
   bool _isMapCreated = false;
-  GoogleMapController _controller;
-  CameraPosition _cameraPosition;
+  GoogleMapController? _controller;
+  CameraPosition? _cameraPosition;
   bool _saving = false;
 
   getCurrentLocation() async {
     final _locationData = await location.getLocation();
     final CameraPosition currentPosition = CameraPosition(
       target: LatLng(
-        _locationData.latitude,
-        _locationData.longitude,
+        _locationData.latitude!,
+        _locationData.longitude!,
       ),
       zoom: 50,
     );
@@ -84,7 +84,7 @@ class _AddLocationMapState extends State<AddLocationMap> {
       _markers.add(
         Marker(
           markerId: MarkerId(_cameraPosition.toString()),
-          position: LatLng(_locationData.latitude, _locationData.longitude),
+          position: LatLng(_locationData.latitude!, _locationData.longitude!),
           onTap: () {},
           icon:
               BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
@@ -116,8 +116,8 @@ class _AddLocationMapState extends State<AddLocationMap> {
                             _saving = true;
                           });
                           locationProvider.addNewLocation(
-                            locationProvider.user.uid,
-                            GeoPoint(_latitude, _longitude),
+                            locationProvider.user!.uid,
+                            GeoPoint(_latitude!, _longitude!),
                           );
                           Navigator.pop(context);
                         },
@@ -152,14 +152,14 @@ class _AddLocationMapState extends State<AddLocationMap> {
                                       .profile.businessName,
                                   businessDescription: _businessProfileProvider
                                       .profile.businessDescription,
-                                  userId: locationProvider.user.uid,
-                                  storeId: locationProvider.user.uid,
+                                  userId: locationProvider.user!.uid,
+                                  storeId: locationProvider.user!.uid,
                                   city: _businessProfileProvider.profile.city,
                                   locationDescription: _businessProfileProvider
                                       .profile.locationDescription,
                                   phoneNumber: _businessProfileProvider
                                       .profile.phoneNumber,
-                                  gpsLocation: GeoPoint(_latitude, _longitude),
+                                  gpsLocation: GeoPoint(_latitude!, _longitude!),
                                   mondayOpeningHours: _businessProfileProvider
                                       .profile.mondayOpeningHours,
                                   mondayClosingHours: _businessProfileProvider
@@ -207,7 +207,7 @@ class _AddLocationMapState extends State<AddLocationMap> {
                                   businessProfilePhoto: _businessProfileProvider
                                       .profile.businessProfilePhoto,
                                 ).toJson(),
-                                locationProvider.user.uid);
+                                locationProvider.user!.uid);
                             Navigator.popUntil(
                                 context, ModalRoute.withName('/'));
                           }
@@ -248,7 +248,7 @@ class _AddLocationMapState extends State<AddLocationMap> {
                         },
                         myLocationEnabled: true,
                         myLocationButtonEnabled: true,
-                        initialCameraPosition: _cameraPosition,
+                        initialCameraPosition: _cameraPosition!,
                         mapToolbarEnabled: false,
                         zoomControlsEnabled: false,
                         zoomGesturesEnabled: true,

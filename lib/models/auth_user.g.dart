@@ -8,10 +8,10 @@ part of 'auth_user.dart';
 
 AuthUser _$AuthUserFromJson(Map<String, dynamic> json) {
   return AuthUser(
-    userId: json['userId'] as String,
-    email: json['email'] as String,
-    photoUrl: json['photoUrl'] as String,
-    displayName: json['displayName'] as String,
+    userId: json['userId'] as String?,
+    email: json['email'] as String?,
+    photoUrl: json['photoUrl'] as String?,
+    displayName: json['displayName'] as String?,
   );
 }
 
