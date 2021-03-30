@@ -10,7 +10,8 @@ class MenuListTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthenticationProvider>(context);
     final currentUser = authProvider.user;
-    final Profile currentProfile = Provider.of<ProfileProvider>(context).profile;
+    final Profile currentProfile =
+        Provider.of<ProfileProvider>(context).profile;
     return Column(
       children: [
         (currentUser != null)
@@ -41,8 +42,8 @@ class MenuListTileWidget extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => ProfileScreen(
-                    profile: currentProfile,
-                    ),
+                  profile: currentProfile,
+                ),
               ),
             );
           },

@@ -147,8 +147,7 @@ class _ItemDetailState extends State<ItemDetail> {
                 bottom: 10,
               ),
               height: 80,
-              child: RaisedButton(
-                elevation: 30,
+              child: ElevatedButton(
                 onPressed: () {
                   if (_itemDetailFormKey.currentState.validate()) {
                     final String _userId = _userProvider.user.uid;
@@ -175,10 +174,10 @@ class _ItemDetailState extends State<ItemDetail> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                color: Colors.pink,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0),
-                ),
+                // color: Colors.pink,
+                // shape: RoundedRectangleBorder(
+                //   borderRadius: BorderRadius.circular(18.0),
+                // ),
               ),
             )
           ],
