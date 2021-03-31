@@ -54,7 +54,8 @@ class ProfileProvider with ChangeNotifier {
     _profileRef
         .doc(_userId)
         .set({'gpsLocation': _location}, SetOptions(merge: true));
-     _profile!.gpsLocation = _location;
+    _profile!.gpsLocation = _location;
+    notifyListeners();
   }
 
   changeBusinessProfilePhoto(File? photo, String? userId) async {
