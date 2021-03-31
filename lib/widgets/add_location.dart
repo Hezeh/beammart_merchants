@@ -1,3 +1,4 @@
+import 'package:beammart_merchants/providers/profile_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -101,7 +102,7 @@ class _AddLocationMapState extends State<AddLocationMap> {
 
   @override
   Widget build(BuildContext context) {
-    final locationProvider = Provider.of<AuthenticationProvider>(context);
+    final locationProvider = Provider.of<ProfileProvider>(context);
     final _businessProfileProvider =
         Provider.of<AddBusinessProfileProvider>(context);
     return Scaffold(
@@ -110,13 +111,13 @@ class _AddLocationMapState extends State<AddLocationMap> {
               title: Text("Edit Store Location"),
               actions: [
                 (_latitude != null && _longitude != null)
-                    ? FlatButton(
+                    ? TextButton(
                         onPressed: () {
                           setState(() {
                             _saving = true;
                           });
-                          locationProvider.addNewLocation(
-                            locationProvider.user!.uid,
+                          locationProvider.changeLocation(
+                            locationProvider.profile!.userId!,
                             GeoPoint(_latitude!, _longitude!),
                           );
                           Navigator.pop(context);
@@ -137,7 +138,7 @@ class _AddLocationMapState extends State<AddLocationMap> {
               title: Text('Add Location'),
               actions: [
                 (_latitude != null && _longitude != null)
-                    ? FlatButton(
+                    ? TextButton(
                         onPressed: () {
                           setState(() {
                             _saving = true;
@@ -147,67 +148,66 @@ class _AddLocationMapState extends State<AddLocationMap> {
                                   .profile.businessProfilePhoto !=
                               null) {
                             locationProvider.addBusinessProfile(
-                                Profile(
-                                  businessName: _businessProfileProvider
-                                      .profile.businessName,
-                                  businessDescription: _businessProfileProvider
-                                      .profile.businessDescription,
-                                  userId: locationProvider.user!.uid,
-                                  storeId: locationProvider.user!.uid,
-                                  city: _businessProfileProvider.profile.city,
-                                  locationDescription: _businessProfileProvider
-                                      .profile.locationDescription,
-                                  phoneNumber: _businessProfileProvider
-                                      .profile.phoneNumber,
-                                  gpsLocation: GeoPoint(_latitude!, _longitude!),
-                                  mondayOpeningHours: _businessProfileProvider
-                                      .profile.mondayOpeningHours,
-                                  mondayClosingHours: _businessProfileProvider
-                                      .profile.mondayClosingHours,
-                                  tuesdayOpeningHours: _businessProfileProvider
-                                      .profile.tuesdayOpeningHours,
-                                  tuesdayClosingHours: _businessProfileProvider
-                                      .profile.tuesdayClosingHours,
-                                  wednesdayOpeningHours:
-                                      _businessProfileProvider
-                                          .profile.wednesdayOpeningHours,
-                                  wednesdayClosingHours:
-                                      _businessProfileProvider
-                                          .profile.wednesdayClosingHours,
-                                  thursdayOpeningHours: _businessProfileProvider
-                                      .profile.thursdayOpeningHours,
-                                  thursdayClosingHours: _businessProfileProvider
-                                      .profile.thursdayClosingHours,
-                                  fridayOpeningHours: _businessProfileProvider
-                                      .profile.fridayOpeningHours,
-                                  fridayClosingHours: _businessProfileProvider
-                                      .profile.fridayClosingHours,
-                                  saturdayOpeningHours: _businessProfileProvider
-                                      .profile.saturdayOpeningHours,
-                                  saturdayClosingHours: _businessProfileProvider
-                                      .profile.saturdayClosingHours,
-                                  sundayOpeningHours: _businessProfileProvider
-                                      .profile.sundayOpeningHours,
-                                  sundayClosingHours: _businessProfileProvider
-                                      .profile.sundayClosingHours,
-                                  isMondayOpen: _businessProfileProvider
-                                      .profile.isMondayOpen,
-                                  isTuesdayOpen: _businessProfileProvider
-                                      .profile.isTuesdayOpen,
-                                  isWednesdayOpen: _businessProfileProvider
-                                      .profile.isWednesdayOpen,
-                                  isThursdayOpen: _businessProfileProvider
-                                      .profile.isThursdayOpen,
-                                  isFridayOpen: _businessProfileProvider
-                                      .profile.isFridayOpen,
-                                  isSaturdayOpen: _businessProfileProvider
-                                      .profile.isSaturdayOpen,
-                                  isSundayOpen: _businessProfileProvider
-                                      .profile.isSundayOpen,
-                                  businessProfilePhoto: _businessProfileProvider
-                                      .profile.businessProfilePhoto,
-                                ).toJson(),
-                                locationProvider.user!.uid);
+                              Profile(
+                                businessName: _businessProfileProvider
+                                    .profile.businessName,
+                                businessDescription: _businessProfileProvider
+                                    .profile.businessDescription,
+                                userId: locationProvider.profile!.userId,
+                                storeId: locationProvider.profile!.userId,
+                                city: _businessProfileProvider.profile.city,
+                                locationDescription: _businessProfileProvider
+                                    .profile.locationDescription,
+                                phoneNumber: _businessProfileProvider
+                                    .profile.phoneNumber,
+                                gpsLocation: GeoPoint(_latitude!, _longitude!),
+                                mondayOpeningHours: _businessProfileProvider
+                                    .profile.mondayOpeningHours,
+                                mondayClosingHours: _businessProfileProvider
+                                    .profile.mondayClosingHours,
+                                tuesdayOpeningHours: _businessProfileProvider
+                                    .profile.tuesdayOpeningHours,
+                                tuesdayClosingHours: _businessProfileProvider
+                                    .profile.tuesdayClosingHours,
+                                wednesdayOpeningHours: _businessProfileProvider
+                                    .profile.wednesdayOpeningHours,
+                                wednesdayClosingHours: _businessProfileProvider
+                                    .profile.wednesdayClosingHours,
+                                thursdayOpeningHours: _businessProfileProvider
+                                    .profile.thursdayOpeningHours,
+                                thursdayClosingHours: _businessProfileProvider
+                                    .profile.thursdayClosingHours,
+                                fridayOpeningHours: _businessProfileProvider
+                                    .profile.fridayOpeningHours,
+                                fridayClosingHours: _businessProfileProvider
+                                    .profile.fridayClosingHours,
+                                saturdayOpeningHours: _businessProfileProvider
+                                    .profile.saturdayOpeningHours,
+                                saturdayClosingHours: _businessProfileProvider
+                                    .profile.saturdayClosingHours,
+                                sundayOpeningHours: _businessProfileProvider
+                                    .profile.sundayOpeningHours,
+                                sundayClosingHours: _businessProfileProvider
+                                    .profile.sundayClosingHours,
+                                isMondayOpen: _businessProfileProvider
+                                    .profile.isMondayOpen,
+                                isTuesdayOpen: _businessProfileProvider
+                                    .profile.isTuesdayOpen,
+                                isWednesdayOpen: _businessProfileProvider
+                                    .profile.isWednesdayOpen,
+                                isThursdayOpen: _businessProfileProvider
+                                    .profile.isThursdayOpen,
+                                isFridayOpen: _businessProfileProvider
+                                    .profile.isFridayOpen,
+                                isSaturdayOpen: _businessProfileProvider
+                                    .profile.isSaturdayOpen,
+                                isSundayOpen: _businessProfileProvider
+                                    .profile.isSundayOpen,
+                                businessProfilePhoto: _businessProfileProvider
+                                    .profile.businessProfilePhoto,
+                              ).toJson(),
+                              locationProvider.profile!.userId!,
+                            );
                             Navigator.popUntil(
                                 context, ModalRoute.withName('/'));
                           }
@@ -227,6 +227,11 @@ class _AddLocationMapState extends State<AddLocationMap> {
       body: (_saving == false)
           ? Stack(
               children: [
+                Positioned(
+                  child: Container(
+                    child: Text('Tap on the map to change your store location'),
+                  ),
+                ),
                 (_cameraPosition != null)
                     ? GoogleMap(
                         onTap: (LatLng location) {

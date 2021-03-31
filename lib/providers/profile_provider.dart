@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:beammart_merchants/services/profile_service.dart';
 import 'package:beammart_merchants/utils/upload_files_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,6 +12,7 @@ CollectionReference _profileRef =
     FirebaseFirestore.instance.collection('profile');
 
 class ProfileProvider with ChangeNotifier {
+  final ProfileService profileService = ProfileService();
   Profile? _profile;
   final User? _user;
   bool _loading = true;
@@ -34,9 +36,25 @@ class ProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  createBusinessProfile(Profile profile, String userId) {
-    _profileRef.doc(userId).set(profile.toJson());
+  // createBusinessProfile(Profile profile, String userId) {
+  //   _profileRef.doc(userId).set(profile.toJson());
+  //   notifyListeners();
+  // }
+
+  addBusinessProfile(Map<String, dynamic> _json, String userId) async {
+    _profileRef.doc(userId).set(_json, SetOptions(merge: true));
+    final Profile? newProfile = await profileService.getCurrentProfile(userId);
+    if (newProfile != null) {
+      _profile = newProfile;
+    }
     notifyListeners();
+  }
+
+  changeLocation(String _userId, GeoPoint _location) async {
+    _profileRef
+        .doc(_userId)
+        .set({'gpsLocation': _location}, SetOptions(merge: true));
+     _profile!.gpsLocation = _location;
   }
 
   changeBusinessProfilePhoto(File? photo, String? userId) async {

@@ -1,3 +1,4 @@
+import 'package:beammart_merchants/providers/profile_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -44,7 +45,8 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
   bool _isSaturdayOpen = true;
   bool _isSundayOpen = true;
 
-  Future<TimeOfDay?> selectTimeOfDay(BuildContext context, TimeOfDay timeOfDay) {
+  Future<TimeOfDay?> selectTimeOfDay(
+      BuildContext context, TimeOfDay timeOfDay) {
     return showTimePicker(
       context: context,
       initialTime: timeOfDay,
@@ -182,15 +184,18 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final AuthenticationProvider _authProvider =
-        Provider.of<AuthenticationProvider>(context);
+    // final AuthenticationProvider _authProvider =
+    //     Provider.of<AuthenticationProvider>(context);
     final _businessProfileProvider =
         Provider.of<AddBusinessProfileProvider>(context);
+    final ProfileProvider _profileProvider =
+        Provider.of<ProfileProvider>(context);
+
     return Scaffold(
       appBar: (widget.profile == null)
           ? AppBar(
               actions: [
-                FlatButton(
+                TextButton(
                   onPressed: () {
                     // declare a varible of type map
                     // final Map<String, dynamic> _operatingTimeData = {};
@@ -221,10 +226,12 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                     }
 
                     if (_tuesdayOpeningHour != null) {
-                      _tuesdayOpeningTime = _tuesdayOpeningHour!.format(context);
+                      _tuesdayOpeningTime =
+                          _tuesdayOpeningHour!.format(context);
                     }
                     if (_tuesdayClosingHour != null) {
-                      _tuesdayClosingTime = _tuesdayClosingHour!.format(context);
+                      _tuesdayClosingTime =
+                          _tuesdayClosingHour!.format(context);
                     }
                     if (_wednesdayOpeningHour != null) {
                       _wednesdayOpeningTime =
@@ -304,13 +311,13 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
             )
           : AppBar(
               actions: [
-                FlatButton(
+                TextButton(
                   onPressed: () {
                     final Map<String, dynamic> _operatingTimeData = {};
                     if (_isMondayOpen) {
                       if (_mondayOpeningHour != null) {
                         _operatingTimeData['mondayOpeningHours'] =
-                            _mondayOpeningHour!.format(context); 
+                            _mondayOpeningHour!.format(context);
                       }
                       if (_mondayClosingHour != null) {
                         _operatingTimeData['mondayClosingHours'] =
@@ -377,41 +384,13 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                             _sundayClosingHour!.format(context);
                       }
                     }
-                    // final Map<String, dynamic> _json = {
-                    //   'mondayOpeningHours': _mondayOpeningHour.format(context),
-                    //   'mondayClosingHours': _mondayClosingHour.format(context),
-                    //   'tuesdayOpeningHours':
-                    //       _tuesdayOpeningHour.format(context),
-                    //   'tuesdayClosingHours':
-                    //       _tuesdayClosingHour.format(context),
-                    //   'wednesdayOpeningHours':
-                    //       _wednesdayOpeningHour.format(context),
-                    //   'wednesdayClosingHours':
-                    //       _wednesdayClosingHour.format(context),
-                    //   'thursdayOpeningHours':
-                    //       _thursdayOpeningHour.format(context),
-                    //   'thursdayClosingHours':
-                    //       _thursdayClosingHour.format(context),
-                    //   'fridayOpeningHours': _fridayOpeningHour.format(context),
-                    //   'fridayClosingHours': _fridayClosingHour.format(context),
-                    //   'saturdayOpeningHours':
-                    //       _saturdayOpeningHour.format(context),
-                    //   'saturdayClosingHours':
-                    //       _saturdayClosingHour.format(context),
-                    //   'sundayOpeningHours': _sundayOpeningHour.format(context),
-                    //   'sundayClosingHours': _sundayClosingHour.format(context),
-                    //   'isMondayOpen': _isMondayOpen,
-                    //   'isTuesdayOpen': _isTuesdayOpen,
-                    //   'isWednesdayOpen': _isWednesdayOpen,
-                    //   'isThursdayOpen': _isThursdayOpen,
-                    //   'isFridayOpen': _isFridayOpen,
-                    //   'isSaturdayOpen': _isSaturdayOpen,
-                    //   'isSundayOpen': _isSundayOpen,
-                    // };
-                    _authProvider.addBusinessProfile(
-                      _operatingTimeData,
-                      _authProvider.user!.uid,
-                    );
+
+                    // _authProvider.addBusinessProfile(
+                    //   _operatingTimeData,
+                    //   _authProvider.user!.uid,
+                    // );
+                    _profileProvider.addBusinessProfile(
+                        _operatingTimeData, _profileProvider.profile!.userId!);
                     Navigator.of(context).pop();
                   },
                   child: Text(
@@ -548,8 +527,8 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                   ? FlatButton(
                       color: Colors.pink,
                       onPressed: () async {
-                        final TimeOfDay? _time =
-                            await selectTimeOfDay(context, _tuesdayOpeningHour!);
+                        final TimeOfDay? _time = await selectTimeOfDay(
+                            context, _tuesdayOpeningHour!);
                         if (_time != null) {
                           setState(() {
                             _tuesdayOpeningHour = _time;
@@ -566,8 +545,8 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                   ? FlatButton(
                       color: Colors.purple,
                       onPressed: () async {
-                        final TimeOfDay? _time =
-                            await selectTimeOfDay(context, _tuesdayClosingHour!);
+                        final TimeOfDay? _time = await selectTimeOfDay(
+                            context, _tuesdayClosingHour!);
                         if (_time != null) {
                           setState(() {
                             _tuesdayClosingHour = _time;

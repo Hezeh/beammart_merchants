@@ -39,7 +39,6 @@ class _ItemDetailState extends State<ItemDetail> {
 
   @override
   void initState() {
-    // final itemProvider = Provider.of<ItemProvider>(context, listen: false);
     _editTitleController.text = widget.item!.title!;
     _editDescController.text = widget.item!.description!;
     _editPriceController.text = widget.item!.price.toString();
@@ -49,7 +48,6 @@ class _ItemDetailState extends State<ItemDetail> {
 
   @override
   Widget build(BuildContext context) {
-    // final _itemProvider = Provider.of<ItemProvider>(context);
     final _userProvider = Provider.of<AuthenticationProvider>(context);
     return Scaffold(
       appBar: AppBar(

@@ -120,12 +120,12 @@ class HomePage extends StatelessWidget {
                                           'Do you really want to delete this product?',
                                         ),
                                         actions: [
-                                          OutlineButton(
+                                          OutlinedButton(
                                             onPressed: () =>
                                                 Navigator.of(context).pop(),
                                             child: const Text('Cancel'),
                                           ),
-                                          RaisedButton(
+                                          ElevatedButton(
                                             onPressed: () {
                                               snapshot
                                                   .data!.docs[index].reference

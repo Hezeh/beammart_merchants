@@ -55,10 +55,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final profile = Provider.of<ProfileProvider>(context).profile;
+    final profileProvider = Provider.of<ProfileProvider>(context);
     final _userProvider = Provider.of<AuthenticationProvider>(context);
     final _businessProfileProvider =
         Provider.of<AddBusinessProfileProvider>(context);
-    // final _userId = _userProvider.user;
     return Scaffold(
       appBar: (widget.profile != null)
           ? AppBar(
@@ -261,7 +261,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ? Text(
                               '${profile.gpsLocation!.latitude}, ${profile.gpsLocation!.longitude}')
                           : Container(),
-                      trailing: RaisedButton(
+                      trailing: ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
@@ -284,7 +284,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: ListTile(
                       title: Text('Operating Hours'),
                       subtitle: Text('Opening & Closing Time'),
-                      trailing: RaisedButton(
+                      trailing: ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
@@ -340,7 +340,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       elevation: 30,
                       onPressed: () {
                         if (_profileFormKey.currentState!.validate()) {
-                          _userProvider.addBusinessProfile(
+                          profileProvider.addBusinessProfile(
                             {
                               'businessName': _businessName.text,
                               'businessDescription': _businessDescription.text,

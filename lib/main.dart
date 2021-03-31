@@ -33,9 +33,6 @@ void main() async {
           initialData: null,
           create: (context) => context.read<AuthenticationProvider>().authState,
         ),
-        // StreamProvider.value(
-        //   value: (context) => context.read<AuthenticationProvider>().authState, value: null,
-        // ),
         ChangeNotifierProxyProvider<AuthenticationProvider, ProfileProvider>(
           create: (BuildContext context) => ProfileProvider(
             Provider.of<AuthenticationProvider>(context, listen: false).user,
@@ -49,7 +46,6 @@ void main() async {
           create: (context) => AddBusinessProfileProvider(),
         )
       ],
-      // child: App(),
       builder: (BuildContext context, app) {
         return App();
       },

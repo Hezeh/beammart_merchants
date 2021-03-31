@@ -16,7 +16,7 @@ class AuthenticationProvider with ChangeNotifier {
   // FirebaseAuth instance;
   final FirebaseAuth firebaseAuth;
   final ProfileService profileService = ProfileService();
-  Profile? _profile;
+  // Profile? _profile;
   bool? _loading = true;
 
   AuthenticationProvider(this.firebaseAuth) {
@@ -30,31 +30,30 @@ class AuthenticationProvider with ChangeNotifier {
 
   bool? get loadingAuth => _loading;
 
-  getBusinessProfile() async {
-    if (user != null) {
-      final Profile? newProfile = await profileService
-          .getCurrentProfile(firebaseAuth.currentUser!.uid);
-      _profile = newProfile;
-    }
-    _loading = false;
-    print('Called Profile');
-    notifyListeners();
-  }
+  // getBusinessProfile() async {
+  //   if (user != null) {
+  //     final Profile? newProfile = await profileService
+  //         .getCurrentProfile(firebaseAuth.currentUser!.uid);
+  //     _profile = newProfile;
+  //   }
+  //   _loading = false;
+  //   notifyListeners();
+  // }
 
-  addBusinessProfile(Map<String, dynamic> _json, String userId) async {
-    _profileDb.doc(userId).set(_json, SetOptions(merge: true));
-    final Profile? newProfile = await profileService.getCurrentProfile(userId);
-    if (newProfile != null) {
-      _profile = newProfile;
-    }
-    notifyListeners();
-  }
+  // addBusinessProfile(Map<String, dynamic> _json, String userId) async {
+  //   _profileDb.doc(userId).set(_json, SetOptions(merge: true));
+  //   final Profile? newProfile = await profileService.getCurrentProfile(userId);
+  //   if (newProfile != null) {
+  //     _profile = newProfile;
+  //   }
+  //   notifyListeners();
+  // }
 
-  addNewLocation(String _userId, GeoPoint _location) async {
-    _profileDb
-        .doc(_userId)
-        .set({'gpsLocation': _location}, SetOptions(merge: true));
-  }
+  // changeLocation(String _userId, GeoPoint _location) async {
+  //   _profileDb
+  //       .doc(_userId)
+  //       .set({'gpsLocation': _location}, SetOptions(merge: true));
+  // }
 
   signInWithGoogle() async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -96,7 +95,7 @@ class AuthenticationProvider with ChangeNotifier {
   Future<void> signOut() async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     await googleSignIn.disconnect();
-    _profile = null;
+    // _profile = null;
     _loading = null;
     notifyListeners();
     return firebaseAuth.signOut();
