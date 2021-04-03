@@ -81,6 +81,7 @@ class _AddBusinessProfilePhotoState extends State<AddBusinessProfilePhoto> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (_) => OperatingHoursScreen(),
+                              settings: RouteSettings(name: 'OperatingHoursScreen')
                             ),
                           );
                         },

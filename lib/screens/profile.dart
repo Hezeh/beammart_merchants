@@ -271,6 +271,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   profile.gpsLocation!.longitude,
                                 ),
                               ),
+                              settings: RouteSettings(name: 'EditLocationScreen')
                             ),
                           );
                         },
@@ -288,6 +289,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
+                              settings: RouteSettings(name: 'EditOperatingHoursScreen'),
                               builder: (_) => OperatingHoursScreen(
                                 profile: Profile(
                                   mondayOpeningHours:

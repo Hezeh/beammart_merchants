@@ -30,7 +30,6 @@ class PickCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final  user = Provider.of<AuthServiceProvider>(context).user.userId;
     return WillPopScope(
       onWillPop: () => onCategoryWillPop(context),
       child: Scaffold(
@@ -45,6 +44,7 @@ class PickCategory extends StatelessWidget {
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (_) => ElectronicsScreen(),
+                  settings: RouteSettings(name: 'ElectronicsScreen'),
                 ),
               ),
               child: ListTile(
@@ -60,6 +60,7 @@ class PickCategory extends StatelessWidget {
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (_) => ComputersScreen(),
+                  settings: RouteSettings(name: 'ComputersScreen'),
                 ),
               ),
               child: ListTile(
@@ -73,7 +74,10 @@ class PickCategory extends StatelessWidget {
             ),
             InkWell(
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => SmartHomeScreen()),
+                MaterialPageRoute(
+                  builder: (_) => SmartHomeScreen(),
+                  settings: RouteSettings(name: 'SmartHomeScreen'),
+                ),
               ),
               child: ListTile(
                 title: Text(
@@ -86,7 +90,10 @@ class PickCategory extends StatelessWidget {
             ),
             InkWell(
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => ArtsCraftsScreen()),
+                MaterialPageRoute(
+                  builder: (_) => ArtsCraftsScreen(),
+                  settings: RouteSettings(name: 'ArtsCraftsScreen'),
+                ),
               ),
               child: ListTile(
                 title: Text(
@@ -99,7 +106,10 @@ class PickCategory extends StatelessWidget {
             ),
             InkWell(
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => AutomotiveScreen()),
+                MaterialPageRoute(
+                  builder: (_) => AutomotiveScreen(),
+                  settings: RouteSettings(name: 'AutomotiveScreen'),
+                ),
               ),
               child: ListTile(
                 title: Text(
@@ -112,7 +122,10 @@ class PickCategory extends StatelessWidget {
             ),
             InkWell(
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => BabyScreen()),
+                MaterialPageRoute(
+                  builder: (_) => BabyScreen(),
+                  settings: RouteSettings(name: 'BabyScreen'),
+                ),
               ),
               child: ListTile(
                 title: Text(
@@ -125,7 +138,10 @@ class PickCategory extends StatelessWidget {
             ),
             InkWell(
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => BeautyPersonalCareScreen()),
+                MaterialPageRoute(
+                  builder: (_) => BeautyPersonalCareScreen(),
+                  settings: RouteSettings(name: 'BeautyPersonalCareScreen'),
+                ),
               ),
               child: ListTile(
                 title: Text(
@@ -138,7 +154,10 @@ class PickCategory extends StatelessWidget {
             ),
             InkWell(
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => WomensFashionScreen()),
+                MaterialPageRoute(
+                  builder: (_) => WomensFashionScreen(),
+                  settings: RouteSettings(name: 'WomensFashionScreen'),
+                ),
               ),
               child: ListTile(
                 title: Text(
@@ -151,7 +170,10 @@ class PickCategory extends StatelessWidget {
             ),
             InkWell(
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => MensFashionScreen()),
+                MaterialPageRoute(
+                  builder: (_) => MensFashionScreen(),
+                  settings: RouteSettings(name: 'MensFashionScreen'),
+                ),
               ),
               child: ListTile(
                 title: Text(
@@ -164,7 +186,10 @@ class PickCategory extends StatelessWidget {
             ),
             InkWell(
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => HealthHouseholdScreen()),
+                MaterialPageRoute(
+                  builder: (_) => HealthHouseholdScreen(),
+                  settings: RouteSettings(name: 'HealthHouseholdScreen'),
+                ),
               ),
               child: ListTile(
                 title: Text(
@@ -177,7 +202,10 @@ class PickCategory extends StatelessWidget {
             ),
             InkWell(
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => HomeKitchenScreen()),
+                MaterialPageRoute(
+                  builder: (_) => HomeKitchenScreen(),
+                  settings: RouteSettings(name: 'HomeKitchenScreen'),
+                ),
               ),
               child: ListTile(
                 title: Text(
@@ -190,7 +218,10 @@ class PickCategory extends StatelessWidget {
             ),
             InkWell(
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => PatioGardenScreen()),
+                MaterialPageRoute(
+                  builder: (_) => PatioGardenScreen(),
+                  settings: RouteSettings(name: 'PatioGardenScreen'),
+                ),
               ),
               child: ListTile(
                 title: Text(
@@ -203,7 +234,10 @@ class PickCategory extends StatelessWidget {
             ),
             InkWell(
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => IndustrialScientificScreen()),
+                MaterialPageRoute(
+                  builder: (_) => IndustrialScientificScreen(),
+                  settings: RouteSettings(name: 'IndustrialScientificScreen'),
+                ),
               ),
               child: ListTile(
                 title: Text(
@@ -216,7 +250,10 @@ class PickCategory extends StatelessWidget {
             ),
             InkWell(
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => LuggageScreen()),
+                MaterialPageRoute(
+                  builder: (_) => LuggageScreen(),
+                  settings: RouteSettings(name: 'LuggageScreen'),
+                ),
               ),
               child: ListTile(
                 title: Text(
@@ -229,7 +266,10 @@ class PickCategory extends StatelessWidget {
             ),
             InkWell(
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => PetSuppliesScreen()),
+                MaterialPageRoute(
+                  builder: (_) => PetSuppliesScreen(),
+                  settings: RouteSettings(name: 'PetSuppliesScreen'),
+                ),
               ),
               child: ListTile(
                 title: Text(
@@ -241,8 +281,12 @@ class PickCategory extends StatelessWidget {
               ),
             ),
             InkWell(
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => SportsFitnessOutdoorsScreen())),
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => SportsFitnessOutdoorsScreen(),
+                  settings: RouteSettings(name: 'SportsFitnessOutdoorsScreen'),
+                ),
+              ),
               child: ListTile(
                 title: Text(
                   "Sports, Fitness & Outdoors",
@@ -254,11 +298,14 @@ class PickCategory extends StatelessWidget {
             ),
             InkWell(
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => ToolsHomeImprovementScreen()),
+                MaterialPageRoute(
+                  builder: (_) => ToolsHomeImprovementScreen(),
+                  settings: RouteSettings(name: 'ToolsHomeImprovementScreen'),
+                ),
               ),
               child: ListTile(
                 title: Text(
-                  "Tools & Home Imporvement",
+                  "Tools & Home Improvement",
                 ),
                 trailing: Icon(
                   Icons.arrow_forward_ios_outlined,
@@ -267,7 +314,10 @@ class PickCategory extends StatelessWidget {
             ),
             InkWell(
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => ToysGamesScreen()),
+                MaterialPageRoute(
+                  builder: (_) => ToysGamesScreen(),
+                  settings: RouteSettings(name: 'ToysGamesScreen'),
+                ),
               ),
               child: ListTile(
                 title: Text(
@@ -280,7 +330,10 @@ class PickCategory extends StatelessWidget {
             ),
             InkWell(
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => FoodScreen()),
+                MaterialPageRoute(
+                  builder: (_) => FoodScreen(),
+                  settings: RouteSettings(name: 'FoodScreen'),
+                ),
               ),
               child: ListTile(
                 title: Text(
@@ -293,7 +346,10 @@ class PickCategory extends StatelessWidget {
             ),
             InkWell(
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => HouseholdEssentialsScreen()),
+                MaterialPageRoute(
+                  builder: (_) => HouseholdEssentialsScreen(),
+                  settings: RouteSettings(name: 'HouseholdEssentialsScreen'),
+                ),
               ),
               child: ListTile(
                 title: Text(

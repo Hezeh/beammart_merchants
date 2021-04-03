@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../models/profile.dart';
 import '../providers/add_business_profile_provider.dart';
-import '../providers/auth_provider.dart';
 import '../widgets/add_location.dart';
 
 class OperatingHoursScreen extends StatefulWidget {
@@ -298,6 +297,7 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (_) => AddLocationMap(),
+                        settings: RouteSettings(name: 'AddLocationMapScreen')
                       ),
                     );
                   },

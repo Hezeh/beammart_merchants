@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
 import '../models/profile.dart';
 import '../providers/auth_provider.dart';
 import '../providers/profile_provider.dart';
@@ -45,6 +46,52 @@ class MenuListTileWidget extends StatelessWidget {
                   profile: currentProfile,
                 ),
               ),
+            );
+          },
+        ),
+        Divider(
+          color: Colors.pink,
+          indent: 10.0,
+          endIndent: 10.0,
+        ),
+        ListTile(
+          leading: Icon(
+            Icons.share_outlined,
+            color: Colors.pink,
+          ),
+          title: Text(
+            'Share Merchant App',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18.0,
+            ),
+          ),
+          onTap: () {
+            Share.share(
+              'Get the Beammart Merchant App and let potential customers find your products for free: https://bit.ly/forMerchants',
+            );
+          },
+        ),
+        Divider(
+          color: Colors.pink,
+          indent: 10.0,
+          endIndent: 10.0,
+        ),
+        ListTile(
+          leading: Icon(
+            Icons.share_outlined,
+            color: Colors.pink,
+          ),
+          title: Text(
+            'Share Consumer App',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18.0,
+            ),
+          ),
+          onTap: () {
+            Share.share(
+              'Get the Beammart App and find products nearby easily: https://bit.ly/beammart',
             );
           },
         ),

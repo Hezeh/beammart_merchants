@@ -50,6 +50,7 @@ class _AddImagesScreenState extends State<AddImagesScreen> {
                         builder: (_) => PickCategory(
                           images: _images,
                         ),
+                        settings: RouteSettings(name: 'PickCategoryScreen')
                       ),
                     );
                   },

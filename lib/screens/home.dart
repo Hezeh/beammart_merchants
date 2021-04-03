@@ -156,6 +156,7 @@ class HomePage extends StatelessWidget {
                                   ),
                                   itemId: snapshot.data!.docs[index].id,
                                 ),
+                                settings: RouteSettings(name: 'MerchantItemDetailScreen')
                               ),
                             ),
                             child: Card(
