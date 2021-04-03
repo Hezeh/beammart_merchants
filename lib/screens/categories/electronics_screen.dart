@@ -38,13 +38,18 @@ class _ElectronicsScreenState extends State<ElectronicsScreen> {
 
   final TextEditingController _priceController = TextEditingController();
 
+  final TextEditingController _productTagsController = TextEditingController();
+
   bool _inStock = true;
+
+  List<String> _productTags = [];
 
   @override
   void dispose() {
     _titleController.dispose();
     _descriptionController.dispose();
     _priceController.dispose();
+    _productTagsController.dispose();
     super.dispose();
   }
 
@@ -317,6 +322,49 @@ class _ElectronicsScreenState extends State<ElectronicsScreen> {
                         contentPadding: EdgeInsets.all(10),
                         labelText: 'Price (required)',
                       ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      children: [
+                        Center(
+                          child: Text('Product Tags'),
+                        ),
+                        (_productTags.length > 0)
+                            ? Flexible(
+                                child: ListView.builder(
+                                  itemCount: _productTags.length,
+                                  itemBuilder: (context, index) {
+                                    return Chip(
+                                      label: Text(_productTags[index]),
+                                    );
+                                  },
+                                ),
+                              )
+                            : Container(),
+                        TextFormField(
+                          controller: _productTagsController,
+                          keyboardType: TextInputType.text,
+                          onFieldSubmitted: (value) {
+                            _productTags.add(value);
+                            _productTagsController.clear();
+                            setState(() {
+                              
+                            });
+                          },
+                          validator: (value) {},
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
+                            ),
+                            contentPadding: EdgeInsets.all(10),
+                            labelText: 'Product Tags (optional)',
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   MergeSemantics(
