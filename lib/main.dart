@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -18,10 +19,12 @@ import './screens/profile.dart';
 import './widgets/add_location.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
+List<CameraDescription> cameras = [];
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await Hive.initFlutter();
+  cameras = await availableCameras();
   runApp(
     MultiProvider(
       providers: [
@@ -66,7 +69,21 @@ class App extends StatelessWidget {
     return MaterialApp(
       navigatorObservers: [FirebaseAnalyticsObserver(analytics: analytics)],
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(brightness: Brightness.dark, accentColor: Colors.pink),
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        accentColor: Colors.pink,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.pink,
+            elevation: 10,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(15),
+              ),
+            ),
+          ),
+        ),
+      ),
       title: 'Beammart Merchants',
       home: (firebaseUser != null)
           ? (loading)

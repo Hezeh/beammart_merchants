@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:beammart_merchants/screens/camera_photo_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +19,7 @@ class _AddImagesScreenState extends State<AddImagesScreen> {
   final picker = ImagePicker();
   List<File> _images = [];
 
-  getImage(context) async {
+  galleryImage(context) async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
@@ -26,6 +27,8 @@ class _AddImagesScreenState extends State<AddImagesScreen> {
       });
     }
   }
+
+  cameraImage(context) {}
 
   void _removeImage(int index) {
     setState(() {
@@ -47,11 +50,10 @@ class _AddImagesScreenState extends State<AddImagesScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => PickCategory(
-                          images: _images,
-                        ),
-                        settings: RouteSettings(name: 'PickCategoryScreen')
-                      ),
+                          builder: (_) => PickCategory(
+                                images: _images,
+                              ),
+                          settings: RouteSettings(name: 'PickCategoryScreen')),
                     );
                   },
                   child: Text(
@@ -62,11 +64,50 @@ class _AddImagesScreenState extends State<AddImagesScreen> {
               : Container()
         ],
       ),
-      body: Center(
-        child: Container(
-          child: (_images.length != 0)
+      body: ListView(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton.icon(
+                onPressed: () async {
+                  final File? _newCameraPhoto =
+                      await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => CameraPhotoScreen(),
+                    ),
+                  );
+                  if (_newCameraPhoto != null) {
+                    print(_newCameraPhoto.path);
+                    setState(() {
+                      _images.add(_newCameraPhoto);
+                    });
+                  }
+                },
+                label: Text('Camera'),
+                icon: Icon(
+                  Icons.camera_outlined,
+                ),
+              ),
+              ElevatedButton.icon(
+                onPressed: () {
+                  galleryImage(context);
+                },
+                label: Text('Gallery'),
+                icon: Icon(
+                  Icons.collections_outlined,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          (_images.length != 0)
               ? GridView.builder(
                   itemCount: _images.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 200,
                     childAspectRatio: 0.8,
@@ -74,40 +115,33 @@ class _AddImagesScreenState extends State<AddImagesScreen> {
                     mainAxisSpacing: 10,
                   ),
                   itemBuilder: (context, index) {
-                    return GridTile(
-                      child: Image.file(
-                        _images[index],
-                        fit: BoxFit.cover,
-                      ),
-                      footer: GridTileBar(
-                        backgroundColor: Colors.black38,
-                        leading: IconButton(
-                          color: Colors.red,
-                          icon: Icon(
-                            Icons.delete_outline_outlined,
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: GridTile(
+                        child: Image.file(
+                          _images[index],
+                          fit: BoxFit.cover,
+                        ),
+                        footer: GridTileBar(
+                          backgroundColor: Colors.black38,
+                          leading: IconButton(
+                            color: Colors.red,
+                            icon: Icon(
+                              Icons.delete_outline_outlined,
+                            ),
+                            onPressed: () => _removeImage(index),
                           ),
-                          onPressed: () => _removeImage(index),
                         ),
                       ),
                     );
                   },
                 )
-              : Text(
-                  'Please select an item image',
-                ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        label: (_images.length > 1) ? Text(
-          'Add Another One',
-        ) : Text('Select a photo'),
-        icon: Icon(
-          Icons.add_a_photo_outlined,
-          // color: Colors.white,
-        ),
-        onPressed: () => getImage(context),
-        backgroundColor: Theme.of(context).accentColor,
-        tooltip: 'Select a photo',
+              : Center(
+                child: Text(
+                    'Please select an image from gallery or take one',
+                  ),
+              ),
+        ],
       ),
     );
   }

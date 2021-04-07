@@ -56,6 +56,8 @@ dependencies:
   intl: ^0.17.0
   shimmer: ^2.0.0-nullsafety.0
   share: ^2.0.1
+  camera: ^0.8.1
+  video_player: ^2.1.0
 
 
 dev_dependencies:
