@@ -13,11 +13,11 @@ Future<bool> onWillPop(context) async {
             'Do you want to exit this page without saving the changes?',
           ),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               onPressed: () => Navigator.of(context).pop(false),
               child: Text('No'),
             ),
-            new FlatButton(
+            TextButton(
               onPressed: () => Navigator.of(context).pop(true),
               child: new Text('Yes'),
             ),
@@ -37,11 +37,11 @@ Future<bool> onCategoryWillPop(context) async {
             'Do you want discard changes already made?',
           ),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               onPressed: () => Navigator.of(context).pop(false),
               child: Text('No'),
             ),
-            new FlatButton(
+            TextButton(
               onPressed: () {
                 _imagesProvider.deleteImageUrls();
                 Navigator.of(context).pop(true);

@@ -65,8 +65,7 @@ class _AutomotiveScreenState extends State<AutomotiveScreen> {
               actions: [
                 TextButton(
                   onPressed: () {
-                    if (_automotiveFormKey.currentState!.validate() &&
-                        _subCategory != null) {
+                    if (_automotiveFormKey.currentState!.validate()) {
                       setState(() {
                         _loading = true;
                       });

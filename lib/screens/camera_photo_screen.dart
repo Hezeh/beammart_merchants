@@ -18,7 +18,6 @@ class _CameraPhotoScreenState extends State<CameraPhotoScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     controller = CameraController(cameras[0], ResolutionPreset.max);
     controller!.initialize().then((_) {
