@@ -1,3 +1,4 @@
+import 'package:beammart_merchants/screens/analytics_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
@@ -45,6 +46,31 @@ class MenuListTileWidget extends StatelessWidget {
                 builder: (context) => ProfileScreen(
                   profile: currentProfile,
                 ),
+              ),
+            );
+          },
+        ),
+        Divider(
+          color: Colors.pink,
+          indent: 10.0,
+          endIndent: 10.0,
+        ),
+        ListTile(
+          leading: Icon(
+            Icons.analytics_outlined,
+            color: Colors.pink,
+          ),
+          title: Text(
+            'Analytics',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18.0,
+            ),
+          ),
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => AnalyticsScreen(),
               ),
             );
           },
