@@ -265,14 +265,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (_) => AddLocationMap(
-                                currentLocation: GeoPoint(
-                                  profile!.gpsLocation!.latitude,
-                                  profile.gpsLocation!.longitude,
-                                ),
-                              ),
-                              settings: RouteSettings(name: 'EditLocationScreen')
-                            ),
+                                builder: (_) => AddLocationMap(
+                                      currentLocation: GeoPoint(
+                                        profile!.gpsLocation!.latitude,
+                                        profile.gpsLocation!.longitude,
+                                      ),
+                                    ),
+                                settings:
+                                    RouteSettings(name: 'EditLocationScreen')),
                           );
                         },
                         child: Text('Change'),
@@ -289,7 +289,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              settings: RouteSettings(name: 'EditOperatingHoursScreen'),
+                              settings: RouteSettings(
+                                  name: 'EditOperatingHoursScreen'),
                               builder: (_) => OperatingHoursScreen(
                                 profile: Profile(
                                   mondayOpeningHours:
@@ -320,6 +321,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       profile.sundayOpeningHours,
                                   sundayClosingHours:
                                       profile.sundayClosingHours,
+                                  isMondayOpen: profile.isMondayOpen,
+                                  isTuesdayOpen: profile.isTuesdayOpen,
+                                  isWednesdayOpen: profile.isWednesdayOpen,
+                                  isThursdayOpen: profile.isThursdayOpen,
+                                  isFridayOpen: profile.isFridayOpen,
+                                  isSaturdayOpen: profile.isSaturdayOpen,
+                                  isSundayOpen: profile.isSundayOpen,
                                 ),
                               ),
                             ),

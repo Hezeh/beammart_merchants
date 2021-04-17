@@ -1,4 +1,5 @@
 import 'package:beammart_merchants/providers/profile_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -62,7 +63,8 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
   void initState() {
     if (widget.profile != null) {
       // Monday
-      if (widget.profile!.isMondayOpen!) {
+      if (widget.profile!.isMondayOpen != null &&
+          widget.profile!.isMondayOpen!) {
         final _mondayOpeningString = widget.profile!.mondayOpeningHours!;
         TimeOfDay _mondayOpeningTime =
             TimeOfDay.fromDateTime(DateFormat.jm().parse(_mondayOpeningString));
@@ -78,7 +80,8 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
       }
 
       // Tuesday
-      if (widget.profile!.isTuesdayOpen!) {
+      if (widget.profile!.isTuesdayOpen != null &&
+          widget.profile!.isTuesdayOpen!) {
         final _tuesdayOpeningString = widget.profile!.tuesdayOpeningHours!;
         TimeOfDay _tuesdayOpeningTime = TimeOfDay.fromDateTime(
             DateFormat.jm().parse(_tuesdayOpeningString));
@@ -95,7 +98,8 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
       }
 
       // Wednesday
-      if (widget.profile!.isWednesdayOpen!) {
+      if (widget.profile!.isWednesdayOpen != null &&
+          widget.profile!.isWednesdayOpen!) {
         final _wednesdayOpeningString = widget.profile!.wednesdayOpeningHours!;
         TimeOfDay _wednesdayOpeningTime = TimeOfDay.fromDateTime(
             DateFormat.jm().parse(_wednesdayOpeningString));
@@ -111,7 +115,8 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
         _wednesdayClosingHour = null;
       }
       // Thursday
-      if (widget.profile!.isThursdayOpen!) {
+      if (widget.profile!.isThursdayOpen != null &&
+          widget.profile!.isThursdayOpen!) {
         final _thursdayOpeningString = widget.profile!.thursdayOpeningHours!;
         TimeOfDay _thursdayOpeningTime = TimeOfDay.fromDateTime(
             DateFormat.jm().parse(_thursdayOpeningString));
@@ -128,7 +133,8 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
       }
 
       // Friday
-      if (widget.profile!.isFridayOpen!) {
+      if (widget.profile!.isFridayOpen != null &&
+          widget.profile!.isFridayOpen!) {
         final _fridayOpeningString = widget.profile!.fridayOpeningHours!;
         TimeOfDay _fridayOpeningTime =
             TimeOfDay.fromDateTime(DateFormat.jm().parse(_fridayOpeningString));
@@ -145,7 +151,8 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
       }
 
       // Saturday
-      if (widget.profile!.isSaturdayOpen!) {
+      if (widget.profile!.isSaturdayOpen != null &&
+          widget.profile!.isSaturdayOpen!) {
         final _saturdayOpeningString = widget.profile!.saturdayOpeningHours!;
         TimeOfDay _saturdayOpeningTime = TimeOfDay.fromDateTime(
             DateFormat.jm().parse(_saturdayOpeningString));
@@ -162,7 +169,8 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
       }
 
       // Sunday
-      if (widget.profile!.isSundayOpen!) {
+      if (widget.profile!.isSundayOpen != null &&
+          widget.profile!.isSundayOpen!) {
         final _sundayOpeningString = widget.profile!.sundayOpeningHours!;
         TimeOfDay _sundayOpeningTime =
             TimeOfDay.fromDateTime(DateFormat.jm().parse(_sundayOpeningString));
@@ -189,7 +197,7 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
         Provider.of<AddBusinessProfileProvider>(context);
     final ProfileProvider _profileProvider =
         Provider.of<ProfileProvider>(context);
-
+    final _currentUser = FirebaseAuth.instance.currentUser;
     return Scaffold(
       appBar: (widget.profile == null)
           ? AppBar(
@@ -297,7 +305,7 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (_) => AddLocationMap(),
-                        settings: RouteSettings(name: 'AddLocationMapScreen')
+                        settings: RouteSettings(name: 'AddLocationMapScreen'),
                       ),
                     );
                   },
@@ -313,84 +321,97 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
               actions: [
                 TextButton(
                   onPressed: () {
-                    final Map<String, dynamic> _operatingTimeData = {};
-                    if (_isMondayOpen) {
-                      if (_mondayOpeningHour != null) {
-                        _operatingTimeData['mondayOpeningHours'] =
-                            _mondayOpeningHour!.format(context);
-                      }
-                      if (_mondayClosingHour != null) {
-                        _operatingTimeData['mondayClosingHours'] =
-                            _mondayClosingHour!.format(context);
-                      }
+                    String? _mondayOpeningTime;
+                    String? _mondayClosingTime;
+                    String? _tuesdayOpeningTime;
+                    String? _tuesdayClosingTime;
+                    String? _wednesdayOpeningTime;
+                    String? _wednesdayClosingTime;
+                    String? _thursdayOpeningTime;
+                    String? _thursdayClosingTime;
+                    String? _fridayOpeningTime;
+                    String? _fridayClosingTime;
+                    String? _saturdayOpeningTime;
+                    String? _saturdayClosingTime;
+                    String? _sundayOpeningTime;
+                    String? _sundayClosingTime;
+
+                    if (_mondayOpeningHour != null) {
+                      _mondayOpeningTime = _mondayOpeningHour!.format(context);
                     }
-                    if (_isTuesdayOpen) {
-                      if (_tuesdayOpeningHour != null) {
-                        _operatingTimeData['tuesdayOpeningHours'] =
-                            _tuesdayOpeningHour!.format(context);
-                      }
-                      if (_tuesdayClosingHour != null) {
-                        _operatingTimeData['tuesdayClosingHours'] =
-                            _tuesdayClosingHour!.format(context);
-                      }
-                    }
-                    if (_isWednesdayOpen) {
-                      if (_wednesdayOpeningHour != null) {
-                        _operatingTimeData['wednesdayOpeningHours'] =
-                            _wednesdayOpeningHour!.format(context);
-                      }
-                      if (_wednesdayClosingHour != null) {
-                        _operatingTimeData['wednesdayClosingHours'] =
-                            _wednesdayClosingHour!.format(context);
-                      }
-                    }
-                    if (_isThursdayOpen) {
-                      if (_thursdayOpeningHour != null) {
-                        _operatingTimeData['thursdayOpeningHours'] =
-                            _thursdayOpeningHour!.format(context);
-                      }
-                      if (_thursdayClosingHour != null) {
-                        _operatingTimeData['thursdayClosingHours'] =
-                            _thursdayClosingHour!.format(context);
-                      }
-                    }
-                    if (_isFridayOpen) {
-                      if (_fridayOpeningHour != null) {
-                        _operatingTimeData['fridayOpeningHours'] =
-                            _fridayOpeningHour!.format(context);
-                      }
-                      if (_fridayClosingHour != null) {
-                        _operatingTimeData['fridayClosingHours'] =
-                            _fridayClosingHour!.format(context);
-                      }
-                    }
-                    if (_isSaturdayOpen) {
-                      if (_saturdayOpeningHour != null) {
-                        _operatingTimeData['saturdayOpeningHours'] =
-                            _saturdayOpeningHour!.format(context);
-                      }
-                      if (_saturdayClosingHour != null) {
-                        _operatingTimeData['saturdayClosingHours'] =
-                            _saturdayClosingHour!.format(context);
-                      }
-                    }
-                    if (_isSundayOpen) {
-                      if (_sundayOpeningHour != null) {
-                        _operatingTimeData['sundayOpeningHours'] =
-                            _sundayOpeningHour!.format(context);
-                      }
-                      if (_sundayClosingHour != null) {
-                        _operatingTimeData['sundayClosingHours'] =
-                            _sundayClosingHour!.format(context);
-                      }
+                    if (_mondayClosingHour != null) {
+                      _mondayClosingTime = _mondayClosingHour!.format(context);
                     }
 
-                    // _authProvider.addBusinessProfile(
-                    //   _operatingTimeData,
-                    //   _authProvider.user!.uid,
-                    // );
-                    _profileProvider.addBusinessProfile(
-                        _operatingTimeData, _profileProvider.profile!.userId!);
+                    if (_tuesdayOpeningHour != null) {
+                      _tuesdayOpeningTime =
+                          _tuesdayOpeningHour!.format(context);
+                    }
+                    if (_tuesdayClosingHour != null) {
+                      _tuesdayClosingTime =
+                          _tuesdayClosingHour!.format(context);
+                    }
+                    if (_wednesdayOpeningHour != null) {
+                      _wednesdayOpeningTime =
+                          _wednesdayOpeningHour!.format(context);
+                    }
+                    if (_wednesdayClosingHour != null) {
+                      _wednesdayClosingTime =
+                          _wednesdayClosingHour!.format(context);
+                    }
+                    if (_thursdayOpeningHour != null) {
+                      _thursdayOpeningTime =
+                          _thursdayOpeningHour!.format(context);
+                    }
+                    if (_thursdayClosingHour != null) {
+                      _thursdayClosingTime =
+                          _thursdayClosingHour!.format(context);
+                    }
+                    if (_fridayOpeningHour != null) {
+                      _fridayOpeningTime = _fridayOpeningHour!.format(context);
+                    }
+                    if (_fridayClosingHour != null) {
+                      _fridayClosingTime = _fridayClosingHour!.format(context);
+                    }
+                    if (_saturdayOpeningHour != null) {
+                      _saturdayOpeningTime =
+                          _saturdayOpeningHour!.format(context);
+                    }
+                    if (_saturdayClosingHour != null) {
+                      _saturdayClosingTime =
+                          _saturdayClosingHour!.format(context);
+                    }
+                    if (_sundayOpeningHour != null) {
+                      _sundayOpeningTime = _sundayOpeningHour!.format(context);
+                    }
+                    if (_sundayClosingHour != null) {
+                      _sundayClosingTime = _sundayClosingHour!.format(context);
+                    }
+                    _profileProvider.editOperatingHours(
+                      isMondayOpen: _isMondayOpen,
+                      isTuesdayOpen: _isTuesdayOpen,
+                      isWednesdayOpen: _isWednesdayOpen,
+                      isThursdayOpen: _isThursdayOpen,
+                      isFridayOpen: _isFridayOpen,
+                      isSaturdayOpen: _isSaturdayOpen,
+                      isSundayOpen: _isSundayOpen,
+                      userId: _currentUser!.uid,
+                      mondayOpeningHours: _mondayOpeningTime,
+                      mondayClosingHours: _mondayClosingTime,
+                      tuesdayOpeningHours: _tuesdayOpeningTime,
+                      tuesdayClosingHours: _tuesdayClosingTime,
+                      wednesdayOpeningHours: _wednesdayOpeningTime,
+                      wednesdayClosingHours: _wednesdayClosingTime,
+                      thursdayOpeningHours: _thursdayOpeningTime,
+                      thursdayClosingHours: _thursdayClosingTime,
+                      fridayOpeningHours: _fridayOpeningTime,
+                      fridayClosingHours: _fridayClosingTime,
+                      saturdayOpeningHours: _saturdayOpeningTime,
+                      saturdayClosingHours: _saturdayClosingTime,
+                      sundayOpeningHours: _sundayOpeningTime,
+                      sundayClosingHours: _sundayClosingTime,
+                    );
+
                     Navigator.of(context).pop();
                   },
                   child: Text(

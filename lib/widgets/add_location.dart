@@ -1,5 +1,6 @@
 import 'package:beammart_merchants/providers/profile_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -103,6 +104,7 @@ class _AddLocationMapState extends State<AddLocationMap> {
   @override
   Widget build(BuildContext context) {
     final locationProvider = Provider.of<ProfileProvider>(context);
+    final currentUser = FirebaseAuth.instance.currentUser;
     final _businessProfileProvider =
         Provider.of<AddBusinessProfileProvider>(context);
     return Scaffold(
@@ -153,8 +155,10 @@ class _AddLocationMapState extends State<AddLocationMap> {
                                     .profile.businessName,
                                 businessDescription: _businessProfileProvider
                                     .profile.businessDescription,
-                                userId: locationProvider.profile!.userId,
-                                storeId: locationProvider.profile!.userId,
+                                userId: currentUser!.uid,
+                                storeId: currentUser.uid,
+                                // userId: locationProvider.profile!.userId,
+                                // storeId: locationProvider.profile!.userId,
                                 city: _businessProfileProvider.profile.city,
                                 locationDescription: _businessProfileProvider
                                     .profile.locationDescription,
@@ -206,20 +210,27 @@ class _AddLocationMapState extends State<AddLocationMap> {
                                 businessProfilePhoto: _businessProfileProvider
                                     .profile.businessProfilePhoto,
                               ).toJson(),
-                              locationProvider.profile!.userId!,
+                              // locationProvider.profile!.userId!,
+                              currentUser.uid,
                             );
                             Navigator.popUntil(
                                 context, ModalRoute.withName('/'));
+                          } else {
+                            print('Uploading Business Photo');
                           }
                         },
-                        child: Text(
-                          'Save',
-                          style: TextStyle(
-                            color: Colors.pink,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        child: (_businessProfileProvider
+                                    .profile.businessProfilePhoto !=
+                                null)
+                            ? Text(
+                                'Finish',
+                                style: TextStyle(
+                                  color: Colors.pink,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                            : Container(),
                       )
                     : Container()
               ],
