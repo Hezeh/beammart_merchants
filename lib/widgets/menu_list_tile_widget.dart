@@ -2,12 +2,19 @@ import 'package:beammart_merchants/screens/analytics_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../models/profile.dart';
 import '../providers/auth_provider.dart';
 import '../providers/profile_provider.dart';
 import '../screens/profile.dart';
 
 class MenuListTileWidget extends StatelessWidget {
+  final _url = 'https://play.google.com/store/apps/details?id=com.beammart.beammart';
+
+  void _launchURL() async => await canLaunch(_url)
+      ? await launch(_url)
+      : throw 'Could not launch $_url';
+
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthenticationProvider>(context);
@@ -105,20 +112,18 @@ class MenuListTileWidget extends StatelessWidget {
         ),
         ListTile(
           leading: Icon(
-            Icons.share_outlined,
+            Icons.get_app_outlined,
             color: Colors.pink,
           ),
           title: Text(
-            'Share Consumer App',
+            'Get Consumer App',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18.0,
             ),
           ),
           onTap: () {
-            Share.share(
-              'Get the Beammart App and find products nearby easily: https://bit.ly/beammart',
-            );
+            _launchURL();
           },
         ),
         Divider(
