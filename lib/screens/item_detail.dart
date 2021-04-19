@@ -230,7 +230,7 @@ class _ItemDetailState extends State<ItemDetail> {
             ),
             Container(
               child: Center(
-                child: Text('Analytics'),
+                child: Text('Coming Soon'),
               ),
             )
           ],
