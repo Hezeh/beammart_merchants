@@ -91,7 +91,7 @@ class _ItemDetailState extends State<ItemDetail> {
                             MaterialPageRoute(
                               builder: (_) => AddImagesScreen(
                                 editing: true,
-                                
+                                itemId: widget.itemId,
                               ),
                             ),
                           );
