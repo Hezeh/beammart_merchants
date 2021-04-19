@@ -1,19 +1,75 @@
+import 'package:beammart_merchants/models/impressions_analytics_data.dart';
+import 'package:beammart_merchants/services/analytics_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AnalyticsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final currentUser = FirebaseAuth.instance.currentUser;
     return Scaffold(
       appBar: AppBar(
         title: Text("Analytics"),
       ),
-      body: ListView(  
+      body: ListView(
         children: [
-          Center( child: ElevatedButton(
-            child: Text('Coming Soon'),
-            onPressed: () {},
-          ),)
           // Total Impressions
+          Container(
+            child: Center(
+              child: Text(
+                'Impressions',
+                style: GoogleFonts.roboto(
+                    fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          FutureBuilder(
+            future: getImpressionsAnalyticsData(currentUser!.uid),
+            builder: (BuildContext context,
+                AsyncSnapshot<ImpressionsAnalyticsData> snapshot) {
+              if (snapshot.hasData) {
+                return Container(
+                  // height: 250,
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: Text('Total Impressions'),
+                        trailing: Text(
+                          "${snapshot.data!.totalImpressions}",
+                        ),
+                      ),
+                      ListTile(
+                        title: Text('Search Impressions'),
+                        trailing: Text(
+                          "${snapshot.data!.searchImpressions}",
+                        ),
+                      ),
+                      ListTile(
+                        title: Text('Recommendations Impressions'),
+                        trailing: Text(
+                          "${snapshot.data!.recommendationsImpressions}",
+                        ),
+                      ),
+                      ListTile(
+                        title: Text('Category Impressions'),
+                        trailing: Text(
+                          "${snapshot.data!.categoryImpressions}",
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              }
+              return Container(
+                height: 250,
+                // margin: EdgeInsets.all(20),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            },
+          ),
           // Total Impressions last 30 days
           // Total Impression last 7 days
           // Profile Views
