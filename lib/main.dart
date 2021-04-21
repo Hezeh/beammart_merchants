@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import './providers/add_business_profile_provider.dart';
 import './providers/auth_provider.dart';
 import './providers/image_upload_provider.dart';
@@ -25,6 +26,7 @@ void main() async {
   await Firebase.initializeApp();
   await Hive.initFlutter();
   cameras = await availableCameras();
+  InAppPurchaseConnection.enablePendingPurchases();
   runApp(
     MultiProvider(
       providers: [
