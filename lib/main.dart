@@ -1,3 +1,4 @@
+import 'package:beammart_merchants/providers/subscriptions_provider.dart';
 import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -51,7 +52,10 @@ void main() async {
         ),
         ChangeNotifierProvider<AddBusinessProfileProvider>(
           create: (context) => AddBusinessProfileProvider(),
-        )
+        ),
+        ChangeNotifierProvider<SubscriptionsProvider>(
+          create: (context) => SubscriptionsProvider(),
+        ),
       ],
       builder: (BuildContext context, app) {
         return App();
@@ -68,6 +72,7 @@ class App extends StatelessWidget {
     final firebaseUser = context.watch<User?>();
     final profile = context.watch<ProfileProvider>().profile;
     final loading = context.watch<ProfileProvider>().loading;
+    Provider.of<SubscriptionsProvider>(context);
     return MaterialApp(
       navigatorObservers: [FirebaseAnalyticsObserver(analytics: analytics)],
       debugShowCheckedModeBanner: false,

@@ -125,30 +125,6 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
     super.dispose();
   }
 
-  void _listenToPurchasedUpdated(List<PurchaseDetails> purchaseDetailsList) {
-    purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
-      if (purchaseDetails.status == PurchaseStatus.pending) {
-        _showPendingUI();
-      } else {
-        if (purchaseDetails.status == PurchaseStatus.error) {
-          _handleError(purchaseDetails.error!);
-        } else if (purchaseDetails.status == PurchaseStatus.purchased) {
-          bool valid = await _verifyPurchase(purchaseDetails);
-          if (valid) {
-            _deliverProduct(purchaseDetails);
-          } else {
-            _handleInvalidPurchase(purchaseDetails);
-            return;
-          }
-        }
-        if (purchaseDetails.pendingCompletePurchase) {
-          await InAppPurchaseConnection.instance
-              .completePurchase(purchaseDetails);
-        }
-      }
-    });
-  }
-
   void _showPendingUI() {
     setState(() {
       _purchasePending = true;
@@ -270,7 +246,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                 },
                 child: Text(productDetails.price),
                 style: TextButton.styleFrom(
-                  backgroundColor: Colors.green[800],
+                  backgroundColor: Colors.yellow[800],
                   primary: Colors.white,
                 ),
               ),
@@ -279,6 +255,106 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
     return Card(
         child:
             Column(children: <Widget>[productHeader, Divider()] + productList));
+  }
+
+  Card _buildAnalytics(String _userId) {
+    Map<String, PurchaseDetails> currentPurchases =
+        Map.fromEntries(_purchases.map((PurchaseDetails purchase) {
+      if (purchase.pendingCompletePurchase) {
+        InAppPurchaseConnection.instance.completePurchase(purchase);
+      }
+      return MapEntry<String, PurchaseDetails>(purchase.productID, purchase);
+    }));
+    if (_loading) {
+      return Card(
+        child: ListTile(
+          leading: CircularProgressIndicator(),
+        ),
+      );
+    }
+    if (!_isAvailable || _notFoundIds.contains(_kGoldSubscriptionId)) {
+      return Card();
+    }
+    if (currentPurchases[_kGoldSubscriptionId] != null) {
+      return Card(
+        child: Container(
+          height: 250,
+          child: ListView(
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              // Total Impressions
+              Container(
+                child: Center(
+                  child: Text(
+                    'Impressions',
+                    style: GoogleFonts.roboto(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              FutureBuilder(
+                future: getImpressionsAnalyticsData(_userId),
+                builder: (BuildContext context,
+                    AsyncSnapshot<ImpressionsAnalyticsData> snapshot) {
+                  if (snapshot.hasData) {
+                    return Container(
+                      // height: 250,
+                      child: Column(
+                        children: [
+                          ListTile(
+                            title: Text('Total Impressions'),
+                            trailing: Text(
+                              "${snapshot.data!.totalImpressions}",
+                            ),
+                          ),
+                          ListTile(
+                            title: Text('Search Impressions'),
+                            trailing: Text(
+                              "${snapshot.data!.searchImpressions}",
+                            ),
+                          ),
+                          ListTile(
+                            title: Text('Recommendations Impressions'),
+                            trailing: Text(
+                              "${snapshot.data!.recommendationsImpressions}",
+                            ),
+                          ),
+                          ListTile(
+                            title: Text('Category Impressions'),
+                            trailing: Text(
+                              "${snapshot.data!.categoryImpressions}",
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  }
+                  return Container(
+                    height: 250,
+                    // margin: EdgeInsets.all(20),
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                },
+              ),
+              // Total Impressions last 30 days
+              // Total Impression last 7 days
+              // Profile Views
+              // Call Button Clicks
+              // Product Clicks
+              // Product Impressions
+              // Search Results Impressions
+              // Search Results Clicks
+              // Search Results CTR
+              // Most popular search queries 7 days
+              // Most popular search queries 30 days
+            ],
+          ),
+        ),
+      );
+    }
+    return Card();
   }
 
   Card _buildConsumableBox() {
@@ -420,6 +496,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
           children: [
             _buildConnectionCheckTile(),
             _buildProductList(),
+            _buildAnalytics(currentUser!.uid),
             _buildConsumableBox(),
           ],
         ),

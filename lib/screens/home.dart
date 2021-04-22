@@ -1,3 +1,4 @@
+import 'package:beammart_merchants/providers/subscriptions_provider.dart';
 import 'package:beammart_merchants/screens/add_images_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -150,14 +151,14 @@ class HomePage extends StatelessWidget {
                             onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ItemDetail(
-                                  item: Item.fromJson(
-                                    snapshot.data!.docs[index].data()!,
-                                  ),
-                                  itemId: snapshot.data!.docs[index].id,
-                                ),
-                                settings: RouteSettings(name: 'MerchantItemDetailScreen')
-                              ),
+                                  builder: (context) => ItemDetail(
+                                        item: Item.fromJson(
+                                          snapshot.data!.docs[index].data()!,
+                                        ),
+                                        itemId: snapshot.data!.docs[index].id,
+                                      ),
+                                  settings: RouteSettings(
+                                      name: 'MerchantItemDetailScreen')),
                             ),
                             child: Card(
                               clipBehavior: Clip.antiAliasWithSaveLayer,
