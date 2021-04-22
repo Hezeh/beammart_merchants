@@ -85,13 +85,6 @@ class _SubscriptionsDialogState extends State<SubscriptionsDialog> {
                       Icons.check,
                       color: Colors.teal,
                     ),
-                    title: Text('Promote your products on Beammart (coming soon)'),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.check,
-                      color: Colors.teal,
-                    ),
                     title: Text('Higher product rankings'),
                   ),
                   ListTile(
@@ -99,14 +92,22 @@ class _SubscriptionsDialogState extends State<SubscriptionsDialog> {
                       Icons.check,
                       color: Colors.teal,
                     ),
-                    title: Text('Give customers discounts/coupons (coming soon)'),
+                    title: Text('Share your profile link'),
                   ),
                   ListTile(
                     leading: Icon(
                       Icons.check,
                       color: Colors.teal,
                     ),
-                    title: Text('Share your profile link'),
+                    title:
+                        Text('Promote your products on Beammart (coming soon)'),
+                  ),
+                  ListTile(
+                    leading: Icon(
+                      Icons.check,
+                      color: Colors.teal,
+                    ),
+                    title: Text('Give customers discounts/coupons (coming soon)'),
                   ),
                 ],
               ),
