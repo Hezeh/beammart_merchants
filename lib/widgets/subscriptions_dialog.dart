@@ -87,6 +87,13 @@ class _SubscriptionsDialogState extends State<SubscriptionsDialog> {
                     ),
                     title: Text('Higher product rankings'),
                   ),
+                   ListTile(
+                    leading: Icon(
+                      Icons.check,
+                      color: Colors.teal,
+                    ),
+                    title: Text('250 Tokens free each month'),
+                  ),
                   ListTile(
                     leading: Icon(
                       Icons.check,

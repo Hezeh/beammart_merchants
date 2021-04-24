@@ -45,6 +45,8 @@ class Profile {
   bool? isSaturdayOpen;
   bool? isSundayOpen;
   String? businessProfilePhoto;
+  double? tokensBalance;
+  double? tokensInUse;
 
   Profile({
     this.userId,
@@ -76,7 +78,9 @@ class Profile {
     this.isFridayOpen,
     this.isSaturdayOpen,
     this.isSundayOpen,
-    this.businessProfilePhoto
+    this.businessProfilePhoto,
+    this.tokensBalance,
+    this.tokensInUse,
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) =>

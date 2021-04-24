@@ -157,8 +157,6 @@ class _AddLocationMapState extends State<AddLocationMap> {
                                     .profile.businessDescription,
                                 userId: currentUser!.uid,
                                 storeId: currentUser.uid,
-                                // userId: locationProvider.profile!.userId,
-                                // storeId: locationProvider.profile!.userId,
                                 city: _businessProfileProvider.profile.city,
                                 locationDescription: _businessProfileProvider
                                     .profile.locationDescription,
@@ -209,8 +207,9 @@ class _AddLocationMapState extends State<AddLocationMap> {
                                     .profile.isSundayOpen,
                                 businessProfilePhoto: _businessProfileProvider
                                     .profile.businessProfilePhoto,
+                                tokensBalance: 500,
+                                tokensInUse: 0,
                               ).toJson(),
-                              // locationProvider.profile!.userId!,
                               currentUser.uid,
                             );
                             Navigator.popUntil(

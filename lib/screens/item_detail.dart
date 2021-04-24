@@ -1,4 +1,6 @@
+import 'package:beammart_merchants/providers/subscriptions_provider.dart';
 import 'package:beammart_merchants/screens/add_images_screen.dart';
+import 'package:beammart_merchants/screens/payments_subscriptions_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -50,6 +52,7 @@ class _ItemDetailState extends State<ItemDetail> {
   @override
   Widget build(BuildContext context) {
     final _userProvider = Provider.of<AuthenticationProvider>(context);
+    final _subsProvider = Provider.of<SubscriptionsProvider>(context);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -229,10 +232,25 @@ class _ItemDetailState extends State<ItemDetail> {
               ),
             ),
             Container(
-              child: Center(
-                child: Text('Coming Soon'),
-              ),
-            )
+              child: (_subsProvider.purchases.isEmpty)
+                  ? Center(
+                      child: OutlinedButton(
+                        child: Text('Get Premium'),
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => PaymentsSubscriptionsScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  : Container(
+                      child: Text(
+                        'Coming Soon',
+                      ),
+                    ),
+            ),
           ],
         ),
       ),
