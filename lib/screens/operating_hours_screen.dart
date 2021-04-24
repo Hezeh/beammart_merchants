@@ -485,8 +485,7 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                 ),
               ),
               (_isMondayOpen)
-                  ? FlatButton(
-                      color: Colors.pink,
+                  ? TextButton(
                       onPressed: () async {
                         final TimeOfDay? _time =
                             await selectTimeOfDay(context, _mondayOpeningHour!);
@@ -498,13 +497,15 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                       },
                       child: Text(
                         _mondayOpeningHour!.format(context),
+                        style: TextStyle(
+                          color: Colors.pink,
+                        ),
                       ),
                     )
                   : Container(),
               const SizedBox(),
               (_isMondayOpen)
-                  ? FlatButton(
-                      color: Colors.purple,
+                  ? TextButton(
                       onPressed: () async {
                         final TimeOfDay? _time =
                             await selectTimeOfDay(context, _mondayClosingHour!);
@@ -516,6 +517,9 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                       },
                       child: Text(
                         _mondayClosingHour!.format(context),
+                        style: TextStyle(
+                          color: Colors.purple,
+                        ),
                       ),
                     )
                   : Container(),
@@ -545,8 +549,7 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                 ),
               ),
               (_isTuesdayOpen)
-                  ? FlatButton(
-                      color: Colors.pink,
+                  ? TextButton(
                       onPressed: () async {
                         final TimeOfDay? _time = await selectTimeOfDay(
                             context, _tuesdayOpeningHour!);
@@ -558,13 +561,15 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                       },
                       child: Text(
                         _tuesdayOpeningHour!.format(context),
+                        style: TextStyle(
+                          color: Colors.purple,
+                        ),
                       ),
                     )
                   : Container(),
               const SizedBox(),
               (_isTuesdayOpen)
-                  ? FlatButton(
-                      color: Colors.purple,
+                  ? TextButton(
                       onPressed: () async {
                         final TimeOfDay? _time = await selectTimeOfDay(
                             context, _tuesdayClosingHour!);
@@ -576,6 +581,9 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                       },
                       child: Text(
                         _tuesdayClosingHour!.format(context),
+                        style: TextStyle(
+                          color: Colors.purple,
+                        ),
                       ),
                     )
                   : Container(),
@@ -605,8 +613,7 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                 ),
               ),
               (_isWednesdayOpen)
-                  ? FlatButton(
-                      color: Colors.pink,
+                  ? TextButton(
                       onPressed: () async {
                         final TimeOfDay? _time = await selectTimeOfDay(
                             context, _wednesdayOpeningHour!);
@@ -618,13 +625,15 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                       },
                       child: Text(
                         _wednesdayOpeningHour!.format(context),
+                        style: TextStyle(
+                          color: Colors.purple,
+                        ),
                       ),
                     )
                   : Container(),
               const SizedBox(),
               (_isWednesdayOpen)
-                  ? FlatButton(
-                      color: Colors.purple,
+                  ? TextButton(
                       onPressed: () async {
                         final TimeOfDay? _time = await selectTimeOfDay(
                             context, _wednesdayClosingHour!);
@@ -636,6 +645,9 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                       },
                       child: Text(
                         _wednesdayClosingHour!.format(context),
+                        style: TextStyle(
+                          color: Colors.purple,
+                        ),
                       ),
                     )
                   : Container(),
@@ -665,8 +677,7 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                 ),
               ),
               (_isThursdayOpen)
-                  ? FlatButton(
-                      color: Colors.pink,
+                  ? TextButton(
                       onPressed: () async {
                         final TimeOfDay? _time = await selectTimeOfDay(
                             context, _thursdayOpeningHour!);
@@ -678,13 +689,15 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                       },
                       child: Text(
                         _thursdayOpeningHour!.format(context),
+                        style: TextStyle(
+                          color: Colors.purple,
+                        ),
                       ),
                     )
                   : Container(),
               const SizedBox(),
               (_isThursdayOpen)
-                  ? FlatButton(
-                      color: Colors.purple,
+                  ? TextButton(
                       onPressed: () async {
                         final TimeOfDay? _time = await selectTimeOfDay(
                             context, _thursdayClosingHour!);
@@ -696,6 +709,9 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                       },
                       child: Text(
                         _thursdayClosingHour!.format(context),
+                        style: TextStyle(
+                          color: Colors.purple,
+                        ),
                       ),
                     )
                   : Container(),
@@ -725,8 +741,7 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                 ),
               ),
               (_isFridayOpen)
-                  ? FlatButton(
-                      color: Colors.pink,
+                  ? TextButton(
                       onPressed: () async {
                         final TimeOfDay? _time =
                             await selectTimeOfDay(context, _fridayOpeningHour!);
@@ -738,13 +753,15 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                       },
                       child: Text(
                         _fridayOpeningHour!.format(context),
+                        style: TextStyle(
+                          color: Colors.purple,
+                        ),
                       ),
                     )
                   : Container(),
               const SizedBox(),
               (_isFridayOpen)
-                  ? FlatButton(
-                      color: Colors.purple,
+                  ? TextButton(
                       onPressed: () async {
                         final TimeOfDay? _time =
                             await selectTimeOfDay(context, _fridayClosingHour!);
@@ -756,6 +773,9 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                       },
                       child: Text(
                         _fridayClosingHour!.format(context),
+                        style: TextStyle(
+                          color: Colors.purple,
+                        ),
                       ),
                     )
                   : Container(),
@@ -785,8 +805,7 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                 ),
               ),
               (_isSaturdayOpen)
-                  ? FlatButton(
-                      color: Colors.pink,
+                  ? TextButton(
                       onPressed: () async {
                         final TimeOfDay? _time = await selectTimeOfDay(
                             context, _saturdayOpeningHour!);
@@ -798,13 +817,15 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                       },
                       child: Text(
                         _saturdayOpeningHour!.format(context),
+                        style: TextStyle(
+                          color: Colors.purple,
+                        ),
                       ),
                     )
                   : Container(),
               const SizedBox(),
               (_isSaturdayOpen)
-                  ? FlatButton(
-                      color: Colors.purple,
+                  ? TextButton(
                       onPressed: () async {
                         final TimeOfDay? _time = await selectTimeOfDay(
                             context, _saturdayClosingHour!);
@@ -816,6 +837,9 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                       },
                       child: Text(
                         _saturdayClosingHour!.format(context),
+                        style: TextStyle(
+                          color: Colors.purple,
+                        ),
                       ),
                     )
                   : Container(),
@@ -845,8 +869,7 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                 ),
               ),
               (_isSundayOpen)
-                  ? FlatButton(
-                      color: Colors.pink,
+                  ? TextButton(
                       onPressed: () async {
                         final TimeOfDay? _time =
                             await selectTimeOfDay(context, _sundayOpeningHour!);
@@ -858,13 +881,15 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                       },
                       child: Text(
                         _sundayOpeningHour!.format(context),
+                        style: TextStyle(
+                          color: Colors.purple,
+                        ),
                       ),
                     )
                   : Container(),
               const SizedBox(),
               (_isSundayOpen)
-                  ? FlatButton(
-                      color: Colors.purple,
+                  ? TextButton(
                       onPressed: () async {
                         final TimeOfDay? _time =
                             await selectTimeOfDay(context, _sundayClosingHour!);
@@ -876,6 +901,9 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                       },
                       child: Text(
                         _sundayClosingHour!.format(context),
+                        style: TextStyle(
+                          color: Colors.purple,
+                        ),
                       ),
                     )
                   : Container(),

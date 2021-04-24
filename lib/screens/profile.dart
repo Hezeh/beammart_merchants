@@ -346,8 +346,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       right: 10,
                     ),
                     height: 70,
-                    child: RaisedButton(
-                      elevation: 30,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 30,
+                        primary: Colors.pink,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                        ),
+                      ),
                       onPressed: () {
                         if (_profileFormKey.currentState!.validate()) {
                           profileProvider.addBusinessProfile(
@@ -371,10 +377,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      color: Colors.pink,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                      ),
                     ),
                   )
                 : Container(
@@ -383,7 +385,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       left: 10,
                       right: 10,
                     ),
-                    child: RaisedButton(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.pink,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                        ),
+                      ),
                       onPressed: () async {
                         if (_profileFormKey.currentState!.validate()) {
                           _businessProfileProvider.businessInfo(
@@ -403,10 +411,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         }
                       },
                       child: Text('Next'),
-                      color: Colors.pink,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                      ),
                     ),
                   ),
           ],

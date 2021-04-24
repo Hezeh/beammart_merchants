@@ -1,4 +1,3 @@
-import 'package:beammart_merchants/providers/subscriptions_provider.dart';
 import 'package:beammart_merchants/screens/add_images_screen.dart';
 import 'package:beammart_merchants/screens/tokens_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -115,16 +114,9 @@ class HomePage extends StatelessWidget {
                   Container(
                     child: (snap.data!.data()!.containsKey('tokensBalance'))
                         ? Text(
-                            "Balance: ${snap.data!['tokensBalance']}",
+                            "Tokens: ${snap.data!['tokensBalance']}",
                           )
-                        : Text("Balance: 0"),
-                  ),
-                  Container(
-                    child: (snap.data!.data()!.containsKey('tokensInUse'))
-                        ? Text(
-                            "In Use: ${snap.data!['tokensInUse']}",
-                          )
-                        : Text("In Use: 0"),
+                        : Text("Tokens: 0"),
                   ),
                   Container(
                     child: ElevatedButton(

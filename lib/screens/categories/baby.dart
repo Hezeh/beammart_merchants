@@ -74,8 +74,7 @@ class _BabyScreenState extends State<BabyScreen> {
               actions: [
                 TextButton(
                   onPressed: () async {
-                    if (_babyFormKey.currentState!.validate() &&
-                        _subCategory != null) {
+                    if (_babyFormKey.currentState!.validate()) {
                       setState(() {
                         _loading = true;
                       });

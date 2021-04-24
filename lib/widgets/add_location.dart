@@ -7,7 +7,6 @@ import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import '../models/profile.dart';
 import '../providers/add_business_profile_provider.dart';
-import '../providers/auth_provider.dart';
 
 class AddLocationMap extends StatefulWidget {
   static const String routeName = '/add-location';

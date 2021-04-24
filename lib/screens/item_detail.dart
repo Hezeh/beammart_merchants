@@ -58,6 +58,36 @@ class _ItemDetailState extends State<ItemDetail> {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Item Details'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                if (_itemDetailFormKey.currentState!.validate()) {
+                  final String _userId = _userProvider.user!.uid;
+                  final DocumentReference _doc = FirebaseFirestore.instance
+                      .collection('profile')
+                      .doc(_userId)
+                      .collection('items')
+                      .doc(widget.itemId);
+
+                  _doc.set({
+                    'title': _editTitleController.text,
+                    'description': _editDescController.text,
+                    'price': double.parse(_editPriceController.text),
+                    'inStock': _inStock
+                  }, SetOptions(merge: true));
+
+                  Navigator.of(context).pop();
+                }
+              },
+              child: Text(
+                'Save',
+                style: TextStyle(
+                  color: Colors.pink,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
           bottom: TabBar(
             tabs: [
               Tab(
@@ -222,10 +252,6 @@ class _ItemDetailState extends State<ItemDetail> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      // color: Colors.pink,
-                      // shape: RoundedRectangleBorder(
-                      //   borderRadius: BorderRadius.circular(18.0),
-                      // ),
                     ),
                   )
                 ],
