@@ -160,73 +160,70 @@ class HomePage extends StatelessWidget {
                           childAspectRatio: 0.8,
                         ),
                         itemBuilder: (context, index) {
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: GridTile(
-                              footer: GridTileBar(
-                                backgroundColor: Colors.black38,
-                                trailing: Row(
-                                  children: [
-                                    IconButton(
-                                      icon: Icon(
-                                        Icons.delete_outline_outlined,
-                                        color: Colors.red,
-                                        size: 30,
-                                      ),
-                                      onPressed: () => showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            title: const Text('Confirm Delete'),
-                                            content: const Text(
-                                              'Do you really want to delete this product?',
-                                            ),
-                                            actions: [
-                                              OutlinedButton(
-                                                onPressed: () =>
-                                                    Navigator.of(context).pop(),
-                                                child: const Text('Cancel'),
+                          return Container(
+                            margin: EdgeInsets.all(5),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: GridTile(
+                                footer: GridTileBar(
+                                  backgroundColor: Colors.black38,
+                                  trailing: Row(
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.delete_outline_outlined,
+                                          color: Colors.red,
+                                          size: 30,
+                                        ),
+                                        onPressed: () => showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: const Text('Confirm Delete'),
+                                              content: const Text(
+                                                'Do you really want to delete this product?',
                                               ),
-                                              ElevatedButton(
-                                                onPressed: () {
-                                                  snapshot.data!.docs[index]
-                                                      .reference
-                                                      .delete();
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: const Text(
-                                                  'Delete',
+                                              actions: [
+                                                OutlinedButton(
+                                                  onPressed: () =>
+                                                      Navigator.of(context).pop(),
+                                                  child: const Text('Cancel'),
                                                 ),
-                                              ),
-                                            ],
-                                          );
-                                        },
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    snapshot.data!.docs[index]
+                                                        .reference
+                                                        .delete();
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text(
+                                                    'Delete',
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                title: Text(
-                                    '${snapshot.data!.docs[index].data()!['title']}'),
-                              ),
-                              child: GestureDetector(
-                                onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ItemDetail(
-                                      item: Item.fromJson(
-                                        snapshot.data!.docs[index].data()!,
-                                      ),
-                                      itemId: snapshot.data!.docs[index].id,
-                                    ),
-                                    settings: RouteSettings(
-                                      name: 'MerchantItemDetailScreen',
-                                    ),
+                                    ],
                                   ),
+                                  title: Text(
+                                      '${snapshot.data!.docs[index].data()!['title']}'),
                                 ),
-                                child: Card(
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
+                                child: GestureDetector(
+                                  onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ItemDetail(
+                                        item: Item.fromJson(
+                                          snapshot.data!.docs[index].data()!,
+                                        ),
+                                        itemId: snapshot.data!.docs[index].id,
+                                      ),
+                                      settings: RouteSettings(
+                                        name: 'MerchantItemDetailScreen',
+                                      ),
+                                    ),
                                   ),
                                   child: CachedNetworkImage(
                                     imageUrl: snapshot.data!.docs[index]
