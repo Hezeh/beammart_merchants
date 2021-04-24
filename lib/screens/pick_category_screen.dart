@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:beammart_merchants/providers/category_tokens_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../screens/categories/art_craft_screen.dart';
 import '../screens/categories/automotive.dart';
 import '../screens/categories/baby.dart';
@@ -28,8 +30,25 @@ class PickCategory extends StatelessWidget {
 
   const PickCategory({Key? key, this.images}) : super(key: key);
 
+  Widget _subTitle(double? tokens) {
+    return Row(
+      children: [
+        Icon(
+          Icons.toll_outlined,
+          color: Colors.yellow,
+        ),
+        SizedBox(
+          width: 15,
+        ),
+        Text('$tokens')
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final CategoryTokensProvider _tokensProvider =
+        Provider.of<CategoryTokensProvider>(context);
     return WillPopScope(
       onWillPop: () => onCategoryWillPop(context),
       child: Scaffold(
@@ -51,6 +70,7 @@ class PickCategory extends StatelessWidget {
                 title: Text(
                   'Electronics',
                 ),
+                subtitle: _subTitle(_tokensProvider.categoryTokens!.electronicsTokens),
                 trailing: Icon(
                   Icons.arrow_forward_ios_outlined,
                 ),
@@ -67,6 +87,7 @@ class PickCategory extends StatelessWidget {
                 title: Text(
                   'Computers',
                 ),
+                subtitle: _subTitle(_tokensProvider.categoryTokens!.computersTokens),
                 trailing: Icon(
                   Icons.arrow_forward_ios_outlined,
                 ),
@@ -83,6 +104,7 @@ class PickCategory extends StatelessWidget {
                 title: Text(
                   'Smart Home',
                 ),
+                subtitle: _subTitle(_tokensProvider.categoryTokens!.smartHomeTokens),
                 trailing: Icon(
                   Icons.arrow_forward_ios_outlined,
                 ),
@@ -99,6 +121,7 @@ class PickCategory extends StatelessWidget {
                 title: Text(
                   'Arts & Crafts',
                 ),
+                subtitle: _subTitle(_tokensProvider.categoryTokens!.artCraftTokens),
                 trailing: Icon(
                   Icons.arrow_forward_ios_outlined,
                 ),
@@ -115,6 +138,7 @@ class PickCategory extends StatelessWidget {
                 title: Text(
                   'Automotive',
                 ),
+                subtitle: _subTitle(_tokensProvider.categoryTokens!.automotiveTokens),
                 trailing: Icon(
                   Icons.arrow_forward_ios_outlined,
                 ),
@@ -131,6 +155,7 @@ class PickCategory extends StatelessWidget {
                 title: Text(
                   'Baby',
                 ),
+                subtitle: _subTitle(_tokensProvider.categoryTokens!.babyTokens),
                 trailing: Icon(
                   Icons.arrow_forward_ios_outlined,
                 ),
@@ -147,6 +172,7 @@ class PickCategory extends StatelessWidget {
                 title: Text(
                   'Beauty & Personal Care',
                 ),
+                subtitle: _subTitle(_tokensProvider.categoryTokens!.beautyPersonalCareTokens),
                 trailing: Icon(
                   Icons.arrow_forward_ios_outlined,
                 ),
@@ -163,6 +189,7 @@ class PickCategory extends StatelessWidget {
                 title: Text(
                   "Women's Fashion",
                 ),
+                subtitle: _subTitle(_tokensProvider.categoryTokens!.womensFashionTokens),
                 trailing: Icon(
                   Icons.arrow_forward_ios_outlined,
                 ),
@@ -179,6 +206,7 @@ class PickCategory extends StatelessWidget {
                 title: Text(
                   "Men's Fashion",
                 ),
+                subtitle: _subTitle(_tokensProvider.categoryTokens!.mensFashionTokens),
                 trailing: Icon(
                   Icons.arrow_forward_ios_outlined,
                 ),
@@ -195,6 +223,7 @@ class PickCategory extends StatelessWidget {
                 title: Text(
                   'Health & Household',
                 ),
+                subtitle: _subTitle(_tokensProvider.categoryTokens!.healthHouseholdTokens),
                 trailing: Icon(
                   Icons.arrow_forward_ios_outlined,
                 ),
@@ -211,6 +240,7 @@ class PickCategory extends StatelessWidget {
                 title: Text(
                   "Home & Kitchen",
                 ),
+                subtitle: _subTitle(_tokensProvider.categoryTokens!.homeKitchenTokens),
                 trailing: Icon(
                   Icons.arrow_forward_ios_outlined,
                 ),
@@ -227,6 +257,7 @@ class PickCategory extends StatelessWidget {
                 title: Text(
                   "Patio & Garden",
                 ),
+                subtitle: _subTitle(_tokensProvider.categoryTokens!.patioGardenTokens),
                 trailing: Icon(
                   Icons.arrow_forward_ios_outlined,
                 ),
@@ -243,6 +274,7 @@ class PickCategory extends StatelessWidget {
                 title: Text(
                   "Industrial & Scientific",
                 ),
+                subtitle: _subTitle(_tokensProvider.categoryTokens!.industrialScientificTokens),
                 trailing: Icon(
                   Icons.arrow_forward_ios_outlined,
                 ),
@@ -259,6 +291,7 @@ class PickCategory extends StatelessWidget {
                 title: Text(
                   "Luggage",
                 ),
+                subtitle: _subTitle(_tokensProvider.categoryTokens!.luggageTokens),
                 trailing: Icon(
                   Icons.arrow_forward_ios_outlined,
                 ),
@@ -275,6 +308,7 @@ class PickCategory extends StatelessWidget {
                 title: Text(
                   "Pet Supplies",
                 ),
+                subtitle: _subTitle(_tokensProvider.categoryTokens!.petSuppliesTokens),
                 trailing: Icon(
                   Icons.arrow_forward_ios_outlined,
                 ),
@@ -291,6 +325,7 @@ class PickCategory extends StatelessWidget {
                 title: Text(
                   "Sports, Fitness & Outdoors",
                 ),
+                subtitle: _subTitle(_tokensProvider.categoryTokens!.sportsFitnessOutdoorsTokens),
                 trailing: Icon(
                   Icons.arrow_forward_ios_outlined,
                 ),
@@ -307,6 +342,7 @@ class PickCategory extends StatelessWidget {
                 title: Text(
                   "Tools & Home Improvement",
                 ),
+                subtitle: _subTitle(_tokensProvider.categoryTokens!.toolsHomeImprovementTokens),
                 trailing: Icon(
                   Icons.arrow_forward_ios_outlined,
                 ),
@@ -323,6 +359,7 @@ class PickCategory extends StatelessWidget {
                 title: Text(
                   "Toys & Games",
                 ),
+                subtitle: _subTitle(_tokensProvider.categoryTokens!.toysGamesTokens),
                 trailing: Icon(
                   Icons.arrow_forward_ios_outlined,
                 ),
@@ -339,6 +376,7 @@ class PickCategory extends StatelessWidget {
                 title: Text(
                   "Food",
                 ),
+                subtitle: _subTitle(_tokensProvider.categoryTokens!.foodTokens),
                 trailing: Icon(
                   Icons.arrow_forward_ios_outlined,
                 ),
@@ -355,6 +393,7 @@ class PickCategory extends StatelessWidget {
                 title: Text(
                   "Household Essentials",
                 ),
+                subtitle: _subTitle(_tokensProvider.categoryTokens!.householdEssentialsTokens),
                 trailing: Icon(
                   Icons.arrow_forward_ios_outlined,
                 ),

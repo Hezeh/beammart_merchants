@@ -1,3 +1,7 @@
+import 'package:beammart_merchants/providers/category_tokens_provider.dart';
+import 'package:beammart_merchants/providers/profile_provider.dart';
+import 'package:beammart_merchants/providers/subscriptions_provider.dart';
+import 'package:beammart_merchants/utils/balance_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +11,7 @@ import '../../providers/auth_provider.dart';
 import '../../providers/image_upload_provider.dart';
 import '../../utils/upload_files_util.dart';
 import '../../utils/willpop_util.dart';
+import '../tokens_screen.dart';
 
 class SportsFitnessOutdoorsScreen extends StatefulWidget {
   @override
@@ -48,6 +53,10 @@ class _SportsFitnessOutdoorsScreenState
     final _userId = Provider.of<AuthenticationProvider>(context).user!.uid;
     final _imageUrls = Provider.of<ImageUploadProvider>(context).imageUrls;
     final _imageUploadProvider = Provider.of<ImageUploadProvider>(context);
+    final _categoryTokensProvider =
+        Provider.of<CategoryTokensProvider>(context);
+    final _profileProvider = Provider.of<ProfileProvider>(context);
+    final _subsProvider = Provider.of<SubscriptionsProvider>(context);
     return (_loading)
         ? WillPopScope(
             onWillPop: () => onWillPop(context),
@@ -64,33 +73,51 @@ class _SportsFitnessOutdoorsScreenState
             appBar: AppBar(
               title: Text('Sports, Fitness & Outdoors'),
               actions: [
-                FlatButton(
-                  onPressed: () {
-                    if (_sportsFitnessOutdoorsFormKey.currentState!.validate() &&
-                        _subCategory != null) {
+                TextButton(
+                  onPressed: () async {
+                    if (_sportsFitnessOutdoorsFormKey.currentState!.validate()) {
                       setState(() {
                         _loading = true;
                       });
-                      if (_imageUrls != null) {
-                        saveItemFirestore(
-                          context,
-                          _userId,
-                          Item(
-                            category: _category,
-                            subCategory: _subCategory,
-                            images: _imageUrls,
-                            title: _titleController.text,
-                            description: _descriptionController.text,
-                            price: double.parse(_priceController.text),
-                            dateAdded: DateTime.now(),
-                            dateModified: DateTime.now(),
-                            inStock: _inStock,
-                          ).toJson(),
-                        );
-                        setState(() {
-                          _loading = false;
-                        });
-                        _imageUploadProvider.deleteImageUrls();
+                      if (_profileProvider.profile!.tokensBalance != null &&
+                          _categoryTokensProvider
+                                  .categoryTokens!.electronicsTokens !=
+                              null) {
+                        final double requiredTokens = _categoryTokensProvider
+                            .categoryTokens!.electronicsTokens!;
+                        final bool _hasTokens =
+                            await checkBalance(_userId, requiredTokens);
+                        if (_hasTokens) {
+                          saveItemFirestore(
+                            context,
+                            _userId,
+                            Item(
+                              category: _category,
+                              subCategory: _subCategory,
+                              images: _imageUrls,
+                              title: _titleController.text,
+                              description: _descriptionController.text,
+                              price: double.parse(_priceController.text),
+                              dateAdded: DateTime.now(),
+                              dateModified: DateTime.now(),
+                              inStock: _inStock,
+                            ).toJson(),
+                          );
+                          _imageUploadProvider.deleteImageUrls();
+                          _subsProvider.consume(requiredTokens);
+                          setState(() {
+                            _loading = false;
+                          });
+                        } else {
+                          setState(() {
+                            _loading = false;
+                          });
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => TokensScreen(),
+                            ),
+                          );
+                        }
                       }
                     }
                   },

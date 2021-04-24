@@ -1,10 +1,8 @@
 import 'dart:async';
 
 import 'package:beammart_merchants/utils/consumable_store.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
-import 'package:intl/intl.dart';
 
 const String k200TokensId = '200_tokens';
 const String k500TokensId = '500_tokens';
@@ -222,9 +220,9 @@ class SubscriptionsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> consume(String id, double tokens) async {
-    await ConsumableStore.consume(id, tokens);
-    final int consumables = await ConsumableStore.load();
+  Future<void> consume(double tokens) async {
+    await ConsumableStore.consume(tokens);
+    final dynamic consumables = await ConsumableStore.load();
     _consumables = consumables;
     notifyListeners();
   }

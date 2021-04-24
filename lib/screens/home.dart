@@ -90,7 +90,6 @@ class HomePage extends StatelessWidget {
             if (!snap.hasData) {
               return LinearProgressIndicator();
             }
-            print(snap.data!.data()!.containsKey('tokensBalance'));
             return Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),

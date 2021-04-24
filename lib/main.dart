@@ -1,3 +1,4 @@
+import 'package:beammart_merchants/providers/category_tokens_provider.dart';
 import 'package:beammart_merchants/providers/subscriptions_provider.dart';
 import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -56,6 +57,9 @@ void main() async {
         ChangeNotifierProvider<SubscriptionsProvider>(
           create: (context) => SubscriptionsProvider(),
         ),
+        ChangeNotifierProvider<CategoryTokensProvider>(
+          create: (context) => CategoryTokensProvider(),
+        ),
       ],
       builder: (BuildContext context, app) {
         return App();
@@ -73,6 +77,7 @@ class App extends StatelessWidget {
     final profile = context.watch<ProfileProvider>().profile;
     final loading = context.watch<ProfileProvider>().loading;
     Provider.of<SubscriptionsProvider>(context);
+    Provider.of<CategoryTokensProvider>(context).fetchTokenValues();
     return MaterialApp(
       navigatorObservers: [FirebaseAnalyticsObserver(analytics: analytics)],
       debugShowCheckedModeBanner: false,

@@ -38,6 +38,8 @@ Profile _$ProfileFromJson(Map<String, dynamic> json) {
     isSaturdayOpen: json['isSaturdayOpen'] as bool?,
     isSundayOpen: json['isSundayOpen'] as bool?,
     businessProfilePhoto: json['businessProfilePhoto'] as String?,
+    tokensBalance: (json['tokensBalance'] as num?)?.toDouble(),
+    tokensInUse: (json['tokensInUse'] as num?)?.toDouble(),
   );
 }
 
@@ -72,4 +74,6 @@ Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
       'isSaturdayOpen': instance.isSaturdayOpen,
       'isSundayOpen': instance.isSundayOpen,
       'businessProfilePhoto': instance.businessProfilePhoto,
+      'tokensBalance': instance.tokensBalance,
+      'tokensInUse': instance.tokensInUse,
     };

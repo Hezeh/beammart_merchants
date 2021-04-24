@@ -14,18 +14,6 @@ class _SubscriptionsDialogState extends State<SubscriptionsDialog> {
   Widget build(BuildContext context) {
     final _subsProvider = Provider.of<SubscriptionsProvider>(context);
     List<ProductDetails> _products = _subsProvider.products;
-    List<PurchaseDetails> _purchases = _subsProvider.purchases;
-
-    // print(_purchases[0].verificationData.serverVerificationData);
-    if (_purchases.isNotEmpty) {
-      return Scaffold(
-        body: Container(
-          child: Text(
-            'Already a subscriber',
-          ),
-        ),
-      );
-    }
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(

@@ -8,7 +8,8 @@ part of 'item.dart';
 
 Item _$ItemFromJson(Map<String, dynamic> json) {
   return Item(
-    images: (json['images'] as List?)?.map((e) => e as String).toList(),
+    images:
+        (json['images'] as List<dynamic>?)?.map((e) => e as String?).toList(),
     itemId: json['itemId'] as String?,
     title: json['title'] as String?,
     description: json['description'] as String?,
