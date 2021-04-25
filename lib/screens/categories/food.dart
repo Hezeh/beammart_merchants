@@ -101,6 +101,8 @@ class _FoodScreenState extends State<FoodScreen> {
                                 dateAdded: DateTime.now(),
                                 dateModified: DateTime.now(),
                                 inStock: _inStock,
+                                lastRenewal: DateTime.now(),
+                                isActive: true,
                               ).toJson(),
                             );
                             _imageUploadProvider.deleteImageUrls();

@@ -100,6 +100,8 @@ class _SmartHomeScreenState extends State<SmartHomeScreen> {
                               dateAdded: DateTime.now(),
                               dateModified: DateTime.now(),
                               inStock: _inStock,
+                              lastRenewal: DateTime.now(),
+                              isActive: true,
                             ).toJson(),
                           );
                           _imageUploadProvider.deleteImageUrls();

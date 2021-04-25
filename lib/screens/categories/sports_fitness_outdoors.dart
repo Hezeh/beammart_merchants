@@ -101,6 +101,8 @@ class _SportsFitnessOutdoorsScreenState
                               dateAdded: DateTime.now(),
                               dateModified: DateTime.now(),
                               inStock: _inStock,
+                              lastRenewal: DateTime.now(),
+                              isActive: true,
                             ).toJson(),
                           );
                           _imageUploadProvider.deleteImageUrls();

@@ -23,6 +23,10 @@ Item _$ItemFromJson(Map<String, dynamic> json) {
         ? null
         : DateTime.parse(json['dateModified'] as String),
     inStock: json['inStock'] as bool?,
+    lastRenewal: json['lastRenewal'] == null
+        ? null
+        : DateTime.parse(json['lastRenewal'] as String),
+    isActive: json['isActive'] as bool?,
   );
 }
 
@@ -37,4 +41,6 @@ Map<String, dynamic> _$ItemToJson(Item instance) => <String, dynamic>{
       'dateAdded': instance.dateAdded?.toIso8601String(),
       'dateModified': instance.dateModified?.toIso8601String(),
       'inStock': instance.inStock,
+      'lastRenewal': instance.lastRenewal?.toIso8601String(),
+      'isActive': instance.isActive,
     };

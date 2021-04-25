@@ -74,6 +74,7 @@ class _ItemDetailState extends State<ItemDetail> {
                     'description': _editDescController.text,
                     'price': double.parse(_editPriceController.text),
                     'inStock': _inStock
+                    
                   }, SetOptions(merge: true));
 
                   Navigator.of(context).pop();
