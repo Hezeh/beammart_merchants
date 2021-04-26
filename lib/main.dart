@@ -54,8 +54,17 @@ void main() async {
         ChangeNotifierProvider<AddBusinessProfileProvider>(
           create: (context) => AddBusinessProfileProvider(),
         ),
-        ChangeNotifierProvider<SubscriptionsProvider>(
-          create: (context) => SubscriptionsProvider(),
+        // ChangeNotifierProvider<SubscriptionsProvider>(
+        //   create: (context) => SubscriptionsProvider(),
+        // ),
+        ChangeNotifierProxyProvider<AuthenticationProvider, SubscriptionsProvider>(
+          create: (BuildContext context) => SubscriptionsProvider(
+            Provider.of<AuthenticationProvider>(context, listen: false).user,
+          ),
+          update: (BuildContext context, userProvider, subscriptionsProvider) =>
+              SubscriptionsProvider(
+            Provider.of<AuthenticationProvider>(context, listen: false).user,
+          ),
         ),
         ChangeNotifierProvider<CategoryTokensProvider>(
           create: (context) => CategoryTokensProvider(),

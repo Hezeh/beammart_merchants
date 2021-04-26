@@ -17,7 +17,7 @@ class ConsumableStore {
   /// Adds a consumable with ID `id` to the store.
   ///
   /// The consumable is only added after the returned Future is complete.
-  static Future<void> save(String id, double tokens) {
+  static Future<void> save(String id, double tokens, String userId) {
     _writes = _writes.then((void _) => _doSave(tokens));
     return _writes;
   }
@@ -25,7 +25,7 @@ class ConsumableStore {
   /// Consumes a consumable with ID `id` from the store.
   ///
   /// The consumable was only consumed after the returned Future is complete.
-  static Future<void> consume(double tokens) {
+  static Future<void> consume(double tokens, String userId) {
     _writes = _writes.then((void _) => _doConsume(tokens));
     return _writes;
   }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:beammart_merchants/utils/consumable_store.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
@@ -35,19 +36,22 @@ class SubscriptionsProvider with ChangeNotifier {
   bool _purchasePending = false;
   bool _loading = true;
   String? _queryProductError;
+  User? _user;
 
-  SubscriptionsProvider() {
-    final Stream<List<PurchaseDetails>> purchaseUpdated =
-        InAppPurchaseConnection.instance.purchaseUpdatedStream;
-    _subscription = purchaseUpdated.listen((purchaseDetailsList) {
-      _listenToPurchaseUpdated(purchaseDetailsList);
-    }, onDone: () {
-      _subscription.cancel();
-    }, onError: (error) {
-      print(error);
-    });
-    initStoreInfo();
-    notifyListeners();
+  SubscriptionsProvider(this._user) {
+    if (this._user != null) {
+      final Stream<List<PurchaseDetails>> purchaseUpdated =
+          InAppPurchaseConnection.instance.purchaseUpdatedStream;
+      _subscription = purchaseUpdated.listen((purchaseDetailsList) {
+        _listenToPurchaseUpdated(purchaseDetailsList, this._user!.uid);
+      }, onDone: () {
+        _subscription.cancel();
+      }, onError: (error) {
+        print(error);
+      });
+      initStoreInfo();
+      notifyListeners();
+    }
   }
 
   // Getters
@@ -126,7 +130,7 @@ class SubscriptionsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
+  void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList, String userId) {
     purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
       if (purchaseDetails.status == PurchaseStatus.pending) {
         _purchasePending = true;
@@ -137,7 +141,7 @@ class SubscriptionsProvider with ChangeNotifier {
         } else if (purchaseDetails.status == PurchaseStatus.purchased) {
           bool valid = await _verifyPurchase(purchaseDetails);
           if (valid) {
-            _deliverProduct(purchaseDetails);
+            _deliverProduct(purchaseDetails, userId);
           } else {
             _handleInvalidPurchase(purchaseDetails);
             return;
@@ -167,11 +171,11 @@ class SubscriptionsProvider with ChangeNotifier {
     // handle invalid purchase here if  _verifyPurchase` failed.
   }
 
-  void _deliverProduct(PurchaseDetails purchaseDetails) async {
+  void _deliverProduct(PurchaseDetails purchaseDetails, String userId) async {
     // IMPORTANT!! Always verify purchase details before delivering the product.
     if (purchaseDetails.productID == k200TokensId) {
       // Add 200 Tokens to the database
-      await ConsumableStore.save(purchaseDetails.productID, 200.0);
+      await ConsumableStore.save(purchaseDetails.productID, 200.0, userId);
       dynamic consumables = await ConsumableStore.load();
       _purchasePending = false;
       _consumables = consumables;
@@ -179,7 +183,7 @@ class SubscriptionsProvider with ChangeNotifier {
     }
     if (purchaseDetails.productID == k500TokensId) {
       // Add 500 Tokens to the database
-      await ConsumableStore.save(purchaseDetails.productID, 500.0);
+      await ConsumableStore.save(purchaseDetails.productID, 500.0, userId);
       dynamic consumables = await ConsumableStore.load();
       _purchasePending = false;
       _consumables = consumables;
@@ -187,28 +191,28 @@ class SubscriptionsProvider with ChangeNotifier {
     }
     if (purchaseDetails.productID == k1000TokensId) {
       // Add 1000 Tokens to the database
-      await ConsumableStore.save(purchaseDetails.productID, 1000.0);
+      await ConsumableStore.save(purchaseDetails.productID, 1000.0, userId);
       dynamic consumables = await ConsumableStore.load();
       _purchasePending = false;
       _consumables = consumables;
     }
     if (purchaseDetails.productID == k2500TokensId) {
       // Add 2500 Tokens to the database
-      await ConsumableStore.save(purchaseDetails.productID, 2500.0);
+      await ConsumableStore.save(purchaseDetails.productID, 2500.0, userId);
       dynamic consumables = await ConsumableStore.load();
       _purchasePending = false;
       _consumables = consumables;
     }
     if (purchaseDetails.productID == k5000TokensId) {
       // Add 5000 Tokens to the database
-      await ConsumableStore.save(purchaseDetails.productID, 5000.0);
+      await ConsumableStore.save(purchaseDetails.productID, 5000.0, userId);
       dynamic consumables = await ConsumableStore.load();
       _purchasePending = false;
       _consumables = consumables;
     }
     if (purchaseDetails.productID == k10000TokensId) {
       // Add 10000 Tokens to the database
-      await ConsumableStore.save(purchaseDetails.productID, 10000.0);
+      await ConsumableStore.save(purchaseDetails.productID, 10000.0, userId);
       dynamic consumables = await ConsumableStore.load();
       _purchasePending = false;
       _consumables = consumables;
@@ -220,8 +224,8 @@ class SubscriptionsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> consume(double tokens) async {
-    await ConsumableStore.consume(tokens);
+  Future<void> consume(double tokens, String userId) async {
+    await ConsumableStore.consume(tokens, userId);
     final dynamic consumables = await ConsumableStore.load();
     _consumables = consumables;
     notifyListeners();

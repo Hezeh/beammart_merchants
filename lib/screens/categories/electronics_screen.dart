@@ -107,12 +107,12 @@ class _ElectronicsScreenState extends State<ElectronicsScreen> {
                               dateAdded: DateTime.now(),
                               dateModified: DateTime.now(),
                               inStock: _inStock,
-                              lastRenewal: DateTime.now(),
+                              lastRenewal: DateTime.now().toIso8601String(),
                               isActive: true,
                             ).toJson(),
                           );
                           _imageUploadProvider.deleteImageUrls();
-                          _subsProvider.consume(requiredTokens);
+                          _subsProvider.consume(requiredTokens, _userId);
                           setState(() {
                             _loading = false;
                           });

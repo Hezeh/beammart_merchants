@@ -14,7 +14,7 @@ class Item {
   DateTime? dateAdded;
   DateTime? dateModified;
   bool? inStock;
-  DateTime? lastRenewal;
+  String? lastRenewal;
   bool? isActive;
 
   Item({
