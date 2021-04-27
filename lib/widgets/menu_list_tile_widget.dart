@@ -158,6 +158,31 @@ class MenuListTileWidget extends StatelessWidget {
         ),
         ListTile(
           leading: Icon(
+            Icons.analytics_outlined,
+            color: Colors.pink,
+          ),
+          title: Text(
+            'Help & Feedback',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18.0,
+            ),
+          ),
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => AnalyticsScreen(),
+              ),
+            );
+          },
+        ),
+        Divider(
+          color: Colors.pink,
+          indent: 10.0,
+          endIndent: 10.0,
+        ),
+        ListTile(
+          leading: Icon(
             Icons.logout,
             color: Colors.pink,
           ),
