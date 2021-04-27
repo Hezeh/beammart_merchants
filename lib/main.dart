@@ -6,6 +6,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -23,8 +24,17 @@ import './widgets/add_location.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 List<CameraDescription> cameras = [];
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+
+  print("Handling a background message: ${message.messageId}");
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await Firebase.initializeApp();
   await Hive.initFlutter();
   cameras = await availableCameras();
@@ -85,8 +95,8 @@ class App extends StatelessWidget {
     final firebaseUser = context.watch<User?>();
     final profile = context.watch<ProfileProvider>().profile;
     final loading = context.watch<ProfileProvider>().loading;
-    Provider.of<SubscriptionsProvider>(context);
-    Provider.of<CategoryTokensProvider>(context).fetchTokenValues();
+    Provider.of<SubscriptionsProvider>(context, listen: false);
+    Provider.of<CategoryTokensProvider>(context, listen: false).fetchTokenValues();
     return MaterialApp(
       navigatorObservers: [FirebaseAnalyticsObserver(analytics: analytics)],
       debugShowCheckedModeBanner: false,

@@ -29,6 +29,7 @@ class GoogleSignInButton extends StatelessWidget {
                 'Sign in with Google',
                 style: TextStyle(
                   fontSize: 20,
+                  color: Colors.amber
                 ),
               ),
             )
