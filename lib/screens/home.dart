@@ -1,4 +1,6 @@
+import 'package:beammart_merchants/providers/subscriptions_provider.dart';
 import 'package:beammart_merchants/screens/add_images_screen.dart';
+import 'package:beammart_merchants/screens/payments_subscriptions_screen.dart';
 import 'package:beammart_merchants/screens/tokens_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,17 +22,71 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  _addItem(BuildContext context) {
-    return Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => AddImagesScreen(),
-      ),
-    );
+  Future<int>? itemsLength;
+
+  _addItem(BuildContext context, int itemsLength, bool hasPurchases) {
+    print(itemsLength);
+    if (itemsLength < 10) {
+      return Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => AddImagesScreen(),
+        ),
+      );
+    } else if (hasPurchases) {
+      return Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => AddImagesScreen(),
+        ),
+      );
+    } else {
+      return Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => PaymentsSubscriptionsScreen(),
+        ),
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  Future<int> getCollectionLength(String uid) async {
+    final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('profile')
+        .doc(uid)
+        .collection('items')
+        .get();
+    final int _itemsLength = querySnapshot.size;
+    return _itemsLength;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final _userProvider = Provider.of<AuthenticationProvider>(context);
+    setState(() {
+      itemsLength = getCollectionLength(_userProvider.user!.uid);
+    });
+    print(itemsLength);
   }
 
   @override
   Widget build(BuildContext context) {
+    final _userProvider = Provider.of<AuthenticationProvider>(context);
+    final subsProvider = Provider.of<SubscriptionsProvider>(context);
+    final Stream<QuerySnapshot> items = FirebaseFirestore.instance
+        .collection('profile')
+        .doc(_userProvider.user!.uid)
+        .collection('items')
+        .orderBy('dateAdded', descending: true)
+        .snapshots();
+
     return Scaffold(
       key: _scaffoldKey,
       drawer: LeftDrawer(),
@@ -48,12 +104,18 @@ class _HomeState extends State<Home> {
         ),
       ),
       body: SafeArea(
-        child: HomePage(),
+        child: HomePage(
+          items: items,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.pink,
-        onPressed: () => _addItem(context),
+        onPressed: () async {
+          final int? _itemsLength = await itemsLength;
+          print(_itemsLength);
+          _addItem(context, _itemsLength!, subsProvider.purchases.isNotEmpty);
+        },
         child: const Icon(
           Icons.add,
           color: Colors.white,
@@ -64,16 +126,19 @@ class _HomeState extends State<Home> {
 }
 
 class HomePage extends StatelessWidget {
+  final Stream<QuerySnapshot> items;
+
+  const HomePage({Key? key, required this.items}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final _userProvider = Provider.of<AuthenticationProvider>(context);
 
-    final Stream<QuerySnapshot> items = FirebaseFirestore.instance
-        .collection('profile')
-        .doc(_userProvider.user!.uid)
-        .collection('items')
-        .orderBy('dateAdded', descending: true)
-        .snapshots();
+    // final Stream<QuerySnapshot> items = FirebaseFirestore.instance
+    //     .collection('profile')
+    //     .doc(_userProvider.user!.uid)
+    //     .collection('items')
+    //     .orderBy('dateAdded', descending: true)
+    //     .snapshots();
 
     final Stream<DocumentSnapshot> _tokens = FirebaseFirestore.instance
         .collection('profile')
@@ -179,14 +244,16 @@ class HomePage extends StatelessWidget {
                                           context: context,
                                           builder: (context) {
                                             return AlertDialog(
-                                              title: const Text('Confirm Delete'),
+                                              title:
+                                                  const Text('Confirm Delete'),
                                               content: const Text(
                                                 'Do you really want to delete this product?',
                                               ),
                                               actions: [
                                                 OutlinedButton(
                                                   onPressed: () =>
-                                                      Navigator.of(context).pop(),
+                                                      Navigator.of(context)
+                                                          .pop(),
                                                   child: const Text('Cancel'),
                                                 ),
                                                 ElevatedButton(

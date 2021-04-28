@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:beammart_merchants/providers/subscriptions_provider.dart';
 import 'package:beammart_merchants/screens/camera_photo_screen.dart';
 import 'package:beammart_merchants/utils/upload_files_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,9 +15,14 @@ import 'pick_category_screen.dart';
 class AddImagesScreen extends StatefulWidget {
   final bool? editing;
   final String? itemId;
+  final int? itemsLength;
 
-  const AddImagesScreen({Key? key, this.editing, this.itemId})
-      : super(key: key);
+  const AddImagesScreen({
+    Key? key,
+    this.editing,
+    this.itemId,
+    this.itemsLength,
+  }) : super(key: key);
   @override
   _AddImagesScreenState createState() => _AddImagesScreenState();
 }

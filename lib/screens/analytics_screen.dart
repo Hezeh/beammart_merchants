@@ -1,3 +1,4 @@
+import 'package:beammart_merchants/models/click_analytics.dart';
 import 'package:beammart_merchants/models/impressions_analytics_data.dart';
 import 'package:beammart_merchants/providers/subscriptions_provider.dart';
 import 'package:beammart_merchants/screens/payments_subscriptions_screen.dart';
@@ -18,7 +19,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
     final currentUser = FirebaseAuth.instance.currentUser;
     final subsProvider = Provider.of<SubscriptionsProvider>(context);
 
-    Widget _buildAnalytics(String _userId) {
+    Widget _buildImpressionsAnalytics(String _userId) {
       return Card(
         child: Container(
           height: 250,
@@ -81,6 +82,89 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                   );
                 },
               ),
+              // Call Button Clicks
+              // Product Clicks
+              // Product Impressions
+              // Search Results Impressions
+              // Search Results Clicks
+              // Search Results CTR
+              // Most popular search queries 7 days
+              // Most popular search queries 30 days
+            ],
+          ),
+        ),
+      );
+    }
+
+    Widget _buildClickAnalytics(String _userId) {
+      return Card(
+        child: Container(
+          height: 250,
+          child: ListView(
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              // Total Impressions
+              Container(
+                child: Center(
+                  child: Text(
+                    'Clicks',
+                    style: GoogleFonts.roboto(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              FutureBuilder(
+                future: getClicksAnalyticsData(_userId),
+                builder: (BuildContext context,
+                    AsyncSnapshot<ClickAnalytics> snapshot) {
+                  if (snapshot.hasData) {
+                    return Container(
+                      // height: 250,
+                      child: Column(
+                        children: [
+                          ListTile(
+                            title: Text('Total Clicks'),
+                            trailing: Text(
+                              "${snapshot.data!.totalClicks}",
+                            ),
+                          ),
+                          ListTile(
+                            title: Text('Search Page Clicks'),
+                            trailing: Text(
+                              "${snapshot.data!.searchClicks}",
+                            ),
+                          ),
+                          ListTile(
+                            title: Text('Recommendations Page Clicks'),
+                            trailing: Text(
+                              "${snapshot.data!.recommendationsClicks}",
+                            ),
+                          ),
+                          ListTile(
+                            title: Text('Category Page Clicks'),
+                            trailing: Text(
+                              "${snapshot.data!.categoryClicks}",
+                            ),
+                          ),
+                           ListTile(
+                            title: Text('Profile Page Clicks'),
+                            trailing: Text(
+                              "${snapshot.data!.profileClicks}",
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  return Container(
+                    height: 250,
+                    // margin: EdgeInsets.all(20),
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                },
+              ),
               // Total Impressions last 30 days
               // Total Impression last 7 days
               // Profile Views
@@ -103,7 +187,8 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
       stack.add(
         ListView(
           children: [
-            _buildAnalytics(currentUser!.uid),
+            _buildImpressionsAnalytics(currentUser!.uid),
+            _buildClickAnalytics(currentUser.uid)
           ],
         ),
       );
