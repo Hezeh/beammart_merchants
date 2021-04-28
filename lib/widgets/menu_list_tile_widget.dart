@@ -9,10 +9,20 @@ import '../providers/profile_provider.dart';
 import '../screens/profile.dart';
 
 class MenuListTileWidget extends StatelessWidget {
-  final _url = 'https://play.google.com/store/apps/details?id=com.beammart.beammart';
+  final _url =
+      'https://play.google.com/store/apps/details?id=com.beammart.beammart';
 
   void _launchURL() async => await canLaunch(_url)
       ? await launch(_url)
+      : throw 'Could not launch $_url';
+
+  final Uri _emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: 'customer.success@beammart.app',
+      queryParameters: {'subject': 'Feedback'});
+
+  void _lauchEmail() async => await canLaunch(_emailLaunchUri.toString())
+      ? await launch(_emailLaunchUri.toString())
       : throw 'Could not launch $_url';
 
   @override
@@ -158,7 +168,7 @@ class MenuListTileWidget extends StatelessWidget {
         ),
         ListTile(
           leading: Icon(
-            Icons.analytics_outlined,
+            Icons.contact_support_outlined,
             color: Colors.pink,
           ),
           title: Text(
@@ -169,11 +179,7 @@ class MenuListTileWidget extends StatelessWidget {
             ),
           ),
           onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => AnalyticsScreen(),
-              ),
-            );
+            _lauchEmail();
           },
         ),
         Divider(
