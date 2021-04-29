@@ -1,6 +1,7 @@
 import 'package:beammart_merchants/providers/subscriptions_provider.dart';
 import 'package:beammart_merchants/screens/add_images_screen.dart';
 import 'package:beammart_merchants/screens/payments_subscriptions_screen.dart';
+import 'package:beammart_merchants/widgets/item_analytics_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +75,6 @@ class _ItemDetailState extends State<ItemDetail> {
                     'description': _editDescController.text,
                     'price': double.parse(_editPriceController.text),
                     'inStock': _inStock
-                    
                   }, SetOptions(merge: true));
 
                   Navigator.of(context).pop();
@@ -272,10 +272,8 @@ class _ItemDetailState extends State<ItemDetail> {
                         },
                       ),
                     )
-                  : Container(
-                      child: Text(
-                        'Coming Soon',
-                      ),
+                  : ItemAnalyticsWidget(
+                      itemId: widget.itemId,
                     ),
             ),
           ],
