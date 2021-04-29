@@ -3,18 +3,22 @@ class ImpressionsAnalyticsData {
   int? recommendationsImpressions;
   int? categoryImpressions;
   int? totalImpressions;
+  int? profileImpressions;
 
-  ImpressionsAnalyticsData(
-      {this.searchImpressions,
-      this.recommendationsImpressions,
-      this.categoryImpressions,
-      this.totalImpressions});
+  ImpressionsAnalyticsData({
+    this.searchImpressions,
+    this.recommendationsImpressions,
+    this.categoryImpressions,
+    this.totalImpressions,
+    this.profileImpressions,
+  });
 
   ImpressionsAnalyticsData.fromJson(Map<String, dynamic> json) {
     searchImpressions = json['searchImpressions'];
     recommendationsImpressions = json['recommendationsImpressions'];
     categoryImpressions = json['categoryImpressions'];
     totalImpressions = json['totalImpressions'];
+    profileImpressions = json['profilePageImpressions'];
   }
 
   Map<String, dynamic> toJson() {
@@ -23,6 +27,7 @@ class ImpressionsAnalyticsData {
     data['recommendationsImpressions'] = this.recommendationsImpressions;
     data['categoryImpressions'] = this.categoryImpressions;
     data['totalImpressions'] = this.totalImpressions;
+    data['profilePageImpressions'] = this.profileImpressions;
     return data;
   }
 }
