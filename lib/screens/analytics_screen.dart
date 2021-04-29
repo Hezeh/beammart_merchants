@@ -135,6 +135,12 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                               "${snapshot.data!.categoryImpressions}",
                             ),
                           ),
+                          ListTile(
+                            title: Text('Profile Impressions'),
+                            trailing: Text(
+                              "${snapshot.data!.profileImpressions}",
+                            ),
+                          ),
                           AspectRatio(
                             aspectRatio: 1.3,
                             child: Card(
@@ -189,8 +195,9 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                                             search: snapshot
                                                 .data!.searchImpressions!
                                                 .ceilToDouble(),
-                                            // TODO: Get Profile Impressions
-                                            profile: 10.0,
+                                            profile: snapshot
+                                                .data!.profileImpressions!
+                                                .ceilToDouble(),
                                           ),
                                         ),
                                       ),
