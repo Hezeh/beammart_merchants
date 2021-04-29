@@ -17,7 +17,6 @@ import './providers/image_upload_provider.dart';
 import './providers/profile_provider.dart';
 import './screens/home.dart';
 import 'package:provider/provider.dart';
-import './screens/item_detail.dart';
 import './screens/login.dart';
 import './screens/profile.dart';
 import './widgets/add_location.dart';
@@ -124,7 +123,6 @@ class App extends StatelessWidget {
           : Login(),
       routes: {
         Home.routeName: (_) => Home(),
-        ItemDetail.routeName: (_) => ItemDetail(),
         Login.routeName: (_) => Login(),
         ProfileScreen.routeName: (_) => ProfileScreen(),
         AddLocationMap.routeName: (_) => AddLocationMap(),

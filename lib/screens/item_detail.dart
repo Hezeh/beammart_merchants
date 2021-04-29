@@ -13,13 +13,13 @@ import '../widgets/display_images_widget.dart';
 
 class ItemDetail extends StatefulWidget {
   final Item? item;
-  final String? itemId;
+  final String itemId;
   static const routeName = '/item-detail';
 
   ItemDetail({
     Key? key,
     this.item,
-    this.itemId,
+    required this.itemId,
   }) : super(key: key);
 
   @override

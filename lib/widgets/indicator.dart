@@ -19,7 +19,7 @@ class Indicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: <Widget>[
+      children: [
         Container(
           width: size,
           height: size,
@@ -33,7 +33,11 @@ class Indicator extends StatelessWidget {
         ),
         Text(
           text,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: textColor),
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: textColor,
+          ),
         )
       ],
     );

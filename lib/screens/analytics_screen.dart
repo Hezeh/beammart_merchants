@@ -6,7 +6,6 @@ import 'package:beammart_merchants/services/analytics_service.dart';
 import 'package:beammart_merchants/widgets/indicator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -21,68 +20,77 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
   Widget build(BuildContext context) {
     final currentUser = FirebaseAuth.instance.currentUser;
     final subsProvider = Provider.of<SubscriptionsProvider>(context);
-    int? touchedIndex;
-
     List<PieChartSectionData>? showingSections({
-      @required double? total,
-      @required double? search,
-      @required double? recs,
-      @required double? category,
-      @required double? profile,
+      double? total,
+      double? search,
+      double? recs,
+      double? category,
+      double? profile,
     }) {
-      return List.generate(4, (i) {
-        final isTouched = i == touchedIndex;
-        final double fontSize = isTouched ? 25 : 16;
-        final double radius = isTouched ? 60 : 50;
-        switch (i) {
-          case 0:
-            return PieChartSectionData(
-              color: const Color(0xff0293ee),
-              value: search,
-              title: "${((search! / total!) * 100).toStringAsFixed(0)}%",
-              radius: radius,
-              titleStyle: TextStyle(
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xffffffff)),
-            );
-          case 1:
-            return PieChartSectionData(
-              color: const Color(0xfff8b250),
-              value: recs,
-              title: "${((recs! / total!) * 100).toStringAsFixed(0)}%",
-              radius: radius,
-              titleStyle: TextStyle(
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xffffffff)),
-            );
-          case 2:
-            return PieChartSectionData(
-              color: const Color(0xff845bef),
-              value: category,
-              title: "${((category! / total!) * 100).toStringAsFixed(0)}%",
-              radius: radius,
-              titleStyle: TextStyle(
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xffffffff)),
-            );
-          case 3:
-            return PieChartSectionData(
-              color: const Color(0xff13d38e),
-              value: profile,
-              title: "${((profile! / total!) * 100).toStringAsFixed(0)}%",
-              radius: radius,
-              titleStyle: TextStyle(
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xffffffff)),
-            );
-          default:
-            return PieChartSectionData();
-        }
-      });
+      List<PieChartSectionData> _chart = [];
+      final double fontSize = 16;
+      final double radius = 50;
+      if (search != 0.0 && search != null) {
+        _chart.add(
+          PieChartSectionData(
+            color: const Color(0xff0293ee),
+            value: search,
+            title: "${((search / total!) * 100).toStringAsFixed(0)}%",
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xffffffff),
+            ),
+          ),
+        );
+      }
+      if (category != 0.0 && category != null) {
+        _chart.add(
+          PieChartSectionData(
+            color: const Color(0xff845bef),
+            value: category,
+            title: "${((category / total!) * 100).toStringAsFixed(0)}%",
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xffffffff),
+            ),
+          ),
+        );
+      }
+      if (recs != 0.0 && recs != null) {
+        _chart.add(
+          PieChartSectionData(
+            color: const Color(0xfff8b250),
+            value: recs,
+            title: "${((recs / total!) * 100).toStringAsFixed(0)}%",
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xffffffff),
+            ),
+          ),
+        );
+      }
+      if (profile != 0.0 && profile != null) {
+        _chart.add(
+          PieChartSectionData(
+            color: const Color(0xff13d38e),
+            value: profile,
+            title: "${((profile / total!) * 100).toStringAsFixed(0)}%",
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xffffffff),
+            ),
+          ),
+        );
+      }
+      return _chart;
     }
 
     Widget _buildImpressionsAnalytics(String _userId) {
@@ -107,6 +115,48 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                 builder: (BuildContext context,
                     AsyncSnapshot<ImpressionsAnalyticsData> snapshot) {
                   if (snapshot.hasData) {
+                    List<Widget> indicators = [];
+                    if (snapshot.data!.searchImpressions!.ceilToDouble() !=
+                        0.0) {
+                      indicators.add(
+                        Indicator(
+                          color: Color(0xff0293ee),
+                          text: 'Search',
+                          isSquare: true,
+                        ),
+                      );
+                    }
+                    if (snapshot.data!.categoryImpressions!.ceilToDouble() !=
+                        0.0) {
+                      indicators.add(
+                        Indicator(
+                          color: Color(0xff845bef),
+                          text: 'Category',
+                          isSquare: true,
+                        ),
+                      );
+                    }
+                    if (snapshot.data!.recommendationsImpressions!
+                            .ceilToDouble() !=
+                        0.0) {
+                      indicators.add(
+                        Indicator(
+                          color: Color(0xfff8b250),
+                          text: 'Recs',
+                          isSquare: true,
+                        ),
+                      );
+                    }
+                    if (snapshot.data!.profileImpressions!.ceilToDouble() !=
+                        0.0) {
+                      indicators.add(
+                        Indicator(
+                          color: Color(0xff13d38e),
+                          text: 'Profile',
+                          isSquare: true,
+                        ),
+                      );
+                    }
                     return Container(
                       // height: 250,
                       child: Column(
@@ -153,54 +203,47 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                                   Expanded(
                                     child: AspectRatio(
                                       aspectRatio: 1,
-                                      child: PieChart(
-                                        PieChartData(
-                                          pieTouchData: PieTouchData(
-                                              touchCallback:
-                                                  (pieTouchResponse) {
-                                            setState(() {
-                                              final desiredTouch =
-                                                  pieTouchResponse.touchInput
-                                                          is! PointerExitEvent &&
-                                                      pieTouchResponse
-                                                              .touchInput
-                                                          is! PointerUpEvent;
-                                              if (desiredTouch &&
-                                                  pieTouchResponse
-                                                          .touchedSection !=
-                                                      null) {
-                                                touchedIndex = pieTouchResponse
-                                                    .touchedSection!
-                                                    .touchedSectionIndex;
-                                              } else {
-                                                touchedIndex = -1;
-                                              }
-                                            });
-                                          }),
-                                          borderData: FlBorderData(
-                                            show: false,
-                                          ),
-                                          sectionsSpace: 0,
-                                          centerSpaceRadius: 40,
-                                          sections: showingSections(
-                                            total: snapshot
-                                                .data!.totalImpressions!
-                                                .ceilToDouble(),
-                                            category: snapshot
-                                                .data!.categoryImpressions!
-                                                .ceilToDouble(),
-                                            recs: snapshot.data!
-                                                .recommendationsImpressions!
-                                                .ceilToDouble(),
-                                            search: snapshot
-                                                .data!.searchImpressions!
-                                                .ceilToDouble(),
-                                            profile: snapshot
-                                                .data!.profileImpressions!
-                                                .ceilToDouble(),
-                                          ),
-                                        ),
-                                      ),
+                                      child: (snapshot.data!.totalImpressions!
+                                                  .ceilToDouble() !=
+                                              0.0)
+                                          ? PieChart(
+                                              PieChartData(
+                                                pieTouchData: PieTouchData(
+                                                    enabled: false),
+                                                borderData: FlBorderData(
+                                                  show: false,
+                                                ),
+                                                sectionsSpace: 0,
+                                                centerSpaceRadius: 40,
+                                                sections: showingSections(
+                                                  total: snapshot
+                                                      .data!.totalImpressions!
+                                                      .ceilToDouble(),
+                                                  category: snapshot.data!
+                                                      .categoryImpressions!
+                                                      .ceilToDouble(),
+                                                  recs: snapshot.data!
+                                                      .recommendationsImpressions!
+                                                      .ceilToDouble(),
+                                                  search: snapshot
+                                                      .data!.searchImpressions!
+                                                      .ceilToDouble(),
+                                                  profile: snapshot
+                                                      .data!.profileImpressions!
+                                                      .ceilToDouble(),
+                                                ),
+                                              ),
+                                            )
+                                          : Container(
+                                              child: Center(
+                                                child: Text(
+                                                  'No Data',
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                     ),
                                   ),
                                   Column(
@@ -208,40 +251,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: const <Widget>[
-                                      Indicator(
-                                        color: Color(0xff0293ee),
-                                        text: 'Search',
-                                        isSquare: true,
-                                      ),
-                                      SizedBox(
-                                        height: 4,
-                                      ),
-                                      Indicator(
-                                        color: Color(0xfff8b250),
-                                        text: 'Recs',
-                                        isSquare: true,
-                                      ),
-                                      SizedBox(
-                                        height: 4,
-                                      ),
-                                      Indicator(
-                                        color: Color(0xff845bef),
-                                        text: 'Category',
-                                        isSquare: true,
-                                      ),
-                                      SizedBox(
-                                        height: 4,
-                                      ),
-                                      Indicator(
-                                        color: Color(0xff13d38e),
-                                        text: 'Profile',
-                                        isSquare: true,
-                                      ),
-                                      SizedBox(
-                                        height: 18,
-                                      ),
-                                    ],
+                                    children: indicators,
                                   ),
                                   const SizedBox(
                                     width: 28,
@@ -284,7 +294,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             children: [
-              // Total Impressions
+              // Total Clicks
               Container(
                 child: Center(
                   child: Text(
@@ -299,6 +309,45 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                 builder: (BuildContext context,
                     AsyncSnapshot<ClickAnalytics> snapshot) {
                   if (snapshot.hasData) {
+                    List<Widget> indicators = [];
+
+                    if (snapshot.data!.searchClicks!.ceilToDouble() != 0.0) {
+                      indicators.add(
+                        Indicator(
+                          color: Color(0xff0293ee),
+                          text: 'Search',
+                          isSquare: true,
+                        ),
+                      );
+                    }
+                    if (snapshot.data!.categoryClicks!.ceilToDouble() != 0.0) {
+                      indicators.add(
+                        Indicator(
+                          color: Color(0xff845bef),
+                          text: 'Category',
+                          isSquare: true,
+                        ),
+                      );
+                    }
+                    if (snapshot.data!.recommendationsClicks!.ceilToDouble() !=
+                        0.0) {
+                      indicators.add(
+                        Indicator(
+                          color: Color(0xfff8b250),
+                          text: 'Recs',
+                          isSquare: true,
+                        ),
+                      );
+                    }
+                    if (snapshot.data!.profileClicks!.ceilToDouble() != 0.0) {
+                      indicators.add(
+                        Indicator(
+                          color: Color(0xff13d38e),
+                          text: 'Profile',
+                          isSquare: true,
+                        ),
+                      );
+                    }
                     return Container(
                       child: Column(
                         children: [
@@ -344,52 +393,48 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                                   Expanded(
                                     child: AspectRatio(
                                       aspectRatio: 1,
-                                      child: PieChart(
-                                        PieChartData(
-                                          pieTouchData: PieTouchData(
-                                              touchCallback:
-                                                  (pieTouchResponse) {
-                                            setState(() {
-                                              final desiredTouch =
-                                                  pieTouchResponse.touchInput
-                                                          is! PointerExitEvent &&
-                                                      pieTouchResponse
-                                                              .touchInput
-                                                          is! PointerUpEvent;
-                                              if (desiredTouch &&
-                                                  pieTouchResponse
-                                                          .touchedSection !=
-                                                      null) {
-                                                touchedIndex = pieTouchResponse
-                                                    .touchedSection!
-                                                    .touchedSectionIndex;
-                                              } else {
-                                                touchedIndex = -1;
-                                              }
-                                            });
-                                          }),
-                                          borderData: FlBorderData(
-                                            show: false,
-                                          ),
-                                          sectionsSpace: 0,
-                                          centerSpaceRadius: 40,
-                                          sections: showingSections(
-                                            total: snapshot.data!.totalClicks!
-                                                .ceilToDouble(),
-                                            category: snapshot
-                                                .data!.categoryClicks!
-                                                .ceilToDouble(),
-                                            recs: snapshot
-                                                .data!.recommendationsClicks!
-                                                .ceilToDouble(),
-                                            search: snapshot.data!.searchClicks!
-                                                .ceilToDouble(),
-                                            profile: snapshot
-                                                .data!.profileClicks!
-                                                .ceilToDouble(),
-                                          ),
-                                        ),
-                                      ),
+                                      child: (snapshot.data!.totalClicks!
+                                                  .ceilToDouble() !=
+                                              0.0)
+                                          ? PieChart(
+                                              PieChartData(
+                                                pieTouchData: PieTouchData(
+                                                  enabled: false,
+                                                ),
+                                                borderData: FlBorderData(
+                                                  show: false,
+                                                ),
+                                                sectionsSpace: 0,
+                                                centerSpaceRadius: 40,
+                                                sections: showingSections(
+                                                  total: snapshot
+                                                      .data!.totalClicks!
+                                                      .ceilToDouble(),
+                                                  category: snapshot
+                                                      .data!.categoryClicks!
+                                                      .ceilToDouble(),
+                                                  recs: snapshot.data!
+                                                      .recommendationsClicks!
+                                                      .ceilToDouble(),
+                                                  search: snapshot
+                                                      .data!.searchClicks!
+                                                      .ceilToDouble(),
+                                                  profile: snapshot
+                                                      .data!.profileClicks!
+                                                      .ceilToDouble(),
+                                                ),
+                                              ),
+                                            )
+                                          : Container(
+                                              child: Center(
+                                                child: Text(
+                                                  'No Data',
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                     ),
                                   ),
                                   Column(
@@ -397,40 +442,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: const <Widget>[
-                                      Indicator(
-                                        color: Color(0xff0293ee),
-                                        text: 'Search',
-                                        isSquare: true,
-                                      ),
-                                      SizedBox(
-                                        height: 4,
-                                      ),
-                                      Indicator(
-                                        color: Color(0xfff8b250),
-                                        text: 'Recs',
-                                        isSquare: true,
-                                      ),
-                                      SizedBox(
-                                        height: 4,
-                                      ),
-                                      Indicator(
-                                        color: Color(0xff845bef),
-                                        text: 'Category',
-                                        isSquare: true,
-                                      ),
-                                      SizedBox(
-                                        height: 4,
-                                      ),
-                                      Indicator(
-                                        color: Color(0xff13d38e),
-                                        text: 'Profile',
-                                        isSquare: true,
-                                      ),
-                                      SizedBox(
-                                        height: 18,
-                                      ),
-                                    ],
+                                    children: indicators,
                                   ),
                                   const SizedBox(
                                     width: 28,

@@ -25,7 +25,6 @@ class _HomeState extends State<Home> {
   Future<int>? itemsLength;
 
   _addItem(BuildContext context, int itemsLength, bool hasPurchases) {
-    print(itemsLength);
     if (itemsLength < 10) {
       return Navigator.push(
         context,
@@ -50,12 +49,6 @@ class _HomeState extends State<Home> {
     }
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
   Future<int> getCollectionLength(String uid) async {
     final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('profile')
@@ -73,7 +66,6 @@ class _HomeState extends State<Home> {
     setState(() {
       itemsLength = getCollectionLength(_userProvider.user!.uid);
     });
-    print(itemsLength);
   }
 
   @override
@@ -113,7 +105,6 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.pink,
         onPressed: () async {
           final int? _itemsLength = await itemsLength;
-          print(_itemsLength);
           _addItem(context, _itemsLength!, subsProvider.purchases.isNotEmpty);
         },
         child: const Icon(
@@ -132,13 +123,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _userProvider = Provider.of<AuthenticationProvider>(context);
-
-    // final Stream<QuerySnapshot> items = FirebaseFirestore.instance
-    //     .collection('profile')
-    //     .doc(_userProvider.user!.uid)
-    //     .collection('items')
-    //     .orderBy('dateAdded', descending: true)
-    //     .snapshots();
 
     final Stream<DocumentSnapshot> _tokens = FirebaseFirestore.instance
         .collection('profile')

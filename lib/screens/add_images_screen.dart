@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:beammart_merchants/providers/subscriptions_provider.dart';
 import 'package:beammart_merchants/screens/camera_photo_screen.dart';
 import 'package:beammart_merchants/utils/upload_files_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

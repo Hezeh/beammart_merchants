@@ -34,7 +34,7 @@ Future<ClickAnalytics> getClicksAnalyticsData(String? merchantId) async {
   return ClickAnalytics();
 }
 
-Future<ImpressionsAnalyticsData> getItemImpressionsAnalyticsData(String? itemId) async {
+Future<ImpressionsAnalyticsData> getItemImpressionsAnalyticsData(String itemId) async {
   final response = await http.get(
     Uri(
       scheme: 'https',
@@ -49,7 +49,7 @@ Future<ImpressionsAnalyticsData> getItemImpressionsAnalyticsData(String? itemId)
   return ImpressionsAnalyticsData();
 }
 
-Future<ClickAnalytics> getItemClicksAnalyticsData(String? itemId) async {
+Future<ClickAnalytics> getItemClicksAnalyticsData(String itemId) async {
   final response = await http.get(
     Uri(
       scheme: 'https',
