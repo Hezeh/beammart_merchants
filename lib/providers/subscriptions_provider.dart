@@ -130,7 +130,8 @@ class SubscriptionsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList, String userId) {
+  void _listenToPurchaseUpdated(
+      List<PurchaseDetails> purchaseDetailsList, String userId) {
     purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
       if (purchaseDetails.status == PurchaseStatus.pending) {
         _purchasePending = true;
@@ -162,8 +163,21 @@ class SubscriptionsProvider with ChangeNotifier {
   }
 
   Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) {
-    // IMPORTANT!! Always verify a purchase before delivering the product.
+    // TODO: IMPORTANT!! Always verify a purchase before delivering the product.
     // For the purpose of an example, we directly return true.
+    // print("Token: ${purchaseDetails.billingClientPurchase!.purchaseToken}");
+    // print("PackageName: ${purchaseDetails.billingClientPurchase!.packageName}");
+    // print("OrderId: ${purchaseDetails.billingClientPurchase!.orderId}");
+    // print(
+    //     "Original Json: ${purchaseDetails.billingClientPurchase!.originalJson}");
+    // print("Product Id: ${purchaseDetails.productID}");
+    // print("Purchase Id: ${purchaseDetails.purchaseID}");
+    // print(
+    //     "Verification Data: ${purchaseDetails.verificationData.localVerificationData}");
+    // final _productId = purchaseDetails.productID;
+    // final _token = purchaseDetails.billingClientPurchase!.purchaseToken;
+    // final _packageName = purchaseDetails.billingClientPurchase!.packageName;
+
     return Future<bool>.value(true);
   }
 
