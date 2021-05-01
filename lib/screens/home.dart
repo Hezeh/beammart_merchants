@@ -221,8 +221,6 @@ class HomePage extends StatelessWidget {
                                       IconButton(
                                         icon: Icon(
                                           Icons.delete_outline_outlined,
-                                          color: Colors.red,
-                                          size: 30,
                                         ),
                                         onPressed: () => showDialog(
                                           context: context,

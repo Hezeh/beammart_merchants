@@ -27,6 +27,7 @@ class AddImagesScreen extends StatefulWidget {
 }
 
 class _AddImagesScreenState extends State<AddImagesScreen> {
+  bool _loading = false;
   String? fileName;
   PickedFile? pickedImageFile;
   final picker = ImagePicker();
@@ -44,22 +45,31 @@ class _AddImagesScreenState extends State<AddImagesScreen> {
 
   cameraImage(context) {}
 
-  uploadImages(List<File> files, String userId, String itemId) {
+  Future<void> uploadImages(
+      List<File> files, String userId, String itemId) async {
+    setState(() {
+      _loading = true;
+    });
+
     // Upload to Cloud Storage
-    files.forEach((image) async {
+    for (var image in files) {
       String? _imageUrl = await uploadFile(image);
       _imageUrls.add(_imageUrl);
-    });
+    }
     // Update the Firestore Collection
     final DocumentReference _itemsRef = FirebaseFirestore.instance
         .collection('profile')
         .doc(userId)
         .collection('items')
         .doc(itemId);
-    _itemsRef.set({
+
+    await _itemsRef.set({
       'images': FieldValue.arrayUnion(_imageUrls),
-    }, SetOptions(merge: true)).then((value) {
-      Navigator.popUntil(context, ModalRoute.withName('/'));
+    }, SetOptions(merge: true)).whenComplete(() {
+      setState(() {
+        _loading = false;
+      });
+      Navigator.of(context).pop();
     });
   }
 
@@ -76,7 +86,9 @@ class _AddImagesScreenState extends State<AddImagesScreen> {
     return Scaffold(
       appBar: AppBar(
         title: (widget.editing != null && widget.editing!)
-            ? Text('Add New Images')
+            ? (_loading)
+                ? Text("Uploading...")
+                : Text('Add New Images')
             : Text('Item Images'),
         actions: (widget.editing != null && widget.editing!)
             ? [
@@ -86,10 +98,12 @@ class _AddImagesScreenState extends State<AddImagesScreen> {
                           uploadImages(
                               _images, currentUser!.uid, widget.itemId!);
                         },
-                        child: Text(
-                          'Finish',
-                          style: TextStyle(color: Colors.pink),
-                        ),
+                        child: (_loading)
+                            ? Container()
+                            : Text(
+                                'Finish',
+                                style: TextStyle(color: Colors.pink),
+                              ),
                       )
                     : Container()
               ]
@@ -117,85 +131,92 @@ class _AddImagesScreenState extends State<AddImagesScreen> {
                     : Container()
               ],
       ),
-      body: ListView(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton.icon(
-                onPressed: () async {
-                  final File? _newCameraPhoto =
-                      await Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => CameraPhotoScreen(),
-                    ),
-                  );
-                  if (_newCameraPhoto != null) {
-                    print(_newCameraPhoto.path);
-                    setState(() {
-                      _images.add(_newCameraPhoto);
-                    });
-                  }
-                },
-                label: Text('Camera'),
-                icon: Icon(
-                  Icons.camera_outlined,
-                ),
-              ),
-              ElevatedButton.icon(
-                onPressed: () {
-                  galleryImage(context);
-                },
-                label: Text('Gallery'),
-                icon: Icon(
-                  Icons.collections_outlined,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          (_images.length != 0)
-              ? GridView.builder(
-                  itemCount: _images.length,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 200,
-                    childAspectRatio: 0.8,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                  ),
-                  itemBuilder: (context, index) {
-                    return ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: GridTile(
-                        child: Image.file(
-                          _images[index],
-                          fit: BoxFit.cover,
-                        ),
-                        footer: GridTileBar(
-                          backgroundColor: Colors.black38,
-                          leading: IconButton(
-                            color: Colors.red,
-                            icon: Icon(
-                              Icons.delete_outline_outlined,
-                            ),
-                            onPressed: () => _removeImage(index),
+      body: (_loading)
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : ListView(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () async {
+                        final File? _newCameraPhoto =
+                            await Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => CameraPhotoScreen(),
                           ),
+                        );
+                        if (_newCameraPhoto != null) {
+                          print(_newCameraPhoto.path);
+                          setState(() {
+                            _images.add(_newCameraPhoto);
+                          });
+                        }
+                      },
+                      label: Text('Camera'),
+                      icon: Icon(
+                        Icons.camera_outlined,
+                      ),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        galleryImage(context);
+                      },
+                      label: Text('Gallery'),
+                      icon: Icon(
+                        Icons.collections_outlined,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                (_images.length != 0)
+                    ? GridView.builder(
+                        itemCount: _images.length,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 200,
+                          childAspectRatio: 0.8,
+                          crossAxisSpacing: 2,
+                          mainAxisSpacing: 2,
+                        ),
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: EdgeInsets.all(5),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: GridTile(
+                                child: Image.file(
+                                  _images[index],
+                                  fit: BoxFit.cover,
+                                ),
+                                footer: GridTileBar(
+                                  backgroundColor: Colors.black38,
+                                  leading: IconButton(
+                                    color: Colors.red,
+                                    icon: Icon(
+                                      Icons.delete_outline_outlined,
+                                    ),
+                                    onPressed: () => _removeImage(index),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      )
+                    : Center(
+                        child: Text(
+                          'Please select an image from gallery or take one',
                         ),
                       ),
-                    );
-                  },
-                )
-              : Center(
-                  child: Text(
-                    'Please select an image from gallery or take one',
-                  ),
-                ),
-        ],
-      ),
+              ],
+            ),
     );
   }
 }

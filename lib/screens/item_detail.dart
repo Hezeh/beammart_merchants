@@ -2,11 +2,13 @@ import 'package:beammart_merchants/providers/subscriptions_provider.dart';
 import 'package:beammart_merchants/screens/add_images_screen.dart';
 import 'package:beammart_merchants/screens/payments_subscriptions_screen.dart';
 import 'package:beammart_merchants/widgets/item_analytics_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import '../models/item.dart';
 import '../providers/auth_provider.dart';
 import '../widgets/display_images_widget.dart';
@@ -137,11 +139,111 @@ class _ItemDetailState extends State<ItemDetail> {
                       ),
                     ),
                   ),
-                  Container(
-                    height: 400,
-                    child: DisplayImagesWidget(
-                      images: widget.item!.images,
-                    ),
+                  StreamBuilder<DocumentSnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('profile')
+                        .doc(_userProvider.user!.uid)
+                        .collection('items')
+                        .doc(widget.itemId)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      return Container(
+                        height: 400,
+                        child: GridView.builder(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 1,
+                            crossAxisSpacing: 2,
+                            mainAxisSpacing: 2,
+                            childAspectRatio: 1.3,
+                          ),
+                          scrollDirection: Axis.horizontal,
+                          itemCount: snapshot.data!.data()!['images'].length,
+                          itemBuilder: (context, index) {
+                            List<dynamic> _removeList = [];
+                            _removeList
+                                .add(snapshot.data!.data()!['images'][index]);
+                            return Container(
+                              padding: EdgeInsets.all(10),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: GridTile(
+                                  footer: (snapshot.data!
+                                              .data()!['images']
+                                              .length >
+                                          1)
+                                      ? GridTileBar(
+                                          backgroundColor: Colors.black45,
+                                          trailing: IconButton(
+                                            icon: Icon(
+                                                Icons.delete_outline_outlined),
+                                            onPressed: () {
+                                              if (_removeList.isNotEmpty) {
+                                                FirebaseFirestore.instance
+                                                    .collection('profile')
+                                                    .doc(
+                                                        _userProvider.user!.uid)
+                                                    .collection('items')
+                                                    .doc(widget.itemId)
+                                                    .set(
+                                                  {
+                                                    'images':
+                                                        FieldValue.arrayRemove(
+                                                            _removeList)
+                                                  },
+                                                  SetOptions(merge: true),
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        )
+                                      : Container(),
+                                  child: CachedNetworkImage(
+                                    imageUrl: snapshot.data!.data()!['images']
+                                        [index],
+                                    height: 500,
+                                    width: 200,
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.cover,
+                                          alignment: Alignment.center,
+                                          colorFilter: ColorFilter.mode(
+                                            Colors.white,
+                                            BlendMode.colorBurn,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    placeholder: (context, url) =>
+                                        Shimmer.fromColors(
+                                      child: Card(
+                                        child: Container(
+                                          width: double.infinity,
+                                          height: 300,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      baseColor: Colors.grey[300]!,
+                                      highlightColor: Colors.grey[100]!,
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
                   ),
                   Container(
                     padding: EdgeInsets.all(8.0),
