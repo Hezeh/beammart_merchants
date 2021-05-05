@@ -360,24 +360,29 @@ class _ItemDetailState extends State<ItemDetail> {
                 ],
               ),
             ),
+            // Container(
+            //   child: (_subsProvider.purchases.isEmpty)
+            //       ? Center(
+            //           child: OutlinedButton(
+            //             child: Text('Get Premium'),
+            //             onPressed: () {
+            //               Navigator.of(context).push(
+            //                 MaterialPageRoute(
+            //                   builder: (_) => PaymentsSubscriptionsScreen(),
+            //                 ),
+            //               );
+            //             },
+            //           ),
+            //         )
+            //       // : ItemAnalyticsWidget(
+            //       //     itemId: widget.itemId,
+            //       //   ),
+            // ),
             Container(
-              child: (_subsProvider.purchases.isEmpty)
-                  ? Center(
-                      child: OutlinedButton(
-                        child: Text('Get Premium'),
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => PaymentsSubscriptionsScreen(),
-                            ),
-                          );
-                        },
-                      ),
-                    )
-                  : ItemAnalyticsWidget(
-                      itemId: widget.itemId,
-                    ),
-            ),
+              child: ItemAnalyticsWidget(
+                itemId: widget.itemId,
+              ),
+            )
           ],
         ),
       ),

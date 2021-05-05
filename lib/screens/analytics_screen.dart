@@ -516,9 +516,9 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
         ),
       );
     }
-    if (subsProvider.purchases.isEmpty) {
-      return PaymentsSubscriptionsScreen();
-    }
+    // if (subsProvider.purchases.isEmpty) {
+    //   return PaymentsSubscriptionsScreen();
+    // }
     return Scaffold(
       appBar: AppBar(
         title: Text("Analytics"),

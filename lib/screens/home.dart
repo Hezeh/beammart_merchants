@@ -25,28 +25,34 @@ class _HomeState extends State<Home> {
   Future<int>? itemsLength;
 
   _addItem(BuildContext context, int itemsLength, bool hasPurchases) {
-    if (itemsLength < 10) {
-      return Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => AddImagesScreen(),
-        ),
-      );
-    } else if (hasPurchases) {
-      return Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => AddImagesScreen(),
-        ),
-      );
-    } else {
-      return Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => PaymentsSubscriptionsScreen(),
-        ),
-      );
-    }
+    // if (itemsLength < 10) {
+    //   return Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (_) => AddImagesScreen(),
+    //     ),
+    //   );
+    // } else if (hasPurchases) {
+    //   return Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (_) => AddImagesScreen(),
+    //     ),
+    //   );
+    // } else {
+    //   return Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (_) => PaymentsSubscriptionsScreen(),
+    //     ),
+    //   );
+    // }
+    return Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => AddImagesScreen(),
+      ),
+    );
   }
 
   Future<int> getCollectionLength(String uid) async {

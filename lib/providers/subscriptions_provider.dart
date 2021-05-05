@@ -232,6 +232,7 @@ class SubscriptionsProvider with ChangeNotifier {
       _consumables = consumables;
     }
     if (purchaseDetails.productID == kGoldSubscriptionId) {
+      // TODO Change user to premium
       _purchases.add(purchaseDetails);
       _purchasePending = false;
     }
