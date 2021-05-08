@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:universal_platform/universal_platform.dart';
 import './providers/add_business_profile_provider.dart';
 import './providers/auth_provider.dart';
 import './providers/image_upload_provider.dart';
@@ -36,8 +37,14 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await Firebase.initializeApp();
   await Hive.initFlutter();
-  cameras = await availableCameras();
-  InAppPurchaseConnection.enablePendingPurchases();
+  try {
+    if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) {
+      cameras = await availableCameras();
+      InAppPurchaseConnection.enablePendingPurchases();
+    }
+  } catch (e) {
+    print(e);
+  }
   runApp(
     MultiProvider(
       providers: [
@@ -63,7 +70,8 @@ void main() async {
         ChangeNotifierProvider<AddBusinessProfileProvider>(
           create: (context) => AddBusinessProfileProvider(),
         ),
-        ChangeNotifierProxyProvider<AuthenticationProvider, SubscriptionsProvider>(
+        ChangeNotifierProxyProvider<AuthenticationProvider,
+            SubscriptionsProvider>(
           create: (BuildContext context) => SubscriptionsProvider(
             Provider.of<AuthenticationProvider>(context, listen: false).user,
           ),
@@ -92,7 +100,8 @@ class App extends StatelessWidget {
     final profile = context.watch<ProfileProvider>().profile;
     final loading = context.watch<ProfileProvider>().loading;
     Provider.of<SubscriptionsProvider>(context, listen: false);
-    Provider.of<CategoryTokensProvider>(context, listen: false).fetchTokenValues();
+    Provider.of<CategoryTokensProvider>(context, listen: false)
+        .fetchTokenValues();
     return MaterialApp(
       navigatorObservers: [FirebaseAnalyticsObserver(analytics: analytics)],
       debugShowCheckedModeBanner: false,
