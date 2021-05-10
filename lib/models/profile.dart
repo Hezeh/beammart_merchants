@@ -47,6 +47,12 @@ class Profile {
   String? businessProfilePhoto;
   double? tokensBalance;
   double? tokensInUse;
+  String? email;
+  bool? emailVerified;
+  String? displayName;
+  String? creationTime;
+  String? lastSignInTime;
+  String? photoUrl;
 
   Profile({
     this.userId,
@@ -81,6 +87,12 @@ class Profile {
     this.businessProfilePhoto,
     this.tokensBalance,
     this.tokensInUse,
+    this.email,
+    this.emailVerified,
+    this.creationTime,
+    this.lastSignInTime,
+    this.displayName,
+    this.photoUrl
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) =>

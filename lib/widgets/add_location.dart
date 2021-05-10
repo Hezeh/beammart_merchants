@@ -156,6 +156,15 @@ class _AddLocationMapState extends State<AddLocationMap> {
                                     .profile.businessDescription,
                                 userId: currentUser!.uid,
                                 storeId: currentUser.uid,
+                                email: currentUser.email,
+                                emailVerified: currentUser.emailVerified,
+                                creationTime: currentUser.metadata.creationTime!
+                                    .toIso8601String(),
+                                lastSignInTime: currentUser
+                                    .metadata.lastSignInTime!
+                                    .toIso8601String(),
+                                displayName: currentUser.displayName,
+                                photoUrl: currentUser.photoURL,
                                 city: _businessProfileProvider.profile.city,
                                 locationDescription: _businessProfileProvider
                                     .profile.locationDescription,

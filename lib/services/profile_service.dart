@@ -8,7 +8,7 @@ class ProfileService {
 
   Future<Profile?> getCurrentProfile(String userId) async {
     final DocumentSnapshot profile = await _db.doc(userId).get();
-    if (profile != null) {
+    if (profile.data() != null) {
       return Profile.fromJson(profile.data()!);
     }
     // return profile;
