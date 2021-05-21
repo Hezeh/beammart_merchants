@@ -483,6 +483,14 @@ class _ItemAnalyticsWidgetState extends State<ItemAnalyticsWidget> {
     }
 
     List<Widget> stack = [];
+    stack.add(
+      ListView(
+        children: [
+          _buildImpressionsAnalytics(widget.itemId),
+          _buildClickAnalytics(widget.itemId)
+        ],
+      ),
+    );
     // if (subsProvider.queryProductError == null) {
     //   stack.add(
     //     ListView(
