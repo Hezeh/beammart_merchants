@@ -40,6 +40,12 @@ Profile _$ProfileFromJson(Map<String, dynamic> json) {
     businessProfilePhoto: json['businessProfilePhoto'] as String?,
     tokensBalance: (json['tokensBalance'] as num?)?.toDouble(),
     tokensInUse: (json['tokensInUse'] as num?)?.toDouble(),
+    email: json['email'] as String?,
+    emailVerified: json['emailVerified'] as bool?,
+    creationTime: json['creationTime'] as String?,
+    lastSignInTime: json['lastSignInTime'] as String?,
+    displayName: json['displayName'] as String?,
+    photoUrl: json['photoUrl'] as String?,
   );
 }
 
@@ -76,4 +82,10 @@ Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
       'businessProfilePhoto': instance.businessProfilePhoto,
       'tokensBalance': instance.tokensBalance,
       'tokensInUse': instance.tokensInUse,
+      'email': instance.email,
+      'emailVerified': instance.emailVerified,
+      'displayName': instance.displayName,
+      'creationTime': instance.creationTime,
+      'lastSignInTime': instance.lastSignInTime,
+      'photoUrl': instance.photoUrl,
     };

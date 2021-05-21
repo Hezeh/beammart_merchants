@@ -483,54 +483,62 @@ class _ItemAnalyticsWidgetState extends State<ItemAnalyticsWidget> {
     }
 
     List<Widget> stack = [];
-    if (subsProvider.queryProductError == null) {
-      stack.add(
-        ListView(
-          children: [
-            _buildImpressionsAnalytics(widget.itemId),
-            _buildClickAnalytics(widget.itemId)
-          ],
-        ),
-      );
-    } else {
-      stack.add(
-        Center(
-          child: Text(subsProvider.queryProductError!),
-        ),
-      );
-    }
-    if (subsProvider.purchasePending) {
-      stack.add(
-        Stack(
-          children: [
-            Opacity(
-              opacity: 0.3,
-              child: const ModalBarrier(
-                dismissible: false,
-                color: Colors.grey,
-              ),
-            ),
-            Center(
-              child: CircularProgressIndicator(),
-            ),
-          ],
-        ),
-      );
-    }
-    if (subsProvider.purchases.isEmpty) {
-      return Center(
-        child: OutlinedButton(
-          child: Text('Get Premium'),
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => PaymentsSubscriptionsScreen(),
-              ),
-            );
-          },
-        ),
-      );
-    }
+    stack.add(
+      ListView(
+        children: [
+          _buildImpressionsAnalytics(widget.itemId),
+          _buildClickAnalytics(widget.itemId)
+        ],
+      ),
+    );
+    // if (subsProvider.queryProductError == null) {
+    //   stack.add(
+    //     ListView(
+    //       children: [
+    //         _buildImpressionsAnalytics(widget.itemId),
+    //         _buildClickAnalytics(widget.itemId)
+    //       ],
+    //     ),
+    //   );
+    // } else {
+    //   stack.add(
+    //     Center(
+    //       child: Text(subsProvider.queryProductError!),
+    //     ),
+    //   );
+    // }
+    // if (subsProvider.purchasePending) {
+    //   stack.add(
+    //     Stack(
+    //       children: [
+    //         Opacity(
+    //           opacity: 0.3,
+    //           child: const ModalBarrier(
+    //             dismissible: false,
+    //             color: Colors.grey,
+    //           ),
+    //         ),
+    //         Center(
+    //           child: CircularProgressIndicator(),
+    //         ),
+    //       ],
+    //     ),
+    //   );
+    // }
+    // if (subsProvider.purchases.isEmpty) {
+    //   return Center(
+    //     child: OutlinedButton(
+    //       child: Text('Get Premium'),
+    //       onPressed: () {
+    //         Navigator.of(context).push(
+    //           MaterialPageRoute(
+    //             builder: (_) => PaymentsSubscriptionsScreen(),
+    //           ),
+    //         );
+    //       },
+    //     ),
+    //   );
+    // }
     return Stack(
       children: stack,
     );
