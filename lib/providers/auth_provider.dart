@@ -7,7 +7,6 @@ import 'package:flutter/cupertino.dart';
 import '../services/profile_service.dart';
 import 'package:flutter/foundation.dart';
 
-
 class AuthenticationProvider with ChangeNotifier {
   // FirebaseAuth instance;
   final FirebaseAuth firebaseAuth;
@@ -73,12 +72,14 @@ class AuthenticationProvider with ChangeNotifier {
           ),
         );
       } else {
+        // print("Missing Google Auth Token");
         throw PlatformException(
           code: 'ERROR_MISSING_GOOGLE_AUTH_TOKEN',
           message: 'Missing Google Auth Token',
         );
       }
     } else {
+      // print("Sign in aborted by user");
       throw PlatformException(
         code: 'ERROR_ABORTED_BY_USER',
         message: 'Sign in aborted by user',
@@ -86,6 +87,29 @@ class AuthenticationProvider with ChangeNotifier {
     }
     _loading = false;
     notifyListeners();
+  }
+
+  Future<UserCredential> signInWithGoogleWeb() async {
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+
+    if (googleSignIn.clientId != null) {
+      googleSignIn.signInSilently();
+      _loading = false;
+      print(googleSignIn.clientId);
+      notifyListeners();
+    }
+    // Create a new provider
+    GoogleAuthProvider googleProvider = GoogleAuthProvider();
+
+    googleProvider
+        .addScope('https://www.googleapis.com/auth/contacts.readonly');
+    googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithPopup(googleProvider);
+
+    // Or use signInWithRedirect
+    // return await FirebaseAuth.instance.signInWithRedirect(googleProvider);
   }
 
   Future<void> signOut() async {

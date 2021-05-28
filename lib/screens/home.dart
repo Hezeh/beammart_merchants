@@ -4,6 +4,7 @@ import 'package:beammart_merchants/screens/payments_subscriptions_screen.dart';
 import 'package:beammart_merchants/screens/tokens_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/item.dart';
@@ -77,7 +78,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final _userProvider = Provider.of<AuthenticationProvider>(context);
-    final subsProvider = Provider.of<SubscriptionsProvider>(context);
+    // final subsProvider = Provider.of<SubscriptionsProvider>(context);
     final Stream<QuerySnapshot> items = FirebaseFirestore.instance
         .collection('profile')
         .doc(_userProvider.user!.uid)
@@ -110,8 +111,14 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.pink,
         onPressed: () async {
-          final int? _itemsLength = await itemsLength;
-          _addItem(context, _itemsLength!, subsProvider.purchases.isNotEmpty);
+          // final int? _itemsLength = await itemsLength;
+          // _addItem(context, _itemsLength!, subsProvider.purchases.isNotEmpty);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => AddImagesScreen(),
+            ),
+          );
         },
         child: const Icon(
           Icons.add,

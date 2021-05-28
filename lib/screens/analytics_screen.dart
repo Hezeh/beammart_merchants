@@ -19,7 +19,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
   @override
   Widget build(BuildContext context) {
     final currentUser = FirebaseAuth.instance.currentUser;
-    final subsProvider = Provider.of<SubscriptionsProvider>(context);
+    // final subsProvider = Provider.of<SubscriptionsProvider>(context);
     List<PieChartSectionData>? showingSections({
       double? total,
       double? search,
@@ -482,43 +482,44 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
     }
 
     List<Widget> stack = [];
-    if (subsProvider.queryProductError == null) {
-      stack.add(
-        ListView(
-          children: [
-            _buildImpressionsAnalytics(currentUser!.uid),
-            _buildClickAnalytics(currentUser.uid)
-          ],
-        ),
-      );
-    } else {
-      stack.add(
-        Center(
-          child: Text(subsProvider.queryProductError!),
-        ),
-      );
-    }
-    if (subsProvider.purchasePending) {
-      stack.add(
-        Stack(
-          children: [
-            Opacity(
-              opacity: 0.3,
-              child: const ModalBarrier(
-                dismissible: false,
-                color: Colors.grey,
-              ),
-            ),
-            Center(
-              child: CircularProgressIndicator(),
-            ),
-          ],
-        ),
-      );
-    }
+    // if (subsProvider.queryProductError == null) {
+
+    // } else {
+    //   stack.add(
+    //     Center(
+    //       child: Text(subsProvider.queryProductError!),
+    //     ),
+    //   );
+    // }
+    // if (subsProvider.purchasePending) {
+    //   stack.add(
+    //     Stack(
+    //       children: [
+    //         Opacity(
+    //           opacity: 0.3,
+    //           child: const ModalBarrier(
+    //             dismissible: false,
+    //             color: Colors.grey,
+    //           ),
+    //         ),
+    //         Center(
+    //           child: CircularProgressIndicator(),
+    //         ),
+    //       ],
+    //     ),
+    //   );
+    // }
     // if (subsProvider.purchases.isEmpty) {
     //   return PaymentsSubscriptionsScreen();
     // }
+    stack.add(
+      ListView(
+        children: [
+          _buildImpressionsAnalytics(currentUser!.uid),
+          _buildClickAnalytics(currentUser.uid)
+        ],
+      ),
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text("Analytics"),

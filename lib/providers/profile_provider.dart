@@ -18,9 +18,12 @@ class ProfileProvider with ChangeNotifier {
   bool _loading = true;
 
   ProfileProvider(this._user) {
+    print("Executing Profile Provider");
     if (this._user != null) {
+      print("Getting Profile");
       getBusinessProfile(this._user!);
     }
+    print("User is null");
   }
 
   Profile? get profile => _profile;
@@ -28,6 +31,7 @@ class ProfileProvider with ChangeNotifier {
 
   getBusinessProfile(User _user) async {
     // Get User Profile from firestore
+    print("Getting Profile");
     final DocumentSnapshot _profileDoc = await _profileRef.doc(_user.uid).get();
     if (_profileDoc.exists) {
       _profile = Profile.fromJson(_profileDoc.data()!);
