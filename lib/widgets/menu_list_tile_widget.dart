@@ -119,9 +119,14 @@ class MenuListTileWidget extends StatelessWidget {
             );
           },
         ),
+        Divider(
+          color: Colors.pink,
+          indent: 10.0,
+          endIndent: 10.0,
+        ),
         ListTile(
           leading: Icon(
-            Icons.analytics_outlined,
+            Icons.person_add,
             color: Colors.pink,
           ),
           title: Text(
