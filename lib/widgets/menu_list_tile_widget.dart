@@ -1,5 +1,7 @@
 import 'package:beammart_merchants/screens/all_chats_screen.dart';
 import 'package:beammart_merchants/screens/analytics_screen.dart';
+import 'package:beammart_merchants/screens/payments_subscriptions_screen.dart';
+import 'package:beammart_merchants/screens/wallet_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
@@ -118,11 +120,11 @@ class MenuListTileWidget extends StatelessWidget {
             );
           },
         ),
-        // Divider(
-        //   color: Colors.pink,
-        //   indent: 10.0,
-        //   endIndent: 10.0,
-        // ),
+        Divider(
+          color: Colors.pink,
+          indent: 10.0,
+          endIndent: 10.0,
+        ),
         // ListTile(
         //   leading: Icon(
         //     Icons.payments_outlined,
@@ -143,6 +145,28 @@ class MenuListTileWidget extends StatelessWidget {
         //     );
         //   },
         // ),
+        ListTile(
+          leading: Icon(
+            Icons.account_balance_wallet_outlined,
+            color: Colors.pink,
+          ),
+          title: Text(
+            'Wallet',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18.0,
+            ),
+          ),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => WalletScreen(),
+              ),
+            );
+          },
+        ),
         Divider(
           color: Colors.pink,
           indent: 10.0,
