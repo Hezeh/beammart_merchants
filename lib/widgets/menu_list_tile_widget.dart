@@ -1,5 +1,6 @@
 import 'package:beammart_merchants/screens/all_chats_screen.dart';
 import 'package:beammart_merchants/screens/analytics_screen.dart';
+import 'package:beammart_merchants/screens/create_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
@@ -114,6 +115,26 @@ class MenuListTileWidget extends StatelessWidget {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (_) => AnalyticsScreen(),
+              ),
+            );
+          },
+        ),
+        ListTile(
+          leading: Icon(
+            Icons.analytics_outlined,
+            color: Colors.pink,
+          ),
+          title: Text(
+            'Create',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18.0,
+            ),
+          ),
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => CreateProfileScreen(),
               ),
             );
           },
