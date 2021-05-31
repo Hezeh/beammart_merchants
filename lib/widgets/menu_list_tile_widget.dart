@@ -1,5 +1,6 @@
 import 'package:beammart_merchants/screens/all_chats_screen.dart';
 import 'package:beammart_merchants/screens/analytics_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
@@ -35,13 +36,9 @@ class MenuListTileWidget extends StatelessWidget {
     return Column(
       children: [
         (currentUser != null)
-            ? UserAccountsDrawerHeader(
-                currentAccountPicture: CircleAvatar(
-                  radius: 60.0,
-                  child: Image.network('${currentUser.photoURL}'),
-                ),
-                accountName: Text('${currentUser.displayName}'),
-                accountEmail: Text('${currentUser.email}'),
+            ? Container(
+                margin: EdgeInsets.all(20),
+                child: Text("${currentUser.email}"),
               )
             : Container(),
         ListTile(
@@ -68,7 +65,7 @@ class MenuListTileWidget extends StatelessWidget {
             );
           },
         ),
-         Divider(
+        Divider(
           color: Colors.pink,
           indent: 10.0,
           endIndent: 10.0,
