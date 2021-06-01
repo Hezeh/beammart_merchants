@@ -1,5 +1,6 @@
 import 'package:beammart_merchants/providers/auth_provider.dart';
-import 'package:beammart_merchants/screens/home.dart';
+import 'package:beammart_merchants/screens/verify_email_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -132,7 +133,12 @@ class _LoginEmailPasswordScreenState extends State<LoginEmailPasswordScreen> {
                                     ),
                                   ),
                                 );
-
+                                // FirebaseAuth.instance.
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => VerifyEmailScreen(),
+                                  ),
+                                );
                                 Navigator.of(context).pop();
                               } else if (_message == 'invalid-email') {
                                 ScaffoldMessenger.of(context).showSnackBar(
