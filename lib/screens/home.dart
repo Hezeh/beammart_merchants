@@ -319,13 +319,23 @@ class HomePage extends StatelessWidget {
                           );
                         },
                       )
-                    : const Center(
-                        child: Text('No products posted yet'),
+                    : Container(
+                        margin: EdgeInsets.only(
+                          top: 100,
+                        ),
+                        child: Center(
+                          child: Text('No products posted yet'),
+                        ),
                       );
               }
             }
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Container(
+              margin: EdgeInsets.only(
+                top: 100,
+              ),
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
             );
           },
         ),
