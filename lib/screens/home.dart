@@ -110,8 +110,14 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.pink,
         onPressed: () async {
-          final int? _itemsLength = await itemsLength;
-          _addItem(context, _itemsLength!, subsProvider.purchases.isNotEmpty);
+          // final int? _itemsLength = await itemsLength;
+          // _addItem(context, _itemsLength!, subsProvider.purchases.isNotEmpty);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => AddImagesScreen(),
+            ),
+          );
         },
         child: const Icon(
           Icons.add,

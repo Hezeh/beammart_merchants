@@ -123,9 +123,17 @@ class _AddImagesScreenState extends State<AddImagesScreen> {
                             ),
                           );
                         },
-                        child: Text(
-                          'NEXT',
-                          style: TextStyle(color: Colors.pink),
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            right: 10,
+                          ),
+                          child: Text(
+                            'NEXT',
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.pink,
+                            ),
+                          ),
                         ),
                       )
                     : Container()
