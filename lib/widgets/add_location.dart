@@ -94,8 +94,7 @@ class _AddLocationMapState extends State<AddLocationMap> {
           markerId: MarkerId(_cameraPosition.toString()),
           position: LatLng(_locationData.latitude!, _locationData.longitude!),
           onTap: () {},
-          icon:
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose),
         ),
       );
     });
@@ -145,7 +144,7 @@ class _AddLocationMapState extends State<AddLocationMap> {
                         child: Text(
                           'Save',
                           style: TextStyle(
-                            color: Colors.green,
+                            color: Colors.pink,
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -449,18 +448,14 @@ class _AddLocationMapState extends State<AddLocationMap> {
                             ModalRoute.withName('/'),
                           );
                         },
-                        child: (_businessProfileProvider
-                                    .profile.businessProfilePhoto !=
-                                null)
-                            ? Text(
-                                'Finish',
-                                style: TextStyle(
-                                  color: Colors.pink,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )
-                            : Container(),
+                        child: Text(
+                          'Finish',
+                          style: TextStyle(
+                            color: Colors.pink,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       )
                     : Container()
               ],
@@ -510,15 +505,12 @@ class _AddLocationMapState extends State<AddLocationMap> {
                   child: Container(
                     // color: Colors.pink,
                     padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(  
-                      borderRadius: BorderRadius.circular(20),
-                      gradient: LinearGradient(  
-                        colors: [
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        gradient: LinearGradient(colors: [
                           Colors.pink,
                           Colors.purple,
-                        ]
-                      )
-                    ),
+                        ])),
                     child: Text(
                       'Tap on the map to change your shop location',
                       style: GoogleFonts.gelasio(

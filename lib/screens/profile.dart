@@ -144,7 +144,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 trailing: IconButton(
                                   icon: Icon(Icons.edit_outlined),
                                   onPressed: () {
-                                    // Navigate to Edit Profile Page
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (_) => AddBusinessProfilePhoto(
@@ -174,7 +173,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                           )
-                        : Text('No Profile Photo'),
+                        : Center(
+                            child: ElevatedButton(
+                              child: Text("Add Profile Photo"),
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => AddBusinessProfilePhoto(
+                                      changePhoto: true,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
                   )
                 : Container(),
             Container(
@@ -451,7 +463,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   )
                 : Container(
-                  margin: EdgeInsets.all(10),
+                    margin: EdgeInsets.all(10),
                     padding: EdgeInsets.only(
                       top: 10,
                       left: 10,
