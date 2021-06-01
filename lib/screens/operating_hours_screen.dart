@@ -311,7 +311,11 @@ class _OperatingHoursScreenState extends State<OperatingHoursScreen> {
                   },
                   child: Text(
                     'Next',
-                    style: TextStyle(color: Colors.pink),
+                    style: TextStyle(
+                      color: Colors.pink,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],

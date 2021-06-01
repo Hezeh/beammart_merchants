@@ -43,18 +43,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     if (widget.profile != null) {
-      _businessName.text = widget.profile!.businessName!;
-      _city.text = widget.profile!.city!;
-      _locationDescription.text = widget.profile!.locationDescription!;
-      _businessDescription.text = widget.profile!.businessDescription!;
-      _phoneNumber.text = widget.profile!.phoneNumber!;
+      if (widget.profile!.businessName != null) {
+        _businessName.text = widget.profile!.businessName!;
+      }
+      if (widget.profile!.city != null) {
+        _city.text = widget.profile!.city!;
+      }
+      if (widget.profile!.locationDescription != null) {
+        _locationDescription.text = widget.profile!.locationDescription!;
+      }
+      if (widget.profile!.businessDescription != null) {
+        _businessDescription.text = widget.profile!.businessDescription!;
+      }
+      if (widget.profile!.phoneNumber != null) {
+        _phoneNumber.text = widget.profile!.phoneNumber!;
+      }
     }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final profile = Provider.of<ProfileProvider>(context).profile;
+    final Profile? profile = Provider.of<ProfileProvider>(context).profile;
     final profileProvider = Provider.of<ProfileProvider>(context);
     final _userProvider = Provider.of<AuthenticationProvider>(context);
     final _businessProfileProvider =
@@ -62,8 +72,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       appBar: (widget.profile != null)
           ? AppBar(
-              title: Text('Edit Business Profile'),
-              centerTitle: true,
+              title: Text('Edit Profile'),
+              centerTitle: false,
+              actions: [
+                IconButton(
+                  iconSize: 40,
+                  padding: EdgeInsets.only(
+                    right: 20,
+                  ),
+                  color: Colors.pink,
+                  onPressed: () {
+                    if (_profileFormKey.currentState!.validate()) {
+                      Map<String, dynamic> _data = {};
+                      if (_businessName.text.isNotEmpty) {
+                        _data['businessName'] = _businessName.text;
+                      }
+                      if (_businessDescription.text.isNotEmpty) {
+                        _data['businessDescription'] =
+                            _businessDescription.text;
+                      }
+                      if (_city.text.isNotEmpty) {
+                        _data['city'] = _city.text;
+                      }
+                      if (_phoneNumber.text.isNotEmpty) {
+                        _data['phoneNumber'] = _phoneNumber.text;
+                      }
+                      if (_locationDescription.text.isNotEmpty) {
+                        _data['locationDescription'] =
+                            _locationDescription.text;
+                      }
+                      profileProvider.addBusinessProfile(
+                        _data,
+                        _userProvider.user!.uid,
+                      );
+
+                      Navigator.of(context).pop();
+                    }
+                  },
+                  icon: Icon(
+                    Icons.done,
+                  ),
+                )
+              ],
             )
           : AppBar(
               title: Text('Business Profile'),
@@ -75,8 +125,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             (widget.profile != null)
                 ? Container(
-                    padding: EdgeInsets.all(8.0),
-                    height: 400,
+                    // padding: EdgeInsets.all(8.0),
+                    margin: EdgeInsets.all(10),
+                    height: 300,
                     child: (widget.profile!.businessProfilePhoto != null)
                         ? ClipRRect(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -112,7 +163,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     child: Card(
                                       child: Container(
                                         width: double.infinity,
-                                        height: 400,
+                                        height: 300,
                                         color: Colors.white,
                                       ),
                                     ),
@@ -141,93 +192,100 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   contentPadding: EdgeInsets.all(10),
-                  labelText: 'Business Name (required)',
+                  labelText: 'Business Name / Profile Name (required)',
                 ),
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return "Please enter a Business Name";
+                    return "Please enter a Business Name or Profile Name";
                   }
                   return null;
                 },
               ),
             ),
-            Container(
-              padding: EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: _businessDescription,
-                autocorrect: true,
-                enableSuggestions: true,
-                maxLines: 3,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.0),
+            (widget.profile != null)
+                ? Container(
+                    padding: EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: _businessDescription,
+                      autocorrect: true,
+                      enableSuggestions: true,
+                      maxLines: 3,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10.0),
+                          ),
+                        ),
+                        contentPadding: EdgeInsets.all(10),
+                        labelText: 'Business Description',
+                        hintText: 'What does your business offer?',
+                      ),
+                      validator: (value) {
+                        // if (value!.isEmpty) {
+                        //   return "Please enter a Business Description";
+                        // }
+                        return null;
+                      },
                     ),
-                  ),
-                  contentPadding: EdgeInsets.all(10),
-                  labelText: 'Business Description (required)',
-                  hintText: 'What does your business offer?',
-                ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter a Business Description";
-                  }
-                  return null;
-                },
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: _city,
-                autocorrect: true,
-                enableSuggestions: true,
-                maxLines: 2,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.0),
+                  )
+                : Container(),
+            (widget.profile != null)
+                ? Container(
+                    padding: EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: _city,
+                      autocorrect: true,
+                      enableSuggestions: true,
+                      maxLines: 2,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10.0),
+                          ),
+                        ),
+                        contentPadding: EdgeInsets.all(10),
+                        labelText: 'City/Town',
+                      ),
+                      validator: (value) {
+                        // if (value!.isEmpty) {
+                        //   return "Please enter a city or town";
+                        // }
+                        return null;
+                      },
                     ),
-                  ),
-                  contentPadding: EdgeInsets.all(10),
-                  labelText: 'City/Town (required)',
-                ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter a city or town";
-                  }
-                  return null;
-                },
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: _locationDescription,
-                autocorrect: true,
-                enableSuggestions: true,
-                maxLines: 3,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.0),
+                  )
+                : Container(),
+            (widget.profile != null)
+                ? Container(
+                    padding: EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: _locationDescription,
+                      autocorrect: true,
+                      enableSuggestions: true,
+                      maxLines: 3,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10.0),
+                          ),
+                        ),
+                        contentPadding: EdgeInsets.all(10),
+                        labelText: 'Address',
+                        hintText:
+                            'E.g. Street Name, Building Address, Store Number',
+                      ),
+                      validator: (value) {
+                        // if (value!.isEmpty) {
+                        //   return "Please enter an address";
+                        // }
+                        return null;
+                      },
                     ),
-                  ),
-                  contentPadding: EdgeInsets.all(10),
-                  labelText: 'Address/Location Description (required)',
-                  hintText: 'E.g. Street Name, Building Address, Store Number',
-                ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter a location description";
-                  }
-                  return null;
-                },
-              ),
-            ),
+                  )
+                : Container(),
             Container(
               padding: EdgeInsets.all(8.0),
               child: TextFormField(
@@ -257,7 +315,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ? Container(
                     child: ListTile(
                       title: Text('GPS Location'),
-                      subtitle: (profile != null)
+                      subtitle: (profile != null && profile.gpsLocation != null)
                           ? Text(
                               '${profile.gpsLocation!.latitude}, ${profile.gpsLocation!.longitude}')
                           : Container(),
@@ -265,14 +323,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                                builder: (_) => AddLocationMap(
-                                      currentLocation: GeoPoint(
-                                        profile!.gpsLocation!.latitude,
-                                        profile.gpsLocation!.longitude,
-                                      ),
-                                    ),
-                                settings:
-                                    RouteSettings(name: 'EditLocationScreen')),
+                              builder: (_) => AddLocationMap(
+                                currentLocation: GeoPoint(
+                                  profile!.gpsLocation!.latitude,
+                                  profile.gpsLocation!.longitude,
+                                ),
+                              ),
+                              settings:
+                                  RouteSettings(name: 'EditLocationScreen'),
+                            ),
                           );
                         },
                         child: Text('Change'),
@@ -356,14 +415,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       onPressed: () {
                         if (_profileFormKey.currentState!.validate()) {
+                          Map<String, dynamic> _data = {};
+                          if (_businessName.text.isNotEmpty) {
+                            _data['businessName'] = _businessName.text;
+                          }
+                          if (_businessDescription.text.isNotEmpty) {
+                            _data['businessDescription'] =
+                                _businessDescription.text;
+                          }
+                          if (_city.text.isNotEmpty) {
+                            _data['city'] = _city.text;
+                          }
+                          if (_phoneNumber.text.isNotEmpty) {
+                            _data['phoneNumber'] = _phoneNumber.text;
+                          }
+                          if (_locationDescription.text.isNotEmpty) {
+                            _data['locationDescription'] =
+                                _locationDescription.text;
+                          }
                           profileProvider.addBusinessProfile(
-                            {
-                              'businessName': _businessName.text,
-                              'businessDescription': _businessDescription.text,
-                              'city': _city.text,
-                              'phoneNumber': _phoneNumber.text,
-                              'locationDescription': _locationDescription.text,
-                            },
+                            _data,
                             _userProvider.user!.uid,
                           );
 
@@ -380,10 +451,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   )
                 : Container(
+                  margin: EdgeInsets.all(10),
                     padding: EdgeInsets.only(
                       top: 10,
                       left: 10,
                       right: 10,
+                      bottom: 10,
                     ),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(

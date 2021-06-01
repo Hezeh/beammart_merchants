@@ -56,7 +56,8 @@ class _AddBusinessProfilePhotoState extends State<AddBusinessProfilePhoto> {
                           // Upload photo to the backend
                           // Change url in firestore
                           // Navigate back to the home page
-                          _profileProvider.changeBusinessProfilePhoto(_image, _profileProvider.profile!.userId);
+                          _profileProvider.changeBusinessProfilePhoto(
+                              _image, _profileProvider.profile!.userId);
                           Navigator.of(context).pushNamed(Home.routeName);
                         },
                         child: Text(
@@ -80,9 +81,9 @@ class _AddBusinessProfilePhotoState extends State<AddBusinessProfilePhoto> {
                           // Navigate to Add Location Page
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (_) => OperatingHoursScreen(),
-                              settings: RouteSettings(name: 'OperatingHoursScreen')
-                            ),
+                                builder: (_) => OperatingHoursScreen(),
+                                settings: RouteSettings(
+                                    name: 'OperatingHoursScreen')),
                           );
                         },
                         child: Text(
@@ -94,14 +95,39 @@ class _AddBusinessProfilePhotoState extends State<AddBusinessProfilePhoto> {
                           ),
                         ),
                       )
-                    : Container(),
+                    : TextButton(
+                        onPressed: () {
+                          // Call the add business profile provider add profile photo func
+                          // _businessProfileProvider
+                          //     .addBusinessProfilePhoto(_image);
+                          // Navigate to Add Location Page
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (_) => OperatingHoursScreen(),
+                                settings: RouteSettings(
+                                    name: 'OperatingHoursScreen')),
+                          );
+                        },
+                        child: Text(
+                          'Skip',
+                          style: TextStyle(
+                            color: Colors.pink,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
               ],
       ),
       body: Center(
         child: Container(
+          margin: EdgeInsets.all(20),
           child: (_image != null)
               ? Container(
                   height: 400,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   child: GridTile(
                     child: Image.file(
                       _image!,
@@ -122,7 +148,7 @@ class _AddBusinessProfilePhotoState extends State<AddBusinessProfilePhoto> {
               : OutlinedButton.icon(
                   onPressed: () => getImage(context),
                   icon: Icon(Icons.add_a_photo_outlined),
-                  label: Text("Pick business's profile photo"),
+                  label: Text("Add a profile photo"),
                 ),
         ),
       ),

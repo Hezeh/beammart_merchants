@@ -101,16 +101,23 @@ class AddBusinessProfileProvider with ChangeNotifier {
 
   businessInfo({
     required String businessName,
-    required String businessDescription,
-    required String city,
+    String? businessDescription,
+    String? city,
     required String phoneNumber,
-    required String locationDescription,
+    String? locationDescription,
   }) {
+    if (businessDescription != null) {
+      _profile.businessDescription = businessDescription;
+    }
+    if (city != null) {
+      _profile.city = city;
+    }
+    if (locationDescription != null) {
+      _profile.locationDescription = locationDescription;
+    }
     _profile.businessName = businessName;
-    _profile.businessDescription = businessDescription;
-    _profile.city = city;
     _profile.phoneNumber = phoneNumber;
-    _profile.locationDescription = locationDescription;
+    notifyListeners();
   }
 
   addBusinessProfilePhoto(File? photo) async {
