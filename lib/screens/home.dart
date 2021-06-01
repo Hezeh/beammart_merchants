@@ -69,9 +69,9 @@ class _HomeState extends State<Home> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final _userProvider = Provider.of<AuthenticationProvider>(context);
-    setState(() {
-      itemsLength = getCollectionLength(_userProvider.user!.uid);
-    });
+    // setState(() {
+    //   itemsLength = getCollectionLength(_userProvider.user!.uid);
+    // });
   }
 
   @override
