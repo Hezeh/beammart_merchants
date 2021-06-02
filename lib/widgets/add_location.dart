@@ -163,7 +163,7 @@ class _AddLocationMapState extends State<AddLocationMap> {
                             _saving = true;
                           });
                           Map<String, dynamic> _data = {
-                            'tokensBalance': 500,
+                            'tokensBalance': 50,
                             'tokensInUse': 0,
                             'gpsLocation': GeoPoint(_latitude!, _longitude!)
                           };
