@@ -70,6 +70,59 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final _businessProfileProvider =
         Provider.of<AddBusinessProfileProvider>(context);
     return Scaffold(
+      persistentFooterButtons: [
+        (widget.profile != null)
+            ? ConstrainedBox(
+                constraints: BoxConstraints.expand(),
+                child: Container(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 30,
+                      primary: Colors.pink,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                      ),
+                    ),
+                    onPressed: () {
+                      if (_profileFormKey.currentState!.validate()) {
+                        Map<String, dynamic> _data = {};
+                        if (_businessName.text.isNotEmpty) {
+                          _data['businessName'] = _businessName.text;
+                        }
+                        if (_businessDescription.text.isNotEmpty) {
+                          _data['businessDescription'] =
+                              _businessDescription.text;
+                        }
+                        if (_city.text.isNotEmpty) {
+                          _data['city'] = _city.text;
+                        }
+                        if (_phoneNumber.text.isNotEmpty) {
+                          _data['phoneNumber'] = _phoneNumber.text;
+                        }
+                        if (_locationDescription.text.isNotEmpty) {
+                          _data['locationDescription'] =
+                              _locationDescription.text;
+                        }
+                        profileProvider.addBusinessProfile(
+                          _data,
+                          _userProvider.user!.uid,
+                        );
+
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    child: Text(
+                      'Save',
+                      style: GoogleFonts.roboto(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            : SizedBox.shrink()
+      ],
       appBar: (widget.profile != null)
           ? AppBar(
               title: Text('Edit Profile'),
@@ -410,58 +463,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   )
                 : Container(),
             (widget.profile != null)
-                ? Container(
-                    padding: EdgeInsets.only(
-                      top: 25,
-                      left: 10,
-                      right: 10,
-                    ),
-                    height: 70,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        elevation: 30,
-                        primary: Colors.pink,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                        ),
-                      ),
-                      onPressed: () {
-                        if (_profileFormKey.currentState!.validate()) {
-                          Map<String, dynamic> _data = {};
-                          if (_businessName.text.isNotEmpty) {
-                            _data['businessName'] = _businessName.text;
-                          }
-                          if (_businessDescription.text.isNotEmpty) {
-                            _data['businessDescription'] =
-                                _businessDescription.text;
-                          }
-                          if (_city.text.isNotEmpty) {
-                            _data['city'] = _city.text;
-                          }
-                          if (_phoneNumber.text.isNotEmpty) {
-                            _data['phoneNumber'] = _phoneNumber.text;
-                          }
-                          if (_locationDescription.text.isNotEmpty) {
-                            _data['locationDescription'] =
-                                _locationDescription.text;
-                          }
-                          profileProvider.addBusinessProfile(
-                            _data,
-                            _userProvider.user!.uid,
-                          );
-
-                          Navigator.of(context).pop();
-                        }
-                      },
-                      child: Text(
-                        'Save',
-                        style: GoogleFonts.roboto(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  )
+                ? SizedBox.shrink()
                 : Container(
                     margin: EdgeInsets.all(10),
                     padding: EdgeInsets.only(

@@ -106,8 +106,10 @@ class _HomeState extends State<Home> {
           items: items,
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      floatingActionButton: FloatingActionButton(
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
+
+      floatingActionButton: FloatingActionButton.extended(
+        icon: Icon(Icons.add),
         backgroundColor: Colors.pink,
         onPressed: () async {
           // final int? _itemsLength = await itemsLength;
@@ -119,10 +121,11 @@ class _HomeState extends State<Home> {
             ),
           );
         },
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
+        // label: const Icon(
+        //   Icons.add,
+        //   color: Colors.white,
+        // ),
+        label: Text("Post Item"),
       ),
     );
   }
