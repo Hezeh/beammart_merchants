@@ -169,13 +169,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             )
           : AppBar(
-              title: Text('Business Profile'),
+              backgroundColor: Colors.red,
+              leading: IconButton(  
+                icon: Icon(Icons.close),
+                onPressed: () => _userProvider.signOut(),
+              ),
+              title: Text(
+                'Get Started',
+                style: GoogleFonts.gelasio(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
               centerTitle: true,
             ),
       body: Form(
         key: _profileFormKey,
         child: ListView(
           children: [
+            (widget.profile != null)
+                ? SizedBox()
+                : Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 2.5,
+                          color: Colors.orange,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                        gradient: LinearGradient(colors: [
+                          Colors.pink,
+                          Colors.purple,
+                        ])),
+                    margin: EdgeInsets.all(10),
+                    child: Text(
+                      "What's the name of your business?",
+                      style: GoogleFonts.gelasio(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
             (widget.profile != null)
                 ? Container(
                     // padding: EdgeInsets.all(8.0),
@@ -257,7 +292,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   contentPadding: EdgeInsets.all(10),
-                  labelText: 'Business Name / Profile Name (required)',
+                  labelText: 'Business Name (required)',
                 ),
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -351,6 +386,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   )
                 : Container(),
+            (widget.profile != null)
+                ? SizedBox()
+                : Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 2.5,
+                        color: Colors.teal,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                      gradient: LinearGradient(
+                        colors: [
+                         
+                          Colors.red,
+                          Colors.yellow,
+                        ],
+                      ),
+                    ),
+                    margin: EdgeInsets.all(10),
+                    child: Text(
+                      "What is your contact info?",
+                      style: GoogleFonts.gelasio(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
             Container(
               padding: EdgeInsets.all(8.0),
               child: TextFormField(
@@ -465,7 +527,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             (widget.profile != null)
                 ? SizedBox.shrink()
                 : Container(
-                    margin: EdgeInsets.all(10),
+                    // margin: EdgeInsets.all(10),
                     padding: EdgeInsets.only(
                       top: 10,
                       left: 10,
@@ -497,7 +559,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           );
                         }
                       },
-                      child: Text('Next'),
+                      child: Text('NEXT'),
+                    ),
+                  ),
+            (widget.profile != null)
+                ? SizedBox.shrink()
+                : Container(
+                    // margin: EdgeInsets.all(10),
+                    padding: EdgeInsets.only(
+                      top: 10,
+                      left: 10,
+                      right: 10,
+                      bottom: 10,
+                    ),
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        primary: Colors.pink,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                        ),
+                      ),
+                      onPressed: () async {
+                        _userProvider.signOut();
+                      },
+                      child: Text('Not Now'),
                     ),
                   ),
           ],

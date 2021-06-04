@@ -2,6 +2,7 @@ import 'package:beammart_merchants/screens/login_email_password.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../widgets/google_signin_button.dart';
 import 'package:beammart_merchants/providers/auth_provider.dart';
@@ -19,7 +20,10 @@ class _LoginState extends State<Login> {
     final _authProvider = Provider.of<AuthenticationProvider>(context);
     return Scaffold(
         body: Container(
-      padding: EdgeInsets.all(30),
+      padding: EdgeInsets.only(
+        right: 10,
+        left: 10,
+      ),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
@@ -32,8 +36,28 @@ class _LoginState extends State<Login> {
       ),
       child: Column(
         // crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
+        // mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Container(
+            padding: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+                border: Border.all(
+                  width: 2.5,
+                  color: Colors.yellow,
+                ),
+                borderRadius: BorderRadius.circular(10),),
+            margin: EdgeInsets.only(
+              top: 60,
+              bottom: 30,
+            ),
+            child: Center(
+              child: Text("Sign In to your account or create one",
+                  style: GoogleFonts.gelasio(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  )),
+            ),
+          ),
           Container(
             margin: EdgeInsets.only(top: 10, bottom: 10),
             child: Center(
