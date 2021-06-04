@@ -43,9 +43,9 @@ class _LoginState extends State<Login> {
             decoration: BoxDecoration(
                 border: Border.all(
                   width: 2.5,
-                  color: Colors.yellow,
+                  color: Colors.white,
                 ),
-                borderRadius: BorderRadius.circular(10),),
+                borderRadius: BorderRadius.circular(15),),
             margin: EdgeInsets.only(
               top: 60,
               bottom: 30,

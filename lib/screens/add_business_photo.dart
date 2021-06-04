@@ -86,9 +86,10 @@ class _AddBusinessProfilePhotoState extends State<AddBusinessProfilePhoto> {
                           // Navigate to Add Location Page
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                                builder: (_) => OperatingHoursScreen(),
-                                settings: RouteSettings(
-                                    name: 'OperatingHoursScreen')),
+                              builder: (_) => OperatingHoursScreen(),
+                              settings:
+                                  RouteSettings(name: 'OperatingHoursScreen'),
+                            ),
                           );
                         },
                         child: Text(
@@ -108,9 +109,10 @@ class _AddBusinessProfilePhotoState extends State<AddBusinessProfilePhoto> {
                           // Navigate to Add Location Page
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                                builder: (_) => OperatingHoursScreen(),
-                                settings: RouteSettings(
-                                    name: 'OperatingHoursScreen')),
+                              builder: (_) => OperatingHoursScreen(),
+                              settings:
+                                  RouteSettings(name: 'OperatingHoursScreen'),
+                            ),
                           );
                         },
                         child: Text(
@@ -150,7 +152,7 @@ class _AddBusinessProfilePhotoState extends State<AddBusinessProfilePhoto> {
                     ),
                   ),
                 )
-              : OutlinedButton.icon(
+              : ElevatedButton.icon(
                   onPressed: () => getImage(context),
                   icon: Icon(Icons.add_a_photo_outlined),
                   label: Text("Select a profile photo"),
