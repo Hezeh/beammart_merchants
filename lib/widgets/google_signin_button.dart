@@ -14,6 +14,7 @@ class GoogleSignInButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(40),
         ),
         side: BorderSide(color: Colors.grey),
+        backgroundColor: Colors.black
       ),
       onPressed: () {
         if (kIsWeb) {
@@ -23,7 +24,7 @@ class GoogleSignInButton extends StatelessWidget {
         }
       },
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+        padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -33,7 +34,10 @@ class GoogleSignInButton extends StatelessWidget {
               padding: const EdgeInsets.only(left: 10),
               child: Text(
                 'Sign in with Google',
-                style: TextStyle(fontSize: 20, color: Colors.amber),
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white
+                ),
               ),
             )
           ],

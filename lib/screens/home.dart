@@ -70,9 +70,9 @@ class _HomeState extends State<Home> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final _userProvider = Provider.of<AuthenticationProvider>(context);
-    setState(() {
-      itemsLength = getCollectionLength(_userProvider.user!.uid);
-    });
+    // setState(() {
+    //   itemsLength = getCollectionLength(_userProvider.user!.uid);
+    // });
   }
 
   @override
@@ -107,8 +107,10 @@ class _HomeState extends State<Home> {
           items: items,
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      floatingActionButton: FloatingActionButton(
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
+
+      floatingActionButton: FloatingActionButton.extended(
+        icon: Icon(Icons.add),
         backgroundColor: Colors.pink,
         onPressed: () async {
           // final int? _itemsLength = await itemsLength;
@@ -120,10 +122,11 @@ class _HomeState extends State<Home> {
             ),
           );
         },
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
+        // label: const Icon(
+        //   Icons.add,
+        //   color: Colors.white,
+        // ),
+        label: Text("Post Item"),
       ),
     );
   }
@@ -326,13 +329,23 @@ class HomePage extends StatelessWidget {
                           );
                         },
                       )
-                    : const Center(
-                        child: Text('No products posted yet'),
+                    : Container(
+                        margin: EdgeInsets.only(
+                          top: 100,
+                        ),
+                        child: Center(
+                          child: Text('No products posted yet'),
+                        ),
                       );
               }
             }
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Container(
+              margin: EdgeInsets.only(
+                top: 100,
+              ),
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
             );
           },
         ),
