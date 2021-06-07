@@ -2,6 +2,7 @@ import 'package:beammart_merchants/providers/subscriptions_provider.dart';
 import 'package:beammart_merchants/screens/add_images_screen.dart';
 import 'package:beammart_merchants/screens/payments_subscriptions_screen.dart';
 import 'package:beammart_merchants/screens/tokens_screen.dart';
+import 'package:beammart_merchants/screens/web/web_home_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -86,49 +87,53 @@ class _HomeState extends State<Home> {
         .orderBy('dateAdded', descending: true)
         .snapshots();
 
-    return Scaffold(
-      key: _scaffoldKey,
-      drawer: LeftDrawer(),
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              icon: const Icon(Icons.menu_outlined),
-              iconSize: 30.0,
-              onPressed: () => _scaffoldKey.currentState!.openDrawer(),
-            ),
-          ],
+    if (defaultTargetPlatform == TargetPlatform.android ||
+        defaultTargetPlatform == TargetPlatform.iOS) {
+      return Scaffold(
+        key: _scaffoldKey,
+        drawer: LeftDrawer(),
+        bottomNavigationBar: BottomAppBar(
+          shape: const CircularNotchedRectangle(),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.menu_outlined),
+                iconSize: 30.0,
+                onPressed: () => _scaffoldKey.currentState!.openDrawer(),
+              ),
+            ],
+          ),
         ),
-      ),
-      body: SafeArea(
-        child: HomePage(
-          items: items,
+        body: SafeArea(
+          child: HomePage(
+            items: items,
+          ),
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
-
-      floatingActionButton: FloatingActionButton.extended(
-        icon: Icon(Icons.add),
-        backgroundColor: Colors.pink,
-        onPressed: () async {
-          // final int? _itemsLength = await itemsLength;
-          // _addItem(context, _itemsLength!, subsProvider.purchases.isNotEmpty);
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => AddImagesScreen(),
-            ),
-          );
-        },
-        // label: const Icon(
-        //   Icons.add,
-        //   color: Colors.white,
-        // ),
-        label: Text("Post Item"),
-      ),
-    );
+        floatingActionButtonLocation:
+            FloatingActionButtonLocation.miniCenterDocked,
+        floatingActionButton: FloatingActionButton.extended(
+          icon: Icon(Icons.add),
+          backgroundColor: Colors.pink,
+          onPressed: () async {
+            // final int? _itemsLength = await itemsLength;
+            // _addItem(context, _itemsLength!, subsProvider.purchases.isNotEmpty);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => AddImagesScreen(),
+              ),
+            );
+          },
+          // label: const Icon(
+          //   Icons.add,
+          //   color: Colors.white,
+          // ),
+          label: Text("Post Item"),
+        ),
+      );
+    }
+    return WebHomeScreen();
   }
 }
 

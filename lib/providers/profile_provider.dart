@@ -23,6 +23,7 @@ class ProfileProvider with ChangeNotifier {
       print("Getting Profile");
       getBusinessProfile(this._user!);
     }
+    _loading = false;
     print("User is null");
   }
 
