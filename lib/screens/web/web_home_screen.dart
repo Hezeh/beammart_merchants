@@ -1,42 +1,47 @@
 import 'package:beammart_merchants/enums/device_size.dart';
+import 'package:beammart_merchants/screens/web/web_analytics_screen.dart';
+import 'package:beammart_merchants/screens/web/web_item_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 const appBarDesktopHeight = 50.0;
 
-class WebHomeScreen extends StatelessWidget {
+class WebHomeScreen extends StatefulWidget {
   const WebHomeScreen({Key? key}) : super(key: key);
 
   @override
+  _WebHomeScreenState createState() => _WebHomeScreenState();
+}
+
+class _WebHomeScreenState extends State<WebHomeScreen> {
+  int _selectedIndex = 0;
+
+  updateSelectedIndex(int value) {
+    setState(() {
+      _selectedIndex = value;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    Widget body;
     final colorScheme = Theme.of(context).colorScheme;
     final isDesktop = getFormFactor(context) == ScreenType.Desktop;
-    final body = SafeArea(
-      child: Container(
-        margin: EdgeInsets.only(
-          left: 10,
-          right: 10,
-        ),
-        // padding: isDesktop
-        //     ? const EdgeInsets.symmetric(horizontal: 72, vertical: 48)
-        //     : const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-        child: ListView(
-          // crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // const SizedBox(height: 48),
-            Expanded(
-              // child: GridView.builder(
-              //   itemCount: 20,
-              //   gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              //     maxCrossAxisExtent: 300,
-              //   ),
-              //   itemBuilder: (BuildContext context, int index) {
-              //     return Card(
-              //       child: Text("Item"),
-              //     );
-              //   },
-              // ),
-              child: GridView.builder(
+    if (_selectedIndex == 1) {
+      body = WebAnalyticsScreen();
+    } else if (_selectedIndex == 2) {
+      body = Container(
+        child: Text("Other"),
+      );
+    } else {
+      body = SafeArea(
+        child: Container(
+          margin: EdgeInsets.only(
+            left: 10,
+            right: 10,
+          ),
+          child: ListView(
+            children: [
+              GridView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 // itemCount: snapshot.data!.docs.length,
                 itemCount: 20,
@@ -99,7 +104,6 @@ class WebHomeScreen extends StatelessWidget {
                           title: Text("Title"),
                         ),
                         child: InkWell(
-                          
                           // onTap: () => Navigator.push(
                           //   context,
                           //   MaterialPageRoute(
@@ -114,9 +118,14 @@ class WebHomeScreen extends StatelessWidget {
                           //     ),
                           //   ),
                           // ),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => WebItemDetailScreen(),
+                              ),
+                            );
+                          },
                           child: Image.network(
-
                             "https://images.unsplash.com/photo-1593642634315-48f5414c3ad9?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
                             fit: BoxFit.cover,
                           ),
@@ -125,17 +134,19 @@ class WebHomeScreen extends StatelessWidget {
                     ),
                   );
                 },
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    }
 
     if (isDesktop) {
       return Row(
         children: [
-          const ListDrawer(),
+          ListDrawer(
+            selectedIndex: this.updateSelectedIndex,
+          ),
           const VerticalDivider(width: 1),
           Expanded(
             child: Scaffold(
@@ -161,7 +172,9 @@ class WebHomeScreen extends StatelessWidget {
       return Scaffold(
         appBar: const AdaptiveAppBar(),
         body: body,
-        drawer: const ListDrawer(),
+        drawer: ListDrawer(
+          selectedIndex: this.updateSelectedIndex,
+        ),
         floatingActionButton: FloatingActionButton(
           heroTag: 'Add',
           onPressed: () {},
@@ -213,16 +226,23 @@ class AdaptiveAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class ListDrawer extends StatefulWidget {
-  const ListDrawer({Key? key}) : super(key: key);
+  Function selectedIndex;
+
+  ListDrawer({Key? key, required this.selectedIndex}) : super(key: key);
 
   @override
-  _ListDrawerState createState() => _ListDrawerState();
+  _ListDrawerState createState() => _ListDrawerState(
+        selectedIndex: this.selectedIndex,
+      );
 }
 
 class _ListDrawerState extends State<ListDrawer> {
-  static const numItems = 9;
-
+  Function selectedIndex;
   int selectedItem = 0;
+
+  _ListDrawerState({
+    required this.selectedIndex,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -242,21 +262,54 @@ class _ListDrawerState extends State<ListDrawer> {
               ),
             ),
             const Divider(),
-            ...Iterable<int>.generate(numItems).toList().map((i) {
-              return ListTile(
-                enabled: true,
-                selected: i == selectedItem,
-                leading: const Icon(Icons.favorite),
-                title: Text(
-                  "App Drawer Item",
-                ),
-                onTap: () {
-                  setState(() {
-                    selectedItem = i;
-                  });
-                },
-              );
-            }),
+            ListTile(
+              enabled: true,
+              selected: 0 == selectedItem,
+              leading: const Icon(
+                Icons.dashboard,
+              ),
+              title: Text(
+                "Dashboard",
+              ),
+              onTap: () {
+                setState(() {
+                  selectedItem = 0;
+                });
+                this.selectedIndex(selectedItem);
+              },
+            ),
+            ListTile(
+              enabled: true,
+              selected: 1 == selectedItem,
+              leading: const Icon(
+                Icons.store_outlined,
+              ),
+              title: Text(
+                "Profile",
+              ),
+              onTap: () {
+                setState(() {
+                  selectedItem = 1;
+                });
+                this.selectedIndex(selectedItem);
+              },
+            ),
+            ListTile(
+              enabled: true,
+              selected: 2 == selectedItem,
+              leading: const Icon(
+                Icons.analytics_outlined,
+              ),
+              title: Text(
+                "Analytics",
+              ),
+              onTap: () {
+                setState(() {
+                  selectedItem = 2;
+                });
+                this.selectedIndex(selectedItem);
+              },
+            ),
           ],
         ),
       ),
