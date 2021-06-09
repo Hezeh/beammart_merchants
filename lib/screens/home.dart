@@ -184,7 +184,7 @@ class HomePage extends StatelessWidget {
                   ),
                   Container(
                     child: ElevatedButton(
-                      child: Text('Get More'),
+                      child: Text('Buy More'),
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(

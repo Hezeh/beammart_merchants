@@ -1,4 +1,5 @@
 import 'package:beammart_merchants/providers/subscriptions_provider.dart';
+import 'package:beammart_merchants/screens/payment_methods_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
@@ -40,6 +41,36 @@ class TokensScreen extends StatelessWidget {
                         },
                       ),
                     ],
+                  ),
+                  Container(
+                    child: Center(
+                      child: Text("Buy using your Google Play Account"),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: 10,
+                    ),
+                    child: Center(
+                      child: Text("Or"),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.deepPurple,
+                        elevation: 30,
+                      ),
+                      child: Text('Add Payment Method'),
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => PaymentMethodsScreen(),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                   // 200 tokens,
                   Container(
