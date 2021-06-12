@@ -1,6 +1,9 @@
+import 'package:beammart_merchants/services/tokens_pricing.dart';
+import 'package:beammart_merchants/utils/buy_with_card.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class PaymentAmountScreen extends StatelessWidget {
+class PaymentAmountScreen extends StatefulWidget {
   final bool? card;
   final bool? mpesa;
   final bool? airtel;
@@ -12,63 +15,65 @@ class PaymentAmountScreen extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _PaymentAmountScreenState createState() => _PaymentAmountScreenState();
+}
+
+class _PaymentAmountScreenState extends State<PaymentAmountScreen> {
+  bool _loading = false;
+  @override
   Widget build(BuildContext context) {
+    String _paymentOption = "card";
+    if (widget.card != null) {
+      if (widget.card == true) {
+        _paymentOption = "card";
+      }
+    } else {
+      _paymentOption = "mobile_money";
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text("Amount"),
       ),
-      body: ListView(
-        children: [
-          ListTile(
-            title: Text("200 Tokens"),
-            subtitle: Text("Amount Due: Ksh. 200"),
-            trailing: ElevatedButton(
-              child: Text("Buy"),
-              onPressed: () {},
+      body: (!_loading)
+          ? FutureBuilder(
+              future: tokensPricing(),
+              builder: (BuildContext futureContext, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (!snapshot.hasData) {
+                  return LinearProgressIndicator();
+                }
+                return ListView.builder(
+                    itemCount: snapshot.data!.size,
+                    itemBuilder: (BuildContext buildContext, index) {
+                      final _data = snapshot.data!.docs[index].data();
+                      if (_data != null) {
+                        return ListTile(
+                          title: Text("${_data['tokens']} Tokens"),
+                          subtitle: Text("Amount Due: Ksh. ${_data['amount']}"),
+                          trailing: ElevatedButton(
+                            child: Text("Buy"),
+                            onPressed: () {
+                              setState(() {
+                                _loading = true;
+                              });
+                              buyWithCard(context, _data['amount'].toDouble())
+                                  .then((value) {
+                                Navigator.of(context, rootNavigator: true).pop();
+                              });
+                            },
+                          ),
+                        );
+                      } else {
+                        return Container(
+                          child: Text("Sorry. An error occurred!"),
+                        );
+                      }
+                    });
+              })
+          : Center(
+              child: CircularProgressIndicator(
+                color: Colors.pink,
+              ),
             ),
-          ),
-          ListTile(
-            title: Text("500 Tokens"),
-            subtitle: Text("Amount Due: Ksh. 500"),
-            trailing: ElevatedButton(
-              child: Text("Buy"),
-              onPressed: () {},
-            ),
-          ),
-          ListTile(
-            title: Text("1000 Tokens"),
-            subtitle: Text("Amount Due: Ksh. 1000"),
-            trailing: ElevatedButton(
-              child: Text("Buy"),
-              onPressed: () {},
-            ),
-          ),
-          ListTile(
-            title: Text("2500 Tokens"),
-            subtitle: Text("Amount Due: Ksh. 2500"),
-            trailing: ElevatedButton(
-              child: Text("Buy"),
-              onPressed: () {},
-            ),
-          ),
-          ListTile(
-            title: Text("5000 Tokens"),
-            subtitle: Text("Amount Due: Ksh. 5000"),
-            trailing: ElevatedButton(
-              child: Text("Buy"),
-              onPressed: () {},
-            ),
-          ),
-          ListTile(
-            title: Text("10000 Tokens"),
-            subtitle: Text("Amount Due: Ksh. 10000"),
-            trailing: ElevatedButton(
-              child: Text("Buy"),
-              onPressed: () {},
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
