@@ -27,17 +27,19 @@ Future buyWithCard(
       host: 'api.beammart.app',
       path: 'pay',
     ),
-    body: jsonEncode(
-      <String, dynamic>{
-        "amount": amount,
-        "payment_options": "card",
-        "customer_info": {
-          "email": "${_profile!.email}",
-          "phonenumber": "${_profile.phoneNumber}",
-          "name": "${_profile.businessName}"
-        },
-      },
-    ),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic>{
+      "payment_options": "card",
+      "amount": amount,
+      "customer_info": {
+        "id": "${_profile!.userId}",
+        "email": "${_profile.email}",
+        "phonenumber": "${_profile.phoneNumber}",
+        "name": "${_profile.businessName}"
+      }
+    }),
   );
   final jsonResponse = Map<String, dynamic>.from(json.decode(response.body));
   if (response.statusCode == 200) {
