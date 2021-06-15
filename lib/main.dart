@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
@@ -63,7 +64,8 @@ void main() async {
         ChangeNotifierProvider<AddBusinessProfileProvider>(
           create: (context) => AddBusinessProfileProvider(),
         ),
-        ChangeNotifierProxyProvider<AuthenticationProvider, SubscriptionsProvider>(
+        ChangeNotifierProxyProvider<AuthenticationProvider,
+            SubscriptionsProvider>(
           create: (BuildContext context) => SubscriptionsProvider(
             Provider.of<AuthenticationProvider>(context, listen: false).user,
           ),
@@ -92,13 +94,43 @@ class App extends StatelessWidget {
     final profile = context.watch<ProfileProvider>().profile;
     final loading = context.watch<ProfileProvider>().loading;
     Provider.of<SubscriptionsProvider>(context, listen: false);
-    Provider.of<CategoryTokensProvider>(context, listen: false).fetchTokenValues();
+    Provider.of<CategoryTokensProvider>(context, listen: false)
+        .fetchTokenValues();
     return MaterialApp(
       navigatorObservers: [FirebaseAnalyticsObserver(analytics: analytics)],
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
         accentColor: Colors.pink,
+        appBarTheme: AppBarTheme(
+          elevation: 20,
+        ),
+        bottomAppBarColor: Colors.pink,
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            primary: Colors.pink,
+          ),
+        ),
+        indicatorColor: Colors.pink,
+        textTheme: TextTheme(
+          bodyText1: GoogleFonts.merriweather(
+            letterSpacing: 1,
+          ),
+          bodyText2: GoogleFonts.gelasio(),
+          button: GoogleFonts.lora(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            primary: Colors.pink,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(20),
+              ),
+            ),
+          ),
+        ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             primary: Colors.pink,

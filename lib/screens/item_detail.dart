@@ -121,7 +121,7 @@ class _ItemDetailState extends State<ItemDetail> {
                   Container(
                     margin: EdgeInsets.all(15),
                     child: Center(
-                      child: TextButton.icon(
+                      child: OutlinedButton.icon(
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(

@@ -157,7 +157,7 @@ class HomePage extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: Colors.yellow,
+                  color: Colors.pink,
                   width: 5,
                 ),
               ),
@@ -171,7 +171,7 @@ class HomePage extends StatelessWidget {
                       icon: Icon(
                         Icons.toll_outlined,
                         size: 40,
-                        color: Colors.yellow,
+                        color: Colors.pink,
                       ),
                     ),
                   ),
