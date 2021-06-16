@@ -26,10 +26,15 @@ onWillPop(context) {
   );
 }
 
-onCategoryWillPop(context) {
+Future<bool> onCategoryWillPop(
+  BuildContext context,
+  GlobalKey<NavigatorState> _screenKey,
+) async {
   final _imagesProvider =
       Provider.of<ImageUploadProvider>(context, listen: false);
-  showDialog(
+  bool? canExit;
+  await showDialog(
+    barrierDismissible: true,
     context: context,
     builder: (context) => AlertDialog(
       title: Text('Discard Changes?'),
@@ -38,17 +43,27 @@ onCategoryWillPop(context) {
       ),
       actions: <Widget>[
         TextButton(
-          onPressed: () => Navigator.of(context).pop(false),
+          // onPressed: () => Navigator.of(context).pop(false),
+          onPressed: () {
+            canExit = false;
+          },
           child: Text('No'),
         ),
         TextButton(
           onPressed: () {
+            print("Exit");
             _imagesProvider.deleteImageUrls();
-            Navigator.of(context).pop(true);
+            // Navigator.of(context).pop(true);
+            // if (_screenKey.currentState != null) {
+            //   _screenKey.currentState!.pop();
+            // }
+            canExit = true;
           },
           child: new Text('Yes'),
         ),
       ],
     ),
   );
+  // return Future.value(false);
+  return Future.value(canExit);
 }

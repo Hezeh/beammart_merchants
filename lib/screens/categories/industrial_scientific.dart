@@ -59,79 +59,135 @@ class _IndustrialScientificScreenState
         Provider.of<CategoryTokensProvider>(context);
     final _profileProvider = Provider.of<ProfileProvider>(context);
     final _subsProvider = Provider.of<SubscriptionsProvider>(context);
-    return (_loading)
-        ? WillPopScope(
-            onWillPop: () => onWillPop(context),
-            child: Scaffold(
-              appBar: AppBar(
-                automaticallyImplyLeading: false,
-                title: Text('Uploading...'),
-                centerTitle: true,
+    _postItem() async {
+      if (_industrialScientificFormKey.currentState!.validate()) {
+        setState(() {
+          _loading = true;
+        });
+        if (_profileProvider.profile!.tokensBalance != null &&
+            _categoryTokensProvider.categoryTokens!.electronicsTokens != null) {
+          final double requiredTokens =
+              _categoryTokensProvider.categoryTokens!.electronicsTokens!;
+          final bool _hasTokens = await checkBalance(_userId, requiredTokens);
+          if (_hasTokens) {
+            saveItemFirestore(
+              context,
+              _userId,
+              Item(
+                category: _category,
+                subCategory: _subCategory,
+                images: _imageUrls,
+                title: _titleController.text,
+                description: _descriptionController.text,
+                price: double.parse(_priceController.text),
+                dateAdded: DateTime.now(),
+                dateModified: DateTime.now(),
+                inStock: _inStock,
+                lastRenewal: DateTime.now().toIso8601String(),
+                isActive: true,
+              ).toJson(),
+            );
+            _imageUploadProvider.deleteImageUrls();
+            _subsProvider.consume(requiredTokens, _userId);
+            setState(() {
+              _loading = false;
+            });
+          } else {
+            setState(() {
+              _loading = false;
+            });
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => TokensScreen(),
               ),
-              body: LinearProgressIndicator(),
+            );
+          }
+        }
+      }
+    }
+
+    return (_loading)
+        ? Scaffold(
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              title: Text('Uploading...'),
+              centerTitle: true,
             ),
+            body: LinearProgressIndicator(),
           )
         : Scaffold(
+            bottomSheet: (_imageUploadProvider.isUploadingImages != null)
+                ? (_imageUploadProvider.isUploadingImages!)
+                    ? Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.purple,
+                              Colors.pink,
+                            ],
+                          ),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20),
+                          ),
+                        ),
+                        child: Center(
+                          child: Text("Uploading Product Images..."),
+                        ),
+                      )
+                    : Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.purple,
+                              Colors.pink,
+                            ],
+                          ),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text("Images Uploaded Successfully"),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.cyan,
+                              ),
+                              onPressed: () {
+                                _postItem();
+                              },
+                              child: Text("Post Item"),
+                            ),
+                          ],
+                        ),
+                      )
+                : Container(
+                    child: Text(""),
+                  ),
             appBar: AppBar(
               title: Text('Industrial & Scientific'),
               actions: [
-                TextButton(
-                  onPressed: () async {
-                    if (_industrialScientificFormKey.currentState!.validate()) {
-                      setState(() {
-                        _loading = true;
-                      });
-                      if (_profileProvider.profile!.tokensBalance != null &&
-                          _categoryTokensProvider
-                                  .categoryTokens!.electronicsTokens !=
-                              null) {
-                        final double requiredTokens = _categoryTokensProvider
-                            .categoryTokens!.electronicsTokens!;
-                        final bool _hasTokens =
-                            await checkBalance(_userId, requiredTokens);
-                        if (_hasTokens) {
-                          saveItemFirestore(
-                            context,
-                            _userId,
-                            Item(
-                              category: _category,
-                              subCategory: _subCategory,
-                              images: _imageUrls,
-                              title: _titleController.text,
-                              description: _descriptionController.text,
-                              price: double.parse(_priceController.text),
-                              dateAdded: DateTime.now(),
-                              dateModified: DateTime.now(),
-                              inStock: _inStock,
-                              lastRenewal: DateTime.now().toIso8601String(),
-                              isActive: true,
-                            ).toJson(),
-                          );
-                          _imageUploadProvider.deleteImageUrls();
-                          _subsProvider.consume(requiredTokens, _userId);
-                          setState(() {
-                            _loading = false;
-                          });
-                        } else {
-                          setState(() {
-                            _loading = false;
-                          });
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => TokensScreen(),
+                (_imageUploadProvider.isUploadingImages != null)
+                    ? (!_imageUploadProvider.isUploadingImages!)
+                        ? TextButton(
+                            onPressed: () async {
+                              _postItem();
+                            },
+                            child: Text(
+                              'Post Item',
+                              style: TextStyle(
+                                color: Colors.pink,
+                                fontSize: 18,
+                              ),
                             ),
-                          );
-                        }
-                      }
-                    }
-                  },
-                  child: Text(
-                    'Post',
-                    style: TextStyle(
-                      color: Colors.pink,
-                    ),
-                  ),
-                )
+                          )
+                        : Container()
+                    : Container(),
               ],
             ),
             body: Form(
@@ -140,7 +196,9 @@ class _IndustrialScientificScreenState
                 children: [
                   ExpansionPanelList(
                     expansionCallback: (panelIndex, _isExpanded) {
-                      isExpanded = !isExpanded;
+                      setState(() {
+                        isExpanded = !isExpanded;
+                      });
                     },
                     children: [
                       ExpansionPanel(
@@ -221,19 +279,19 @@ class _IndustrialScientificScreenState
                                 });
                               },
                             ),
-                            ChoiceChip(
-                              label: Text('Filtration'),
-                              selectedColor: Colors.pink,
-                              selected: _industrialScientific ==
-                                  IndustrialScientific.filtration,
-                              onSelected: (bool selected) {
-                                setState(() {
-                                  _industrialScientific =
-                                      IndustrialScientific.filtration;
-                                  _subCategory = 'Filtration';
-                                });
-                              },
-                            ),
+                            // ChoiceChip(
+                            //   label: Text('Filtration'),
+                            //   selectedColor: Colors.pink,
+                            //   selected: _industrialScientific ==
+                            //       IndustrialScientific.filtration,
+                            //   onSelected: (bool selected) {
+                            //     setState(() {
+                            //       _industrialScientific =
+                            //           IndustrialScientific.filtration;
+                            //       _subCategory = 'Filtration';
+                            //     });
+                            //   },
+                            // ),
                             ChoiceChip(
                               label: Text('Food Service Equipment & Supplies'),
                               selectedColor: Colors.pink,
@@ -277,19 +335,19 @@ class _IndustrialScientificScreenState
                                 });
                               },
                             ),
-                            ChoiceChip(
-                              label: Text('Industrial Hardware'),
-                              selectedColor: Colors.pink,
-                              selected: _industrialScientific ==
-                                  IndustrialScientific.industrialHardware,
-                              onSelected: (bool selected) {
-                                setState(() {
-                                  _industrialScientific =
-                                      IndustrialScientific.industrialHardware;
-                                  _subCategory = 'Industrial Hardware';
-                                });
-                              },
-                            ),
+                            // ChoiceChip(
+                            //   label: Text('Industrial Hardware'),
+                            //   selectedColor: Colors.pink,
+                            //   selected: _industrialScientific ==
+                            //       IndustrialScientific.industrialHardware,
+                            //   onSelected: (bool selected) {
+                            //     setState(() {
+                            //       _industrialScientific =
+                            //           IndustrialScientific.industrialHardware;
+                            //       _subCategory = 'Industrial Hardware';
+                            //     });
+                            //   },
+                            // ),
                             ChoiceChip(
                               label: Text('Industrial Power & Hand Tools'),
                               selectedColor: Colors.pink,
@@ -346,19 +404,19 @@ class _IndustrialScientificScreenState
                                 });
                               },
                             ),
-                            ChoiceChip(
-                              label: Text('Occupational Health'),
-                              selectedColor: Colors.pink,
-                              selected: _industrialScientific ==
-                                  IndustrialScientific.occupationalHealth,
-                              onSelected: (bool selected) {
-                                setState(() {
-                                  _industrialScientific =
-                                      IndustrialScientific.occupationalHealth;
-                                  _subCategory = 'Occupational Health';
-                                });
-                              },
-                            ),
+                            // ChoiceChip(
+                            //   label: Text('Occupational Health'),
+                            //   selectedColor: Colors.pink,
+                            //   selected: _industrialScientific ==
+                            //       IndustrialScientific.occupationalHealth,
+                            //   onSelected: (bool selected) {
+                            //     setState(() {
+                            //       _industrialScientific =
+                            //           IndustrialScientific.occupationalHealth;
+                            //       _subCategory = 'Occupational Health';
+                            //     });
+                            //   },
+                            // ),
                             ChoiceChip(
                               label: Text('Packaging & Shipping Supplies'),
                               selectedColor: Colors.pink,
@@ -443,19 +501,19 @@ class _IndustrialScientificScreenState
                                 });
                               },
                             ),
-                            ChoiceChip(
-                              label: Text('Science Education'),
-                              selectedColor: Colors.pink,
-                              selected: _industrialScientific ==
-                                  IndustrialScientific.scienceEducation,
-                              onSelected: (bool selected) {
-                                setState(() {
-                                  _industrialScientific =
-                                      IndustrialScientific.scienceEducation;
-                                  _subCategory = 'Science Education';
-                                });
-                              },
-                            ),
+                            // ChoiceChip(
+                            //   label: Text('Science Education'),
+                            //   selectedColor: Colors.pink,
+                            //   selected: _industrialScientific ==
+                            //       IndustrialScientific.scienceEducation,
+                            //   onSelected: (bool selected) {
+                            //     setState(() {
+                            //       _industrialScientific =
+                            //           IndustrialScientific.scienceEducation;
+                            //       _subCategory = 'Science Education';
+                            //     });
+                            //   },
+                            // ),
                             ChoiceChip(
                               label: Text('Tapes, Adhesives & Sealants'),
                               selectedColor: Colors.pink,
@@ -471,19 +529,19 @@ class _IndustrialScientificScreenState
                                 });
                               },
                             ),
-                            ChoiceChip(
-                              label: Text('Test, Measure & Inspect'),
-                              selectedColor: Colors.pink,
-                              selected: _industrialScientific ==
-                                  IndustrialScientific.testMeasureAndInspect,
-                              onSelected: (bool selected) {
-                                setState(() {
-                                  _industrialScientific = IndustrialScientific
-                                      .testMeasureAndInspect;
-                                  _subCategory = 'Test, Measure and Inspect';
-                                });
-                              },
-                            ),
+                            // ChoiceChip(
+                            //   label: Text('Test, Measure & Inspect'),
+                            //   selectedColor: Colors.pink,
+                            //   selected: _industrialScientific ==
+                            //       IndustrialScientific.testMeasureAndInspect,
+                            //   onSelected: (bool selected) {
+                            //     setState(() {
+                            //       _industrialScientific = IndustrialScientific
+                            //           .testMeasureAndInspect;
+                            //       _subCategory = 'Test, Measure and Inspect';
+                            //     });
+                            //   },
+                            // ),
                           ],
                         ),
                         isExpanded: isExpanded,
@@ -575,6 +633,9 @@ class _IndustrialScientificScreenState
                         });
                       },
                     ),
+                  ),
+                  SizedBox(
+                    height: 40,
                   )
                 ],
               ),
