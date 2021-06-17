@@ -5,6 +5,7 @@ import 'package:beammart_merchants/screens/tokens_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../models/item.dart';
 import '../providers/auth_provider.dart';
@@ -106,8 +107,8 @@ class _HomeState extends State<Home> {
           items: items,
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
-
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterDocked,
       floatingActionButton: FloatingActionButton.extended(
         icon: Icon(Icons.add),
         backgroundColor: Colors.pink,
@@ -330,10 +331,29 @@ class HomePage extends StatelessWidget {
                       )
                     : Container(
                         margin: EdgeInsets.only(
-                          top: 100,
+                          top: 200,
                         ),
-                        child: Center(
-                          child: Text('No products posted yet'),
+                        child: Container(
+                          margin: EdgeInsets.all(20),
+                          padding: EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.pink,
+                                Colors.purple,
+                              ],
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "You haven't posted anything yet. You will manage all your listings on this page. Customers use the Beammart For Consumers App to discover & search for products near them. Happy Selling!",
+                              style: GoogleFonts.gelasio(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
                       );
               }
