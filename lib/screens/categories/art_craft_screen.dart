@@ -5,6 +5,7 @@ import 'package:beammart_merchants/screens/tokens_screen.dart';
 import 'package:beammart_merchants/utils/balance_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../models/item.dart';
 import '../../enums/art_craft.dart';
@@ -99,18 +100,31 @@ class _ArtsCraftsScreenState extends State<ArtsCraftsScreen> {
             );
           }
         }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(
+              "😥 There is some error(s). Fix them and retry.",
+              style: GoogleFonts.oswald(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
+          ),
+        );
       }
     }
 
     return (_loading)
         ? Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            title: Text('Uploading...'),
-            centerTitle: true,
-          ),
-          body: LinearProgressIndicator(),
-        )
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              title: Text('Uploading...'),
+              centerTitle: true,
+            ),
+            body: LinearProgressIndicator(),
+          )
         : Scaffold(
             bottomSheet: (_imageUploadProvider.isUploadingImages != null)
                 ? (_imageUploadProvider.isUploadingImages!)
@@ -190,6 +204,131 @@ class _ArtsCraftsScreenState extends State<ArtsCraftsScreen> {
               key: _artCraftFormKey,
               child: ListView(
                 children: [
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    child: TextFormField(
+                      controller: _titleController,
+                      keyboardType: TextInputType.text,
+                      maxLines: 3,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Please enter a title";
+                        }
+                        return null;
+                      },
+                      cursorColor: Colors.pink,
+                      decoration: InputDecoration(
+                        labelStyle: TextStyle(
+                          color: Colors.pink,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.pink,
+                            width: 3,
+                          ),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20.0),
+                          ),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20.0),
+                          ),
+                        ),
+                        contentPadding: EdgeInsets.all(10),
+                        labelText: 'Title (required)',
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    child: TextFormField(
+                      controller: _descriptionController,
+                      keyboardType: TextInputType.text,
+                      maxLines: 3,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Please enter a description";
+                        }
+                        return null;
+                      },
+                      cursorColor: Colors.pink,
+                      decoration: InputDecoration(
+                        labelStyle: TextStyle(
+                          color: Colors.pink,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.pink,
+                            width: 3,
+                          ),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20.0),
+                          ),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20.0),
+                          ),
+                        ),
+                        contentPadding: EdgeInsets.all(10),
+                        labelText: 'Description (required)',
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    child: TextFormField(
+                      controller: _priceController,
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Please enter a price";
+                        }
+                        return null;
+                      },
+                      cursorColor: Colors.pink,
+                      decoration: InputDecoration(
+                        labelStyle: TextStyle(
+                          color: Colors.pink,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.pink,
+                            width: 3,
+                          ),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20.0),
+                          ),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20.0),
+                          ),
+                        ),
+                        contentPadding: EdgeInsets.all(10),
+                        labelText: 'Price (required)',
+                      ),
+                    ),
+                  ),
+                  MergeSemantics(
+                    child: ListTile(
+                      title: Text('Item in Stock'),
+                      trailing: CupertinoSwitch(
+                        value: _inStock,
+                        onChanged: (bool value) {
+                          setState(() {
+                            _inStock = value;
+                          });
+                        },
+                      ),
+                      onTap: () {
+                        setState(() {
+                          _inStock = !_inStock;
+                        });
+                      },
+                    ),
+                  ),
                   ExpansionPanelList(
                     expansionCallback: (int index, bool _isExpanded) {
                       setState(() {
@@ -372,92 +511,6 @@ class _ArtsCraftsScreenState extends State<ArtsCraftsScreen> {
                         isExpanded: isExpanded,
                       )
                     ],
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    child: TextFormField(
-                      controller: _titleController,
-                      keyboardType: TextInputType.text,
-                      maxLines: 3,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter a title";
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10.0),
-                          ),
-                        ),
-                        contentPadding: EdgeInsets.all(10),
-                        labelText: 'Title (required)',
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    child: TextFormField(
-                      controller: _descriptionController,
-                      keyboardType: TextInputType.text,
-                      maxLines: 3,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter a description";
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10.0),
-                          ),
-                        ),
-                        contentPadding: EdgeInsets.all(10),
-                        labelText: 'Description (required)',
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    child: TextFormField(
-                      controller: _priceController,
-                      keyboardType: TextInputType.number,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter a price";
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10.0),
-                          ),
-                        ),
-                        contentPadding: EdgeInsets.all(10),
-                        labelText: 'Price (required)',
-                      ),
-                    ),
-                  ),
-                  MergeSemantics(
-                    child: ListTile(
-                      title: Text('Item in Stock'),
-                      trailing: CupertinoSwitch(
-                        value: _inStock,
-                        onChanged: (bool value) {
-                          setState(() {
-                            _inStock = value;
-                          });
-                        },
-                      ),
-                      onTap: () {
-                        setState(() {
-                          _inStock = !_inStock;
-                        });
-                      },
-                    ),
                   ),
                   SizedBox(
                     height: 40,
